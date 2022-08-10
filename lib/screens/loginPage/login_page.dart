@@ -1,14 +1,15 @@
+
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:makasb/colors/colors.dart';
 import 'package:makasb/constants/app_constant.dart';
 import 'package:makasb/screens/loginPage/cubit/login_cubit.dart';
-import 'package:makasb/screens/splashPage/splash_page.dart';
-
-import 'package:makasb/colors/colors.dart';
 import 'package:makasb/widgets/app_widgets.dart';
-
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -17,22 +18,36 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: AppColors.white, body: buildBodySection());
+
+    return Scaffold(backgroundColor: AppColors.white,
+        body: buildBodySection());
   }
 
 
   buildBodySection() {
+    LoginCubit cubit = BlocProvider.of<LoginCubit>(context);
 
-    return ListView(children: [
+    return BlocListener<LoginCubit, LoginState>(listener: (context, state) {
+      print("Status=>${state}");
+      if(state is OnSignUp){
+      
+      }else if(state is OnLoginSuccess){
+        Navigator.pop(context,true);
+      }
+    },
+     child: LayoutBuilder(
+         builder: (context, constraints) {
+         return ListView(children: [
       const SizedBox(
         height: 56.0,
       ),
       _buildLogoSection(),
-      _buildLoginSection()
+      _buildLoginSection(cubit)
     ]);
+         }
+     ));
   }
 
   _buildLogoSection() {
@@ -56,8 +71,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  _buildLoginSection() {
-    LoginCubit cubit = BlocProvider.of<LoginCubit>(context);
+  _buildLoginSection(LoginCubit cubit) {
 
     bool isHidden = true;
     return Container(
