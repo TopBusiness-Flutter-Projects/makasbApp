@@ -25,7 +25,7 @@ class User {
     if (json['sites'] != null) {
       sites = <Sites>[];
       json['sites'].forEach((v) {
-        sites.add(new Sites.fromJson(v));
+        sites.add(Sites.fromJson(v));
       });
     }
   }

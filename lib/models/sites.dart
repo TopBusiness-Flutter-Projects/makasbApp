@@ -1,15 +1,15 @@
 import 'package:makasb/models/sites.dart';
 import 'package:makasb/models/type.dart';
 class Sites {
- late int id;
- late int userId;
- late int siteType;
+ late String id;
+ late String userId;
+ late String siteType;
  late String title;
  late String url;
- late int dailyClicksLimit;
- late int totalClicksLimit;
- late int neededClicks;
- late int pointsForClick;
+ late String dailyClicksLimit;
+ late String totalClicksLimit;
+ late String neededClicks;
+ late String poStringsForClick;
  late String status;
  late String createdAt;
  late String updatedAt;
@@ -19,15 +19,15 @@ class Sites {
     );
 
   Sites.fromJson(Map<String, dynamic> json) {
-    id = json['id'] as int;
-    userId = json['user_id'] as int;
-    siteType = json['site_type'] as int;
+    id = json['id'] as String;
+    userId = json['user_id'] as String;
+    siteType = json['site_type'] as String;
     title = json['title'] as String;
     url = json['url'] as String;
-    dailyClicksLimit = json['daily_clicks_limit'] as int;
-    totalClicksLimit = json['total_clicks_limit'] as int;
-    neededClicks = json['needed_clicks'] as int;
-    pointsForClick = json['points_for_click'] as int;
+    dailyClicksLimit = json['daily_clicks_limit'] as String;
+    totalClicksLimit = json['total_clicks_limit'] as String;
+    neededClicks = json['needed_clicks'] as String;
+    poStringsForClick = json['poStrings_for_click'] as String;
     status = json['status'] as String;
     createdAt = json['created_at'] as String;
     updatedAt = json['updated_at'] as String;
@@ -43,13 +43,11 @@ class Sites {
    data['daily_clicks_limit'] = this.dailyClicksLimit;
    data['total_clicks_limit'] = this.totalClicksLimit;
    data['needed_clicks'] = this.neededClicks;
-   data['points_forclick'] = this.pointsForClick;
+   data['poStrings_forclick'] = this.poStringsForClick;
    data['status'] = this.status;
    data['created_at'] = this.createdAt;
    data['updated_at'] = this.updatedAt;
-   if (this.type != null) {
-     data['type'] = this.type.toJson(type);
-   }
+   data['type'] = type.toJson(type);
    return data;
  }
 }

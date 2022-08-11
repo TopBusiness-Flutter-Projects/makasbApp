@@ -1,5 +1,5 @@
 class Type {
-  late int id;
+  late String id;
   late String titleAr;
   late String titleEn;
   late String createdAt;
@@ -8,7 +8,7 @@ class Type {
   Type();
 
   Type.fromJson(Map<String, dynamic> json) {
-    id = json['id'] as int;
+    id = json['id'] as String;
     titleAr = json['title_ar'] as String;
     titleEn = json['title_en'] as String;
     createdAt = json['created_at'] as String;

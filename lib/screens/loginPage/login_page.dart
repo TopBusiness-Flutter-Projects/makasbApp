@@ -1,15 +1,14 @@
-
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:makasb/colors/colors.dart';
 import 'package:makasb/constants/app_constant.dart';
 import 'package:makasb/screens/loginPage/cubit/login_cubit.dart';
 import 'package:makasb/widgets/app_widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -20,34 +19,27 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
-
-    return Scaffold(backgroundColor: AppColors.white,
-        body: buildBodySection());
+    return Scaffold(backgroundColor: AppColors.white, body: buildBodySection());
   }
-
 
   buildBodySection() {
     LoginCubit cubit = BlocProvider.of<LoginCubit>(context);
 
     return BlocListener<LoginCubit, LoginState>(listener: (context, state) {
       print("Status=>${state}");
-      if(state is OnSignUp){
-      
-      }else if(state is OnLoginSuccess){
-        Navigator.pop(context,true);
+      if (state is OnSignUp) {
+      } else if (state is OnLoginSuccess) {
+        Navigator.of(context).pushReplacementNamed(AppConstant.pageHomeRoute);
       }
-    },
-     child: LayoutBuilder(
-         builder: (context, constraints) {
-         return ListView(children: [
-      const SizedBox(
-        height: 56.0,
-      ),
-      _buildLogoSection(),
-      _buildLoginSection(cubit)
-    ]);
-         }
-     ));
+    }, child: LayoutBuilder(builder: (context, constraints) {
+      return ListView(children: [
+        const SizedBox(
+          height: 56.0,
+        ),
+        _buildLogoSection(),
+        _buildLoginSection(cubit)
+      ]);
+    }));
   }
 
   _buildLogoSection() {
@@ -72,7 +64,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   _buildLoginSection(LoginCubit cubit) {
-
     bool isHidden = true;
     return Container(
       padding: const EdgeInsets.all(10),
@@ -124,6 +115,7 @@ class _LoginPageState extends State<LoginPage> {
                   textInputAction: TextInputAction.next,
                   onChanged: (data) {
                     cubit.loginModel.email = data;
+                    cubit.checkValidLoginData();
                   },
                   decoration: InputDecoration(
                       border: InputBorder.none,
@@ -168,6 +160,7 @@ class _LoginPageState extends State<LoginPage> {
                   keyboardType: TextInputType.text,
                   onChanged: (data) {
                     cubit.loginModel.password = data;
+                    cubit.checkValidLoginData();
                   },
                   decoration: InputDecoration(
                       border: InputBorder.none,

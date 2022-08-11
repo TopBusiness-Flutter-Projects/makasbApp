@@ -1,6 +1,6 @@
 class AppConstant {
   ///////////////////////routes//////////////////////////
-  static const baseUrl = '';
+  static const baseUrl = 'https://makasp.motaweron.com/';
   static const localImagePath = 'assets/images/';
   static const pageSplashRoute = '/';
   static const pageLoginRoute = '/loginPage';

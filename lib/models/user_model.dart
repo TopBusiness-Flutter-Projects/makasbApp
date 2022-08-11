@@ -11,7 +11,7 @@ class UserModel {
   }
 
   UserModel.fromJson(Map<String, dynamic> json) {
-    data = User.fromJson(json['user']);
+    data = User.fromJson(json['data']);
     status = StatusResponse.fromJson(json);
   }
 

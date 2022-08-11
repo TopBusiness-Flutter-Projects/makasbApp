@@ -26,9 +26,9 @@ class ServiceApi {
 Future<UserModel> login(LoginModel loginModel) async {
   try {
     var fields = FormData.fromMap(
-        {'phone_code': loginModel.email, 'phone': loginModel.password});
+        {'email': loginModel.email, 'password': loginModel.password});
 
-    Response response = await dio.post('api/auth/login', data: fields);
+    Response response = await dio.post('api/login', data: fields);
 
     return UserModel.fromJson(response.data);
   } on DioError catch (e) {

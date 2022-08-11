@@ -1,10 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:makasb/constants/app_constant.dart';
 import 'package:makasb/screens/aboutpage/aboutpage.dart';
 import 'package:makasb/screens/addsitePage/addsite_page.dart';
 import 'package:makasb/screens/buypointpage/buypointpage.dart';
 import 'package:makasb/screens/homePage/homePage.dart';
+import 'package:makasb/screens/loginPage/cubit/login_cubit.dart';
 import 'package:makasb/screens/loginPage/login_page.dart';
 import 'package:makasb/screens/settingpage/settingpage.dart';
 import 'package:makasb/screens/signupPage/signup_page.dart';
@@ -22,9 +24,15 @@ class AppRoutes {
 
 
       case AppConstant.pageLoginRoute:
-        return MaterialPageRoute(builder: (context) =>
-        const LoginPage()
-        );
+        return MaterialPageRoute(builder: (context) {
+          return BlocProvider<LoginCubit>(
+            create: (context) {
+              LoginCubit cubit = LoginCubit();
+              return cubit;
+            },
+            child: LoginPage(),
+          );
+        });
 
         case AppConstant.pageHomeRoute :
         return MaterialPageRoute(builder: (context) =>
