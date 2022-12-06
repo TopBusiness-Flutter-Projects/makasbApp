@@ -16,6 +16,6 @@ class UserModel {
   }
 
   Map<String, dynamic> toJson(UserModel user) {
-    return {'data': User.toJson(user.data), 'status': status};
+    return {'data': User.toJson(user.data)};
   }
 }

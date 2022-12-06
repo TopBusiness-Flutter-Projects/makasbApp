@@ -8,7 +8,7 @@ class User {
   late String? image;
   late String? createdAt;
   late String? updatedAt;
-  late List<Sites> sites;
+  // late List<Sites> sites;
   late bool isLoggedIn = false;
 
   User(
@@ -22,12 +22,12 @@ class User {
     image = json['image'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    if (json['sites'] != null) {
-      sites = <Sites>[];
-      json['sites'].forEach((v) {
-        sites.add(Sites.fromJson(v));
-      });
-    }
+    // if (json['sites'] != null) {
+    //   sites = <Sites>[];
+    //   json['sites'].forEach((v) {
+    //     sites.add(Sites.fromJson(v));
+    //   });
+    // }
   }
   static Map<String,dynamic> toJson(User user){
     return {
@@ -38,8 +38,8 @@ class User {
       'image'      :user.image,
       'created_at'  :user.createdAt,
       'updated_at'  :user.updatedAt,
-      'sites'       :  user.sites.map((v) => v.toJson()).toList()
-    ,
+      // 'sites'       :  user.sites.map((v) => v.toJson()).toList()
+
     };
   }
 }

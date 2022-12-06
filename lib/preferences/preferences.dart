@@ -28,7 +28,7 @@ class Preferences {
       userModel = UserModel();
       User user = User();
       userModel.data = user;
-      userModel.data?.isLoggedIn = false;
+      userModel.data.isLoggedIn = false;
 
     }
 
