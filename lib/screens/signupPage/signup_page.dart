@@ -1,13 +1,20 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dropdown_alert/alert_controller.dart';
+import 'package:flutter_dropdown_alert/model/data_alert.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:makasb/constants/app_constant.dart';
 import 'package:makasb/colors/colors.dart';
 import 'package:makasb/widgets/app_widgets.dart';
+
+import 'cubit/user_sign_up_cubit.dart';
+import 'cubit/user_sign_up_state.dart';
 
 class signuppage extends StatefulWidget {
   const signuppage({Key? key}) : super(key: key);
@@ -67,44 +74,9 @@ class _signuppageState extends State<signuppage>
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
-                    Positioned(
-                        child: Container(
-                      alignment: Alignment.center,
-                      width: 96.0,
-                      height: 96.0,
-                      decoration: BoxDecoration(
-                          image: uri.path.isEmpty
-                              ? const DecorationImage(
-                                  image: AssetImage(
-                                      '${AppConstant.localImagePath}avatar.png'),
-                                )
-                              : DecorationImage(
-                                  image: FileImage(uri),
-                                )),
-                    )),
-                    Positioned(
-                        top: 120.0,
-                        left: width / 2 - 40,
-                        child: SizedBox(
-                          child: Container(
-                            width: 30,
-                            height: 30,
-                            padding: const EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(96),
-                                color: AppColors.grey4,
-                                border: Border.all(
-                                    width: 2, color: AppColors.grey1)),
-                            child: GestureDetector(
-                                onTap: () {
-                                  _getFromGallery();
-                                },
-                                child: SvgPicture.asset(
-                                  alignment: Alignment.center,
-                                  "${AppConstant.localImagePath}edit.svg",
-                                )),
-                          ),
-                        )),
+
+                 buildAvatarSection('avatar2.png'),
+
                   ],
                 )),
             _buildLoginSection(),
@@ -115,7 +87,19 @@ class _signuppageState extends State<signuppage>
   }
 
   _buildLoginSection() {
-    return Container(
+    UserSignUpCubit cubit = BlocProvider.of<UserSignUpCubit>(context);
+    return BlocListener<UserSignUpCubit, UserSignUpState>(
+        listener: (context, state) {
+          if (state is OnError) {
+            AlertController.show('warning'.tr(), state.error, TypeAlert.warning);
+
+          } else if (state is OnSignUpSuccess) {
+            Navigator.of(context)
+                .pushNamedAndRemoveUntil(AppConstant.pageHomeRoute,ModalRoute.withName(AppConstant.pageSplashRoute));
+            //Navigator.pop(context, true);
+          }
+        },
+    child: Container(
       padding: const EdgeInsets.all(10),
       child: Column(
         children: [
@@ -336,20 +320,169 @@ class _signuppageState extends State<signuppage>
           ))
         ],
       ),
-    );
+    ));
   }
 
-  _getFromGallery() async {
-    PickedFile? pickedFile = await ImagePicker().getImage(
-      source: ImageSource.gallery,
-      maxWidth: 1800,
-      maxHeight: 1800,
+  buildAvatarSection(String image) {
+    UserSignUpCubit cubit = BlocProvider.of(context);
+    return BlocProvider.value(
+      value: BlocProvider.of<UserSignUpCubit>(context),
+      child: BlocBuilder<UserSignUpCubit, UserSignUpState>(
+        builder: (context, state) {
+          String imagePath = cubit.model.imagePath;
+          if (state is UserPhotoPicked) {
+            imagePath = state.imagePath;
+          }else if(state is OnUserDataGet){
+            imagePath = cubit.imagePath;
+          }
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              InkWell(
+                onTap: () {
+                  buildAlertDialog();
+                },
+                child: Container(
+                  width: 147.0,
+                  height: 147.0,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(147.0),
+                    child: BlocProvider.of<UserSignUpCubit>(context)
+                        .imageType
+                        .isEmpty
+                        ?
+                    imagePath.startsWith('http')
+                        ? CachedNetworkImage(
+                      imageUrl: imagePath,
+                      imageBuilder: (context,imageProvider){
+                        return CircleAvatar(
+                          backgroundImage: imageProvider,
+                        );
+                      },
+                      width: 147.0,
+                      height: 147.0,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) {
+                        return CircleAvatar(
+                          child: Image.asset(
+                            AppConstant.localImagePath +
+                                'avatar2.png',
+                            width: 147.0,
+                            height: 147.0,
+                            fit: BoxFit.cover,
+                          ),
+                        );
+                      },errorWidget: (context,url,error){
+                      return CircleAvatar(
+                        child: Image.asset(
+                          AppConstant.localImagePath +
+                              'avatar2.png',
+                          width: 147.0,
+                          height: 147.0,
+                          fit: BoxFit.cover,
+                        ),
+                      );
+                    },
+                    )
+                        : Image.asset(
+                      AppConstant.localImagePath + image,
+                      width: 147.0,
+                      height: 147.0,
+                    )
+                        : Image.file(
+                      File(imagePath),
+                      width: 147.0,
+                      height: 147.0,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      ),
     );
-    if (pickedFile != null) {
-      File imageFile = File(pickedFile.path);
-      setState(() {
-        uri = imageFile;
-      });
-    }
   }
+  buildAlertDialog() {
+    return showDialog(
+        context: context,
+        builder: (_) {
+          return BlocProvider.value(
+            value: BlocProvider.of<UserSignUpCubit>(context),
+            child: AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16.0)),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'choose_photo'.tr(),
+                    style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.black),
+                  ),
+                  const SizedBox(
+                    height: 16.0,
+                  ),
+                  Container(
+                    height: 1,
+                    color: AppColors.grey3,
+                  ),
+                  const SizedBox(
+                    height: 24.0,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                      BlocProvider.of<UserSignUpCubit>(context)
+                          .pickImage(type: 'camera');
+                    },
+                    child: Text(
+                      'camera'.tr(),
+                      style: TextStyle(fontSize: 18.0, color: AppColors.black),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 12.0,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                      BlocProvider.of<UserSignUpCubit>(context)
+                          .pickImage(type: 'gallery');
+                    },
+                    child: Text(
+                      'gallery'.tr(),
+                      style: TextStyle(fontSize: 18.0, color: AppColors.black),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 24.0,
+                  ),
+                  Container(
+                    height: 1,
+                    color: AppColors.grey3,
+                  ),
+                  const SizedBox(
+                    height: 16.0,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      'cancel'.tr(),
+                      style: TextStyle(
+                          fontSize: 18.0, color: AppColors.colorPrimary),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
 }

@@ -6,6 +6,8 @@ import 'package:makasb/models/login_model.dart';
 import 'package:makasb/models/user_model.dart';
 import 'package:makasb/remote/handle_exeption.dart';
 
+import '../models/user_sign_up_model.dart';
+
 class ServiceApi {
   late Dio dio;
 
@@ -36,42 +38,37 @@ Future<UserModel> login(LoginModel loginModel) async {
     throw errorMessage;
   }
 }
+  Future<UserModel> signUp(UserSignUpModel model) async {
+    var fields = FormData.fromMap({});
+    try {
+      if (model.imagePath.isNotEmpty) {
+        fields = FormData.fromMap({
+          'user_name': model.user_name,
+          'email': model.email,
+          'password': model.password,
+          'password_confirmation': model.password_confirmation,
+          'image': await MultipartFile.fromFile(model.imagePath)
+        });
+      } else {
+        fields = FormData.fromMap({
+          'user_name': model.user_name,
+          'email': model.email,
+          'password': model.password,
+          'password_confirmation': model.password_confirmation,
+        });
+      }
+      print("dlldldl${fields.fields}");
+      Response response = await dio.post('api/auth/register', data: fields);
+      print("Flflflfl${response.toString()}");
+      return UserModel.fromJson(response.data);
+    } on DioError catch (e) {
+      final errorMessage = DioExceptions.fromDioError(e).toString();
+      print('Error=>${e}');
 
-// Future<UserDataModel> signUp(UserSignUpModel model) async {
-//   var fields = FormData.fromMap({});
-//   try {
-//     if (model.imagePath.isNotEmpty) {
-//       fields = FormData.fromMap({
-//         'first_name': model.firstName,
-//         'last_name': model.lastName,
-//         'email': model.email,
-//         'phone_code': model.phone_code,
-//         'phone': model.phone,
-//         'city_id': model.cityId,
-//         'birthdate': model.dateOfBirth,
-//         'image': await MultipartFile.fromFile(model.imagePath)
-//       });
-//     } else {
-//       fields = FormData.fromMap({
-//         'first_name': model.firstName,
-//         'last_name': model.lastName,
-//         'email': model.email,
-//         'phone_code': model.phone_code,
-//         'phone': model.phone,
-//         'city_id': model.cityId,
-//         'birthdate': model.dateOfBirth,
-//       });
-//     }
-//
-//     Response response = await dio.post('api/auth/register', data: fields);
-//     return UserModel.fromJson(response.data);
-//   } on DioError catch (e) {
-//     final errorMessage = DioExceptions.fromDioError(e).toString();
-//     print('Error=>${errorMessage}');
-//
-//     throw errorMessage;
-//   }
-// }
+      throw errorMessage;
+    }
+  }
+
 
 
 }
