@@ -25,12 +25,11 @@ class _socialWidgetState extends State<socialWidget> {
     return Container(
       padding: const EdgeInsets.all(10),
       child:
-           Column(
-
+           ListView(
 children: [
   socialMedia("facebook.png","facebook".tr(),socialTypes.list.elementAt(0)),
-  socialMedia("instagram.png","instagram".tr(),socialTypes.list.elementAt(0)),
-  socialMedia("youtube.png","youtube".tr(),socialTypes.list.elementAt(0)),
+  socialMedia("instagram.png","instagram".tr(),socialTypes.list.elementAt(1)),
+  socialMedia("youtube.png","youtube".tr(),socialTypes.list.elementAt(2)),
   socialMedia("tiktok.png","tiktok".tr(),socialTypes.list.elementAt(0)),
   socialMedia("sound_cloud.png","sound_cloud".tr(),socialTypes.list.elementAt(0)),
   socialMedia("twitter.png","twitter".tr(),socialTypes.list.elementAt(0)),
