@@ -10,7 +10,7 @@ class User {
   late String? updatedAt;
   // late List<Sites> sites;
   late bool isLoggedIn = false;
-
+  late String token;
   User(
    );
 
@@ -22,6 +22,8 @@ class User {
     image = json['image'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    token = json['token'];
+
     // if (json['sites'] != null) {
     //   sites = <Sites>[];
     //   json['sites'].forEach((v) {
@@ -38,6 +40,8 @@ class User {
       'image'      :user.image,
       'created_at'  :user.createdAt,
       'updated_at'  :user.updatedAt,
+      'token'  :user.token,
+
       // 'sites'       :  user.sites.map((v) => v.toJson()).toList()
 
     };

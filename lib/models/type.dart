@@ -1,18 +1,19 @@
 class Type {
-  late String id;
+  late int id;
   late String titleAr;
   late String titleEn;
   late String createdAt;
   late String updatedAt;
 
-  Type();
+
+  Type(this.id, this.titleAr, this.titleEn);
 
   Type.fromJson(Map<String, dynamic> json) {
-    id = json['id'] as String;
-    titleAr = json['title_ar'] as String;
-    titleEn = json['title_en'] as String;
-    createdAt = json['created_at'] as String;
-    updatedAt = json['updated_at'] as String;
+    id = json['id'] ??0;
+    titleAr = json['title_ar'] ??"";
+    titleEn = json['title_en'] ??"";
+    createdAt = json['created_at'] ??"";
+    updatedAt = json['updated_at'] ??"";
   }
 
    Map<String,dynamic> toJson(Type type) {

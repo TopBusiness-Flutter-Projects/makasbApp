@@ -4,8 +4,8 @@ class StatusResponse{
 
   StatusResponse();
   StatusResponse.fromJson(Map<String,dynamic> json){
-    status = json['status'] as int;
-    msg = json ['msg'].toString();
+    status = json['status'] ?? 0 as int;
+    msg = json ['msg'] ?? "" as String;
   }
 
 }

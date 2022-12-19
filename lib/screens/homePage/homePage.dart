@@ -4,12 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:makasb/colors/colors.dart';
 import 'package:makasb/constants/app_constant.dart';
-import 'package:makasb/routes/app_routes.dart';
 import 'package:makasb/screens/homePage/widget/coinsWidget.dart';
-import 'package:makasb/screens/homePage/widget/homeWidget.dart';
+import 'package:makasb/screens/homePage/widget/homewidget/main_widget.dart';
 import 'package:makasb/screens/homePage/widget/profileWidget.dart';
-import 'package:makasb/screens/homePage/widget/socialWidget.dart';
-import 'package:makasb/widgets/app_widgets.dart';
+import 'package:makasb/screens/homePage/widget/socialwidget/socialWidget.dart';
 
 class homePage extends StatefulWidget {
   const homePage({Key? key}) : super(key: key);
@@ -35,62 +33,60 @@ class _homePageState extends State<homePage> {
     }
 
     List<Widget> screens = [
-      const homeWidget(),
+      const mainWidget(),
       const socialWidget(),
       const coinsWidget(),
       const profileWidget()
     ];
 
-    return Container(
-        child: Scaffold(
-      extendBodyBehindAppBar: true,
+    return Scaffold(
       body: SafeArea(
-          child: Column(mainAxisSize: MainAxisSize.max, children: [
-        _buildAppBar(context, "0"),
-        Flexible(
-          child: IndexedStack(index: indexpage, children: screens),
-        ),
+      child: Column(mainAxisSize: MainAxisSize.max, children: [
+    _buildAppBar(context, "0"),
+    Expanded(
+      child: IndexedStack(index: indexpage, children: screens),
+    ),
       ])),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
-        showUnselectedLabels: true,
-        unselectedItemColor: AppColors.grey6,
-        type: BottomNavigationBarType.fixed,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              '${AppConstant.localImagePath}home.svg',
-              color: indexpage == 0 ? AppColors.colorPrimary : AppColors.grey6,
-            ),
-            label: 'home'.tr(),
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              '${AppConstant.localImagePath}coin.svg',
-              color: indexpage == 1 ? AppColors.colorPrimary : AppColors.grey6,
-            ),
-            label: 'Coins'.tr(),
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              '${AppConstant.localImagePath}social.svg',
-              color: indexpage == 2 ? AppColors.colorPrimary : AppColors.grey6,
-            ),
-            label: 'Social'.tr(),
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              '${AppConstant.localImagePath}user.svg',
-              color: indexpage == 3 ? AppColors.colorPrimary : AppColors.grey6,
-            ),
-            label: 'Profile'.tr(),
-          ),
-        ],
-        onTap: _onItemTapped,
-        currentIndex: indexpage,
-        selectedItemColor: AppColors.colorPrimary,
+    backgroundColor: Colors.white,
+    showUnselectedLabels: true,
+    unselectedItemColor: AppColors.grey6,
+    type: BottomNavigationBarType.fixed,
+    items: <BottomNavigationBarItem>[
+      BottomNavigationBarItem(
+        icon: SvgPicture.asset(
+          '${AppConstant.localImagePath}home.svg',
+          color: indexpage == 0 ? AppColors.colorPrimary : AppColors.grey6,
+        ),
+        label: 'home'.tr(),
       ),
-    ));
+      BottomNavigationBarItem(
+        icon: SvgPicture.asset(
+          '${AppConstant.localImagePath}social.svg',
+          color: indexpage == 1 ? AppColors.colorPrimary : AppColors.grey6,
+        ),
+        label: 'Social'.tr(),
+      ),
+      BottomNavigationBarItem(
+        icon: SvgPicture.asset(
+          '${AppConstant.localImagePath}coin.svg',
+          color: indexpage == 2 ? AppColors.colorPrimary : AppColors.grey6,
+        ),
+        label: 'Coins'.tr(),
+      ),
+      BottomNavigationBarItem(
+        icon: SvgPicture.asset(
+          '${AppConstant.localImagePath}user.svg',
+          color: indexpage == 3 ? AppColors.colorPrimary : AppColors.grey6,
+        ),
+        label: 'Profile'.tr(),
+      ),
+    ],
+    onTap: _onItemTapped,
+    currentIndex: indexpage,
+    selectedItemColor: AppColors.colorPrimary,
+      ),
+    );
   }
 
   Widget _buildAppBar(BuildContext context, String notificationCount) {

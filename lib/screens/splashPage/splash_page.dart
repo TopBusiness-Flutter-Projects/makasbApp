@@ -1,10 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:makasb/constants/app_constant.dart';
 import 'package:makasb/routes/app_routes.dart';
 import 'package:makasb/screens/splashPage/splash_page.dart';
 
 import 'package:makasb/colors/colors.dart';
+
+import 'cubit/splash_cubit.dart';
 
 
 
@@ -19,7 +22,31 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return BlocConsumer<SplashCubit, SplashState>(
+        listener: (context, state) {
+          if (state is OnUserModelGet) {
+           // print("state.userModel.user.userType");
+          //  print(state.userModel.data.);
+            Future.delayed(const Duration(seconds: 2)).then(
+                  (value) => {
+
+
+                      Navigator.of(context)
+                          .pushReplacementNamed(AppConstant.pageHomeRoute)
+
+                },
+            );
+          } else if (state is NoUserFound) {
+            Future.delayed(const Duration(seconds: 2)).then(
+                  (value) => {
+                Navigator.of(context)
+                    .pushReplacementNamed(AppConstant.pageLoginRoute)
+              },
+            );
+          }
+        },
+        builder: (context, state) {
+          return  MaterialApp(
       debugShowCheckedModeBanner: false,
       color: Colors.white,
 
@@ -66,15 +93,17 @@ class _SplashPageState extends State<SplashPage> {
                 )
               ],
             ),
-          )),
+          ),
+    )
     );
+        });
   }
   @override
   void initState() {
     super.initState();
 
-    Future.delayed(const Duration(seconds: 3)).then((value) => {
-      Navigator.of(context).pushReplacementNamed(AppConstant.pageLoginRoute)
-    }) ;
+    // Future.delayed(const Duration(seconds: 3)).then((value) => {
+    //   Navigator.of(context).pushReplacementNamed(AppConstant.pageLoginRoute)
+    // }) ;
   }
 }

@@ -1,36 +1,36 @@
 import 'package:makasb/models/sites.dart';
 import 'package:makasb/models/type.dart';
 class Sites {
- late String id;
- late String userId;
- late String siteType;
+ late int id;
+ late int userId;
+ late int siteType;
  late String title;
  late String url;
- late String dailyClicksLimit;
- late String totalClicksLimit;
+ late int totalClicksLimit;
  late String neededClicks;
- late String poStringsForClick;
+ late int poStringsForClick;
  late String status;
  late String createdAt;
  late String updatedAt;
  late Type type;
+ late int dailyClicksLimit;
 
   Sites(
     );
 
   Sites.fromJson(Map<String, dynamic> json) {
-    id = json['id'] as String;
-    userId = json['user_id'] as String;
-    siteType = json['site_type'] as String;
-    title = json['title'] as String;
-    url = json['url'] as String;
-    dailyClicksLimit = json['daily_clicks_limit'] as String;
-    totalClicksLimit = json['total_clicks_limit'] as String;
-    neededClicks = json['needed_clicks'] as String;
-    poStringsForClick = json['poStrings_for_click'] as String;
-    status = json['status'] as String;
-    createdAt = json['created_at'] as String;
-    updatedAt = json['updated_at'] as String;
+    id = json['id'] ??0;
+    userId = json['user_id'] ??0;
+    siteType = json['site_type'] ??0;
+    title = json['title'] ??"";
+    url = json['url'] ??"";
+    dailyClicksLimit = json['daily_clicks_limit'] ??0;
+    totalClicksLimit = json['total_clicks_limit'] ??0;
+    neededClicks = json['needed_clicks'] ??"";
+    poStringsForClick = json['poStrings_for_click'] ??0;
+    status = json['status'] ??"";
+    createdAt = json['created_at'] ??"";
+    updatedAt = json['updated_at'] ??"";
     type = Type.fromJson(json['type']);
   }
  Map<String, dynamic> toJson() {

@@ -13,6 +13,8 @@ import 'package:makasb/constants/app_constant.dart';
 import 'package:makasb/colors/colors.dart';
 import 'package:makasb/widgets/app_widgets.dart';
 
+import '../../models/user_model.dart';
+import '../../preferences/preferences.dart';
 import 'cubit/user_sign_up_cubit.dart';
 import 'cubit/user_sign_up_state.dart';
 
@@ -26,7 +28,6 @@ class signuppage extends StatefulWidget {
 class _signuppageState extends State<signuppage>
  with SingleTickerProviderStateMixin {
   bool isHidden = true;
-  File uri = File("");
   late AnimationController _controller;
 
   @override
@@ -59,11 +60,8 @@ class _signuppageState extends State<signuppage>
         leading: AppWidget.buildBackArrow(context: context),
       ),
       backgroundColor: AppColors.white,
-      body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        padding: EdgeInsets.zero,
-        physics: const ClampingScrollPhysics(),
-        child: ListView(
+      body:
+         ListView(
           shrinkWrap: true,
           children: [
             const SizedBox(
@@ -82,7 +80,7 @@ class _signuppageState extends State<signuppage>
             _buildLoginSection(),
           ],
         ),
-      ),
+
     );
   }
 
@@ -130,6 +128,10 @@ class _signuppageState extends State<signuppage>
                 child: TextFormField(
                   maxLines: 1,
                   autofocus: false,
+                  onChanged: (data) {
+                    cubit.model.user_name = data;
+                    cubit.checkData();
+                  },
                   cursorColor: AppColors.colorPrimary,
                   keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.next,
@@ -173,6 +175,10 @@ class _signuppageState extends State<signuppage>
                   cursorColor: AppColors.colorPrimary,
                   keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.next,
+                  onChanged: (data) {
+                    cubit.model.email = data;
+                    cubit.checkData();
+                  },
                   decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: 'email'.tr(),
@@ -186,7 +192,7 @@ class _signuppageState extends State<signuppage>
               const SizedBox(width: 5), // give it width
 
               Text(
-                'email'.tr(),
+                'password'.tr(),
                 style: const TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.normal,
@@ -208,6 +214,10 @@ class _signuppageState extends State<signuppage>
                   maxLines: 1,
                   autofocus: false,
                   obscureText: isHidden,
+                  onChanged: (data) {
+                    cubit.model.password = data;
+                    cubit.checkData();
+                  },
                   cursorColor: AppColors.colorPrimary,
                   keyboardType: TextInputType.text,
                   textInputAction: TextInputAction.next,
@@ -239,7 +249,7 @@ class _signuppageState extends State<signuppage>
               const SizedBox(width: 5), // give it width
 
               Text(
-                'email'.tr(),
+                'password'.tr(),
                 style: const TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.normal,
@@ -264,6 +274,10 @@ class _signuppageState extends State<signuppage>
                   cursorColor: AppColors.colorPrimary,
                   keyboardType: TextInputType.text,
                   textInputAction: TextInputAction.next,
+                  onChanged: (data) {
+                    cubit.model.password_confirmation = data;
+                    cubit.checkData();
+                  },
                   decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: 'confirmpassword'.tr(),
@@ -283,17 +297,7 @@ class _signuppageState extends State<signuppage>
                       )),
                 ),
               )),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                primary: AppColors.colorPrimary,
-                elevation: 5,
-                shadowColor: AppColors.grey8),
-            onPressed: () {
-              Navigator.of(context)
-                  .pushReplacementNamed(AppConstant.pageHomeRoute);
-            },
-            child: Text('login'.tr()),
-          ),
+          buildButtonStart(),
           const SizedBox(height: 50),
           RichText(
               text: TextSpan(
@@ -321,6 +325,39 @@ class _signuppageState extends State<signuppage>
         ],
       ),
     ));
+  }
+  buildButtonStart() {
+    UserSignUpCubit cubit = BlocProvider.of<UserSignUpCubit>(context);
+    return BlocBuilder<UserSignUpCubit, UserSignUpState>(
+      builder: (context, state) {
+        bool isValid = cubit.isDataValid;
+        if (state is UserDataValidation) {
+          isValid = state.valid;
+        }
+        return  MaterialButton (
+              onPressed: isValid
+                  ? () async {
+                UserModel model = await Preferences.instance.getUserModel();
+                if(model.data.isLoggedIn){
+                  //cubit.updateProfile(context,model.data.access_token);
+                }else{
+                  cubit.signUp(context);
+                }
+
+              }
+                  : null,
+              height: 56.0,
+              color: AppColors.colorPrimary,
+              disabledColor: AppColors.grey4,
+              shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+              child: Text(
+                'start'.tr(),
+                style: TextStyle(fontSize: 16.0, color: AppColors.white),
+              ),
+            );
+      },
+    );
   }
 
   buildAvatarSection(String image) {
@@ -366,7 +403,7 @@ class _signuppageState extends State<signuppage>
                         return CircleAvatar(
                           child: Image.asset(
                             AppConstant.localImagePath +
-                                'avatar2.png',
+                                'avatar.png',
                             width: 147.0,
                             height: 147.0,
                             fit: BoxFit.cover,
@@ -376,7 +413,7 @@ class _signuppageState extends State<signuppage>
                       return CircleAvatar(
                         child: Image.asset(
                           AppConstant.localImagePath +
-                              'avatar2.png',
+                              'avatar.png',
                           width: 147.0,
                           height: 147.0,
                           fit: BoxFit.cover,

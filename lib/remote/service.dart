@@ -3,6 +3,7 @@
 import 'package:dio/dio.dart';
 import 'package:makasb/constants/app_constant.dart';
 import 'package:makasb/models/login_model.dart';
+import 'package:makasb/models/mysites.dart';
 import 'package:makasb/models/user_model.dart';
 import 'package:makasb/remote/handle_exeption.dart';
 
@@ -58,7 +59,7 @@ Future<UserModel> login(LoginModel loginModel) async {
         });
       }
       print("dlldldl${fields.fields}");
-      Response response = await dio.post('api/auth/register', data: fields);
+      Response response = await dio.post('api/register', data: fields);
       print("Flflflfl${response.toString()}");
       return UserModel.fromJson(response.data);
     } on DioError catch (e) {
@@ -69,6 +70,29 @@ Future<UserModel> login(LoginModel loginModel) async {
     }
   }
 
+  Future<MySites> getmySitesData(String user_id) async {
+    try {
+      Response response;
+      BaseOptions baseOptions = dio.options;
+      CancelToken cancelToken = CancelToken();
+
+      baseOptions.headers = {'Content-Type': 'application/json'};
+      dio.options = baseOptions;
+
+      response = await dio.get('api/mySites',
+          queryParameters: {'user_id': user_id}, cancelToken: cancelToken);
+
+      if (!cancelToken.isCancelled) {
+        cancelToken.cancel();
+      }
+     // print("dlldldldl${response.toString()}");
+      return MySites.fromJson(response.data);
+    } on DioError catch (e) {
+      print(e.toString());
+      final errorMessage = DioExceptions.fromDioError(e).toString();
+      throw errorMessage;
+    }
+  }
 
 
 }

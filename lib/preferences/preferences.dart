@@ -22,6 +22,7 @@ class Preferences {
     String? jsonData = preferences.getString('user');
     UserModel userModel;
     if (jsonData != null) {
+
       userModel = UserModel.fromJson(jsonDecode(jsonData));
       userModel.data.isLoggedIn = true;
     }else{
