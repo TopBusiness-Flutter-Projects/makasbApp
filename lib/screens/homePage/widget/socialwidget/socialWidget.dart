@@ -30,10 +30,10 @@ children: [
   socialMedia("facebook.png","facebook".tr(),socialTypes.list.elementAt(0)),
   socialMedia("instagram.png","instagram".tr(),socialTypes.list.elementAt(1)),
   socialMedia("youtube.png","youtube".tr(),socialTypes.list.elementAt(2)),
-  socialMedia("tiktok.png","tiktok".tr(),socialTypes.list.elementAt(0)),
-  socialMedia("sound_cloud.png","sound_cloud".tr(),socialTypes.list.elementAt(0)),
-  socialMedia("twitter.png","twitter".tr(),socialTypes.list.elementAt(0)),
-  socialMedia("reddit.png","reddit".tr(),socialTypes.list.elementAt(0))
+  socialMedia("tiktok.png","tiktok".tr(),socialTypes.list.elementAt(3)),
+  socialMedia("sound_cloud.png","sound_cloud".tr(),socialTypes.list.elementAt(4)),
+  socialMedia("twitter.png","twitter".tr(),socialTypes.list.elementAt(5)),
+  socialMedia("reddit.png","reddit".tr(),socialTypes.list.elementAt(6))
 
 
 ]            ,
@@ -54,6 +54,7 @@ children: [
         borderRadius: const BorderRadius.all(Radius.circular(20)),
       ),
       child: ExpansionTile(
+
         title: Row(
           children: [
             const SizedBox(
@@ -92,6 +93,8 @@ children: [
           ListView.builder(
             itemCount: _list.length,
             shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+
             itemBuilder: (BuildContext context, int index) {
               return Container(
                   height: 40,
