@@ -186,6 +186,22 @@ class _mainWidgetState extends State<mainWidget>
             )),
       Expanded(child:
       mySites()),
+          ElevatedButton.icon(
+            onPressed: () {
+
+
+              Navigator.of(context)
+                  .pushReplacementNamed(AppConstant.pageAddSiteRoute);
+
+
+
+            },
+            icon: Icon( // <-- Icon
+              Icons.add,
+              size: 24.0,
+            ),
+            label: Text('addpost'.tr()), // <-- Text
+          ),
       ]
     );
   }
