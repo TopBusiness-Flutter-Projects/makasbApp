@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:makasb/constants/app_constant.dart';
 import 'package:makasb/screens/aboutpage/aboutpage.dart';
 import 'package:makasb/screens/addsitePage/addsite_page.dart';
+import 'package:makasb/screens/addsitePage/cubit/add_site_cubit.dart';
 import 'package:makasb/screens/buypointpage/buypointpage.dart';
 import 'package:makasb/screens/homePage/homePage.dart';
 import 'package:makasb/screens/loginPage/cubit/login_cubit.dart';
@@ -12,9 +13,13 @@ import 'package:makasb/screens/settingpage/settingpage.dart';
 import 'package:makasb/screens/signupPage/cubit/user_sign_up_cubit.dart';
 import 'package:makasb/screens/signupPage/signup_page.dart';
 import 'package:makasb/screens/splashPage/splash_page.dart';
+import 'package:makasb/screens/type_screen/cubit/type_cubit.dart';
 
+import '../screens/countries_screen/countries_page.dart';
+import '../screens/countries_screen/cubit/countries_cubit.dart';
 import '../screens/homePage/widget/homewidget/cubit/main_page_cubit.dart';
 import '../screens/splashPage/cubit/splash_cubit.dart';
+import '../screens/type_screen/type_page.dart';
 
 class AppRoutes {
   static late MainPageCubit mainPageCubit;
@@ -74,9 +79,12 @@ class AppRoutes {
         });
 
       case AppConstant.pageAddSiteRoute :
-        return MaterialPageRoute(builder: (context) =>
-        const addsite_page()
-        );
+        return MaterialPageRoute(builder: (context) {
+          return BlocProvider<AddSiteCubit>(
+            create: (context) => AddSiteCubit(),
+            child: AddSitePage(),
+          );
+        });
 
       case AppConstant.pageBuypointRoute :
         return MaterialPageRoute(builder: (context) =>
@@ -90,6 +98,22 @@ class AppRoutes {
         return MaterialPageRoute(builder: (context) =>
         const aboutpage()
         );
+
+      case AppConstant.pageCountriesRoute:
+        return MaterialPageRoute(builder: (context) {
+          return BlocProvider<CountriesCubit>(
+            create: (context) => CountriesCubit(),
+            child: const CountriesPage(),
+          );
+
+        });
+      case AppConstant.pageTypeRoute:
+        return MaterialPageRoute(builder: (context) {
+          return BlocProvider<TypeCubit>(
+            create: (context) => TypeCubit(),
+            child: const TypePage(),
+          );
+        });
     }
   }
 }

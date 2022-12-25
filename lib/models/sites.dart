@@ -7,12 +7,12 @@ class Sites {
  late String title;
  late String url;
  late int totalClicksLimit;
- late String neededClicks;
+ late int neededClicks;
  late int poStringsForClick;
  late String status;
  late String createdAt;
  late String updatedAt;
- late Type type;
+ late TypeModel type;
  late int dailyClicksLimit;
 
   Sites(
@@ -26,12 +26,12 @@ class Sites {
     url = json['url'] ??"";
     dailyClicksLimit = json['daily_clicks_limit'] ??0;
     totalClicksLimit = json['total_clicks_limit'] ??0;
-    neededClicks = json['needed_clicks'] ??"";
+    neededClicks = json['needed_clicks'] ??0;
     poStringsForClick = json['poStrings_for_click'] ??0;
     status = json['status'] ??"";
     createdAt = json['created_at'] ??"";
     updatedAt = json['updated_at'] ??"";
-    type = Type.fromJson(json['type']);
+    type = TypeModel.fromJson(json['type']);
   }
  Map<String, dynamic> toJson() {
    final Map<String, dynamic> data = new Map<String, dynamic>();

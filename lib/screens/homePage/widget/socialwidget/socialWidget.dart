@@ -41,7 +41,7 @@ children: [
     );
   }
 
-  socialMedia(String imageNAME, String title,List<Type> _list) {
+  socialMedia(String imageNAME, String title,List<TypeModel> _list) {
     String lang = EasyLocalization.of(context)!.locale.languageCode;
 
   return  Container(

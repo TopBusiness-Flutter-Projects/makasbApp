@@ -1,14 +1,18 @@
-class Type {
+class TypeModel {
   late int id;
   late String titleAr;
   late String titleEn;
   late String createdAt;
   late String updatedAt;
 
+  TypeModel.initValues(){
+    id = 0;
+    titleAr ='إختر النوع';
+    titleEn = 'Choose Type';
+  }
+  TypeModel(this.id, this.titleAr, this.titleEn);
 
-  Type(this.id, this.titleAr, this.titleEn);
-
-  Type.fromJson(Map<String, dynamic> json) {
+  TypeModel.fromJson(Map<String, dynamic> json) {
     id = json['id'] ??0;
     titleAr = json['title_ar'] ??"";
     titleEn = json['title_en'] ??"";
@@ -16,7 +20,7 @@ class Type {
     updatedAt = json['updated_at'] ??"";
   }
 
-   Map<String,dynamic> toJson(Type type) {
+   Map<String,dynamic> toJson(TypeModel type) {
     return{
 
       'id':type.id,

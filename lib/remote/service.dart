@@ -7,6 +7,8 @@ import 'package:makasb/models/mysites.dart';
 import 'package:makasb/models/user_model.dart';
 import 'package:makasb/remote/handle_exeption.dart';
 
+import '../models/country_data_model.dart';
+import '../models/type_data_model.dart';
 import '../models/user_sign_up_model.dart';
 
 class ServiceApi {
@@ -89,6 +91,28 @@ Future<UserModel> login(LoginModel loginModel) async {
       return MySites.fromJson(response.data);
     } on DioError catch (e) {
       print(e.toString());
+      final errorMessage = DioExceptions.fromDioError(e).toString();
+      throw errorMessage;
+    }
+  }
+  Future<CountryDataModel> getCountries() async {
+    try {
+     // print("dldlldl");
+      Response response = await dio.get('api/countries');
+      return CountryDataModel.fromJson(response.data);
+    } on DioError catch (e) {
+      print("dldlldl${e}");
+      final errorMessage = DioExceptions.fromDioError(e).toString();
+      throw errorMessage;
+    }
+  }
+  Future<TypeDataModel> getType() async {
+    try {
+      // print("dldlldl");
+      Response response = await dio.get('api/postTypes');
+      return TypeDataModel.fromJson(response.data);
+    } on DioError catch (e) {
+      print("dldlldl${e}");
       final errorMessage = DioExceptions.fromDioError(e).toString();
       throw errorMessage;
     }

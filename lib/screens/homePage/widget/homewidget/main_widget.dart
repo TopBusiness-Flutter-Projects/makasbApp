@@ -53,16 +53,16 @@ class _mainWidgetState extends State<mainWidget>
 
   @override
   Widget build(BuildContext context) {
-    return  ListView(
-
-        children: [
+    return Column(children: [
+      Expanded(
+          child: ListView(children: [
         const SizedBox(height: 10),
-
         _userShow(),
         Container(
             constraints: const BoxConstraints.expand(height: 230),
             child: _imageSlider(context)),
-        Center(child: SmoothPageIndicator(
+        Center(
+            child: SmoothPageIndicator(
           controller: _pageController, // PageController
           count: 10,
           effect: const ExpandingDotsEffect(
@@ -91,11 +91,10 @@ class _mainWidgetState extends State<mainWidget>
         ),
         Row(
           children: [
-           cardsocialitem("youtube.png"),
+            cardsocialitem("youtube.png"),
             cardsocialitem("instagram.png"),
             cardsocialitem("tiktok.png"),
             cardsocialitem("twitter.png"),
-
           ],
         ),
         Row(
@@ -184,26 +183,35 @@ class _mainWidgetState extends State<mainWidget>
                 )
               ],
             )),
-      Expanded(child:
-      mySites()),
-          ElevatedButton.icon(
-            onPressed: () {
-
-
-              Navigator.of(context)
-                  .pushReplacementNamed(AppConstant.pageAddSiteRoute);
-
-
-
-            },
-            icon: Icon( // <-- Icon
-              Icons.add,
-              size: 24.0,
+ mySites(),
+            const SizedBox(
+              height: 10,
             ),
-            label: Text('addpost'.tr()), // <-- Text
-          ),
-      ]
-    );
+            Center(
+
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.of(context)
+                      .pushReplacementNamed(AppConstant.pageAddSiteRoute);
+                },
+                icon: // <-- Icon
+                SvgPicture.asset(
+                  '${AppConstant.localImagePath}add.svg',
+                  width: 20.0,
+                  height: 20.0,
+                ),
+
+                label: Text('addsite'.tr()), // <-- Text
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            )
+
+            ,
+      ])),
+
+    ]);
   }
 
   _userShow() {
@@ -347,7 +355,15 @@ class _mainWidgetState extends State<mainWidget>
                                         children: [
                                           const SizedBox(width: 10),
                                           Text(
-                                            lang=="ar"?list.elementAt(index).type.titleAr:list.elementAt(index).type.titleEn,
+                                            lang == "ar"
+                                                ? list
+                                                    .elementAt(index)
+                                                    .type
+                                                    .titleAr
+                                                : list
+                                                    .elementAt(index)
+                                                    .type
+                                                    .titleEn,
                                             style: const TextStyle(
                                                 fontSize: 20.0,
                                                 fontWeight: FontWeight.bold,
@@ -358,7 +374,7 @@ class _mainWidgetState extends State<mainWidget>
                                             child: Container(),
                                           ),
                                           Text(
-                                          list.elementAt(index).title,
+                                            list.elementAt(index).title,
                                             style: const TextStyle(
                                                 fontSize: 20.0,
                                                 fontWeight: FontWeight.bold,
@@ -399,8 +415,7 @@ class _mainWidgetState extends State<mainWidget>
   }
 
   cardsocialitem(String name) {
-
-   return Expanded(
+    return Expanded(
         child: Card(
             elevation: 10,
             color: AppColors.white,
