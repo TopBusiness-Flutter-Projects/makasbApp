@@ -9,12 +9,22 @@ class IsLoadingData extends MainPageState {
 }
 
 
+class UserData extends MainPageState {
+  UserModel  usermodel;
+  UserData(this.usermodel);
+}
+
 
 
 class OnDataSuccess extends MainPageState {
   List<Sites> list;
 
   OnDataSuccess(this.list);
+}
+class OnSliderDataSuccess extends MainPageState {
+  List<SliderModel> list;
+
+  OnSliderDataSuccess(this.list);
 }
 
 class OnError extends MainPageState {

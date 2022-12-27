@@ -119,7 +119,7 @@ class _homePageState extends State<homePage> {
                   // give it width
 
                   Text(
-                    'email'.tr(),
+                    '1250'.tr(),
                     style: const TextStyle(
                         fontSize: 16.0,
                         fontWeight: FontWeight.bold,

@@ -5,10 +5,10 @@ import 'package:makasb/models/type.dart';
 
 @immutable
 abstract class AddSiteState {}
-class OnCitySelected extends AddSiteState {
-  CountryModel cityModel;
+class OnCountrySelected extends AddSiteState {
+  List<CountryModel> countryModel;
 
-  OnCitySelected(this.cityModel);
+  OnCountrySelected(this.countryModel);
 }
 class OnTypeSelected extends AddSiteState {
   TypeModel typeModel;
@@ -25,7 +25,7 @@ class AddSiteDataValidation extends AddSiteState {
   AddSiteDataValidation(this.valid);
 
 }
-class OnSignUpSuccess extends AddSiteState {
+class OnAddPostSuccess extends AddSiteState {
 
 }
 class OnError extends AddSiteState {

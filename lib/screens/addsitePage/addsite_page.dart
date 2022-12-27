@@ -4,6 +4,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dropdown_alert/alert_controller.dart';
+import 'package:flutter_dropdown_alert/model/data_alert.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:makasb/constants/app_constant.dart';
@@ -13,6 +15,8 @@ import 'package:makasb/models/type.dart';
 import 'package:makasb/screens/addsitePage/cubit/add_site_state.dart';
 import 'package:makasb/widgets/app_widgets.dart';
 
+import '../../models/user_model.dart';
+import '../../preferences/preferences.dart';
 import 'cubit/add_site_cubit.dart';
 
 class AddSitePage extends StatefulWidget {
@@ -62,23 +66,22 @@ class _AddSitePageState extends State<AddSitePage>
         leading: AppWidget.buildBackArrow(context: context),
       ),
       backgroundColor: AppColors.white,
-      body: ListView(
-        shrinkWrap: true,
-        scrollDirection: Axis.vertical,
-        children: [
-          const SizedBox(
-            height: 30,
-          ),
-          _buildLoginSection(),
-        ],
-      ),
+      body: _buildaddSiteSection(),
     );
   }
 
-  _buildLoginSection() {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      child: Column(
+  _buildaddSiteSection() {
+    AddSiteCubit cubit = BlocProvider.of<AddSiteCubit>(context);
+    return BlocListener<AddSiteCubit, AddSiteState>(
+        listener: (context, state) {
+          if(state is OnAddPostSuccess){
+            print("Dldldlldl");
+            Navigator.pop(context);
+          }
+        },
+    child: BlocBuilder<AddSiteCubit, AddSiteState>(builder: (context, state) {
+
+      return ListView(
         children: [
           Row(
             children: [
@@ -119,6 +122,44 @@ class _AddSitePageState extends State<AddSitePage>
             height: 8.0,
           ),
           buildCityField(),
+          Expanded(
+              child: SizedBox(
+            height: 50,
+            child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: cubit.selectedCountryModel.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  CountryModel model =
+                      cubit.selectedCountryModel.elementAt(index);
+                  String lang =
+                      EasyLocalization.of(context)!.locale.languageCode;
+
+                  return Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      alignment: Alignment.centerLeft,
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 16.0, vertical: 1),
+                      color: AppColors.white,
+                      height: 48,
+                      child: Row(
+                        children: [
+                          Text(
+                            lang == 'ar' ? model.ar_name : model.en_name,
+                            maxLines: 1,
+                            style: const TextStyle(
+                                color: AppColors.black, fontSize: 15.0),
+                          ),
+                          InkWell(
+                              onTap: () {
+                                cubit.remove(model);
+                              },
+                              child: AppWidget.svg(
+                                  'remove.svg', AppColors.black, 24.0, 24.0)),
+                        ],
+                      ));
+                }),
+          )),
           const SizedBox(
             height: 20.0,
           ),
@@ -151,11 +192,14 @@ class _AddSitePageState extends State<AddSitePage>
                   maxLines: 1,
                   autofocus: false,
                   cursorColor: AppColors.colorPrimary,
-                  keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.next,
+                  onChanged: (data) {
+                    cubit.model.title = data;
+                    cubit.checkData();
+                  },
                   decoration: InputDecoration(
                       border: InputBorder.none,
-                      hintText: 'email'.tr(),
+                      hintText: 'site title'.tr(),
                       hintStyle: const TextStyle(
                           color: AppColors.grey1, fontSize: 14.0)),
                 ),
@@ -191,11 +235,15 @@ class _AddSitePageState extends State<AddSitePage>
                   maxLines: 1,
                   autofocus: false,
                   cursorColor: AppColors.colorPrimary,
-                  keyboardType: TextInputType.emailAddress,
+                  keyboardType: TextInputType.text,
                   textInputAction: TextInputAction.next,
+                  onChanged: (data) {
+                    cubit.model.url = data;
+                    cubit.checkData();
+                  },
                   decoration: InputDecoration(
                       border: InputBorder.none,
-                      hintText: 'email'.tr(),
+                      hintText: 'page url'.tr(),
                       hintStyle: const TextStyle(
                           color: AppColors.grey1, fontSize: 14.0)),
                 ),
@@ -265,8 +313,12 @@ class _AddSitePageState extends State<AddSitePage>
                         maxLines: 1,
                         autofocus: false,
                         cursorColor: AppColors.colorPrimary,
-                        keyboardType: TextInputType.emailAddress,
+                        keyboardType: TextInputType.number,
                         textInputAction: TextInputAction.next,
+                        onChanged: (data) {
+                          cubit.model.total_clicks_limit = data;
+                          cubit.checkData();
+                        },
                         decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: '1000',
@@ -342,8 +394,12 @@ class _AddSitePageState extends State<AddSitePage>
                         maxLines: 1,
                         autofocus: false,
                         cursorColor: AppColors.colorPrimary,
-                        keyboardType: TextInputType.emailAddress,
+                        keyboardType: TextInputType.number,
                         textInputAction: TextInputAction.next,
+                        onChanged: (data) {
+                          cubit.model.daily_clicks_limit = data;
+                          cubit.checkData();
+                        },
                         decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: '1000',
@@ -386,11 +442,15 @@ class _AddSitePageState extends State<AddSitePage>
                   maxLines: 1,
                   autofocus: false,
                   cursorColor: AppColors.colorPrimary,
-                  keyboardType: TextInputType.emailAddress,
+                  keyboardType: TextInputType.number,
                   textInputAction: TextInputAction.next,
+                  onChanged: (data) {
+                    cubit.model.points_for_click = data;
+                    cubit.checkData();
+                  },
                   decoration: InputDecoration(
                       border: InputBorder.none,
-                      hintText: 'email'.tr(),
+                      hintText: '5'.tr(),
                       hintStyle: const TextStyle(
                           color: AppColors.grey1, fontSize: 14.0)),
                 ),
@@ -398,34 +458,40 @@ class _AddSitePageState extends State<AddSitePage>
           const SizedBox(
             height: 20.0,
           ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                primary: AppColors.colorPrimary,
-                elevation: 5,
-                shadowColor: AppColors.grey8),
-            onPressed: () {
-              Navigator.of(context)
-                  .pushReplacementNamed(AppConstant.pageHomeRoute);
-            },
-            child: Text('login'.tr()),
-          ),
+          buildButtonStart(),
         ],
-      ),
-    );
+      );
+    }));
   }
 
-  _getFromGallery() async {
-    PickedFile? pickedFile = await ImagePicker().getImage(
-      source: ImageSource.gallery,
-      maxWidth: 1800,
-      maxHeight: 1800,
+  buildButtonStart() {
+    AddSiteCubit cubit = BlocProvider.of<AddSiteCubit>(context);
+
+    return BlocBuilder<AddSiteCubit, AddSiteState>(
+      builder: (context, state) {
+        bool isValid = cubit.isDataValid;
+        if (state is AddSiteDataValidation) {
+          isValid = state.valid;
+        }
+
+        return MaterialButton(
+          onPressed: isValid
+              ? () async {
+                  cubit.addPost(context);
+                }
+              : null,
+          height: 56.0,
+          color: AppColors.colorPrimary,
+          disabledColor: AppColors.grey4,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+          child: Text(
+            'add'.tr(),
+            style: TextStyle(fontSize: 16.0, color: AppColors.white),
+          ),
+        );
+      },
     );
-    if (pickedFile != null) {
-      File imageFile = File(pickedFile.path);
-      setState(() {
-        uri = imageFile;
-      });
-    }
   }
 
   void navigateToCitiesPage() async {
@@ -454,13 +520,13 @@ class _AddSitePageState extends State<AddSitePage>
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             decoration: BoxDecoration(
                 color: AppColors.white, borderRadius: BorderRadius.circular(8)),
-            child: Text(
-                '${lang == 'ar' ? cubit.selectedCountryModel.ar_name : cubit.selectedCountryModel.en_name}'),
+            child: Text('select country'),
           );
         },
       ),
     );
   }
+
   buildTypsField() {
     double width = MediaQuery.of(context).size.width;
     AddSiteCubit cubit = BlocProvider.of<AddSiteCubit>(context);
@@ -473,7 +539,7 @@ class _AddSitePageState extends State<AddSitePage>
             width: width,
             height: 54.0,
             alignment:
-            lang == 'ar' ? Alignment.centerRight : Alignment.centerLeft,
+                lang == 'ar' ? Alignment.centerRight : Alignment.centerLeft,
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             decoration: BoxDecoration(
                 color: AppColors.white, borderRadius: BorderRadius.circular(8)),
@@ -486,8 +552,7 @@ class _AddSitePageState extends State<AddSitePage>
   }
 
   void navigateToTypesPage() async {
-    var result =
-    await Navigator.pushNamed(context, AppConstant.pageTypeRoute);
+    var result = await Navigator.pushNamed(context, AppConstant.pageTypeRoute);
     if (result != null) {
       TypeModel model = result as TypeModel;
       AddSiteCubit cubit = BlocProvider.of<AddSiteCubit>(context);

@@ -46,7 +46,8 @@ class _coinsWidgetState extends State<coinsWidget>
     _timer = Timer.periodic(const Duration(seconds: 5), (Timer timer) {
       if (_currentPage < 10) {
         _currentPage++;
-      } else {
+      }
+      else {
         _currentPage = 0;
       }
 

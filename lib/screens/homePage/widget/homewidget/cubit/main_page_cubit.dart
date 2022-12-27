@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:makasb/models/sites.dart';
 
 import '../../../../../models/mysites.dart';
+import '../../../../../models/slider.dart';
+import '../../../../../models/slider_data_model.dart';
 import '../../../../../models/user_model.dart';
 import '../../../../../preferences/preferences.dart';
 import '../../../../../remote/service.dart';
@@ -13,18 +15,27 @@ part 'main_page_state.dart';
 class MainPageCubit extends Cubit<MainPageState> {
 
   late List<Sites> projects = [];
+  late List<SliderModel> sliders = [];
   late ServiceApi api;
   UserModel? userModel;
 
   MainPageCubit() : super(IsLoadingData()) {
     api = ServiceApi();
-    getUserData().then((value) => getData());
+    getUserData1().then((value) => getData());
+    getUserData();
+
+    getSlider();
+
    // getCategories();
   }
-
-  Future<UserModel?> getUserData() async {
+   Future<UserModel?> getUserData1() async {
     userModel = await Preferences.instance.getUserModel();
-    return userModel;
+   return userModel;
+  }
+  void getUserData() async {
+    userModel = await Preferences.instance.getUserModel();
+    emit(UserData(userModel!));
+    //getData();
   }
 
 
@@ -62,6 +73,20 @@ class MainPageCubit extends Cubit<MainPageState> {
     emit(OnError(error));
   }
 
+  getSlider() async {
+    try {
+      SliderDataModel response = await api.getSliders();
+      if (response.status.status == 200) {
+        sliders = response.data;
+
+        emit(OnSliderDataSuccess(sliders));
+      } else {
+        OnError("error data");
+      }
+    } catch (error) {
+      OnError(error.toString());
+    }
+  }
 
 
 }

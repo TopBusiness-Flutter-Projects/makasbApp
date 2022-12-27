@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,11 +9,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:makasb/colors/colors.dart';
 import 'package:makasb/constants/app_constant.dart';
 import 'package:makasb/models/sites.dart';
-import 'package:makasb/screens/dialogpage/dialoginfopage.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../../../models/slider.dart';
+import '../../../../models/user_model.dart';
 import '../../../../widgets/app_widgets.dart';
 import 'cubit/main_page_cubit.dart';
+import 'home_screen_widgets.dart';
 
 class mainWidget extends StatefulWidget {
   const mainWidget({Key? key}) : super(key: key);
@@ -22,33 +26,19 @@ class mainWidget extends StatefulWidget {
 
 class _mainWidgetState extends State<mainWidget>
     with SingleTickerProviderStateMixin {
-  late Timer _timer;
-  final PageController _pageController = PageController(
-    initialPage: 0,
-  );
+  int index1=0;
+
 
   @override
   void initState() {
     super.initState();
-    // _timer = Timer.periodic(const Duration(seconds: 5), (Timer timer) {
-    //   if (_currentPage < 10) {
-    //     _currentPage++;
-    //   } else {
-    //     _currentPage = 0;
-    //   }
-    //
-    //   _pageController.animateToPage(
-    //     _currentPage.toInt(),
-    //     duration: const Duration(milliseconds: 350),
-    //     curve: Curves.easeIn,
-    //   );
-    // });
   }
 
   @override
   void dispose() {
-    _timer.cancel();
     super.dispose();
+
+
   }
 
   @override
@@ -58,16 +48,7 @@ class _mainWidgetState extends State<mainWidget>
           child: ListView(children: [
         const SizedBox(height: 10),
         _userShow(),
-        Container(
-            constraints: const BoxConstraints.expand(height: 230),
-            child: _imageSlider(context)),
-        Center(
-            child: SmoothPageIndicator(
-          controller: _pageController, // PageController
-          count: 10,
-          effect: const ExpandingDotsEffect(
-              expansionFactor: 2), // your preferred effect
-        )),
+        sliders(),
         const SizedBox(height: 10),
         Row(
           children: [
@@ -130,12 +111,7 @@ class _mainWidgetState extends State<mainWidget>
             ),
             InkWell(
                 onTap: () {
-                  // todo : your code is here
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return CustomDialog();
-                      });
+
                 },
                 child: SvgPicture.asset(
                   '${AppConstant.localImagePath}info.svg',
@@ -159,133 +135,140 @@ class _mainWidgetState extends State<mainWidget>
                 const SizedBox(
                   width: 10,
                 ),
-                Text(
+                Expanded(
+                    child: Text(
                   "Site".tr(),
                   style: const TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
                       color: AppColors.white),
-                ),
+                )),
                 Expanded(
-                  flex: 1,
-                  child: Container(),
-                ),
-                Text(
-                  "Site Name".tr(),
-                  style: const TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.white),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Container(),
-                )
+                    flex: 2,
+                    child: Center(
+                        child: Text(
+                      "Site Name".tr(),
+                      style: const TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.white),
+                    ))),
               ],
             )),
- mySites(),
-            const SizedBox(
-              height: 10,
-            ),
-            Center(
-
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.of(context)
-                      .pushReplacementNamed(AppConstant.pageAddSiteRoute);
-                },
-                icon: // <-- Icon
+        mySites(),
+        const SizedBox(
+          height: 10,
+        ),
+        Center(
+          child: ElevatedButton.icon(
+            onPressed: () {
+              Navigator.of(context).pushNamed(AppConstant.pageAddSiteRoute);
+            },
+            icon: // <-- Icon
                 SvgPicture.asset(
-                  '${AppConstant.localImagePath}add.svg',
-                  width: 20.0,
-                  height: 20.0,
-                ),
-
-                label: Text('addsite'.tr()), // <-- Text
-              ),
+              '${AppConstant.localImagePath}add.svg',
+              width: 20.0,
+              height: 20.0,
             ),
-            SizedBox(
-              height: 10,
-            )
 
-            ,
+            label: Text('addsite'.tr()), // <-- Text
+          ),
+        ),
+        SizedBox(
+          height: 10,
+        ),
       ])),
-
     ]);
   }
 
   _userShow() {
-    return Container(
-        margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: AppColors.colorPrimary,
-          ),
-          borderRadius: const BorderRadius.all(Radius.circular(20)),
-        ),
-        child: Row(
-          children: [
-            Container(
-                margin: const EdgeInsets.all(10),
-                width: 90.0,
-                height: 90.0,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: Image.asset(
-                    '${AppConstant.localImagePath}logo.png',
-                    width: 90.0,
-                    height: 90.0,
-                  ),
-                )),
-            Column(
-              children: [
-                Align(
-                    alignment: Alignment.topRight,
+
+    MainPageCubit cubit = BlocProvider.of(context);
+    return BlocProvider.value(
+        value: BlocProvider.of<MainPageCubit>(context),
+        child:
+        BlocBuilder<MainPageCubit, MainPageState>(
+            builder: (context, state) {
+              UserModel userModel;
+              if(state is UserData){
+                userModel=cubit.userModel!;
+                return  Container(
+                    margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: AppColors.colorPrimary,
+                      ),
+                      borderRadius: const BorderRadius.all(Radius.circular(20)),
+                    ),
                     child: Row(
                       children: [
-                        SvgPicture.asset(
-                          '${AppConstant.localImagePath}dolar.svg',
-                        ),
-                        const SizedBox(width: 5), // give it width
+                        Container(
+                            margin: const EdgeInsets.all(10),
+                            width: 90.0,
+                            height: 90.0,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child:
+                              userModel!.data.image!=null?
+                              CachedNetworkImage(
+                                  width: 90.0,
+                                  height: 90.0,
+                                  imageUrl: userModel.data.image!,
+                                  placeholder: (context, url) =>
+                                      Container(
+                                        color: AppColors.grey2,
+                                      ),
+                                  errorWidget:
+                                      (context, url, error) =>
+                                      Container(
+                                        color: AppColors.grey2,
+                                      ))
+                                  :Image.asset(
+                                '${AppConstant.localImagePath}logo.png',
+                                width: 90.0,
+                                height: 90.0,
+                              ),
+                            )),
+                        Column(
+                          children: [
+                            Align(
+                                alignment: Alignment.topRight,
+                                child: Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                      '${AppConstant.localImagePath}hand.svg',
+                                    ),
+                                    const SizedBox(width: 5), // give it width
 
-                        Text(
-                          'email'.tr(),
-                          style: const TextStyle(
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.normal,
-                              color: AppColors.black),
-                        ),
+                                    Text(
+                                      'welcome'.tr(),
+                                      style: const TextStyle(
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.normal,
+                                          color: AppColors.black),
+                                    ),
+                                  ],
+                                )),
+                            Text(
+                              "${userModel.data.userName}",
+                              style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.colorPrimary),
+                            )
+                          ],
+                        )
                       ],
-                    )),
-                const Text(
-                  "Mahmoud Elkomy",
-                  style: TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.colorPrimary),
-                )
-              ],
-            )
-          ],
-        ));
-  }
+                    ));
 
-  _imageSlider(context) {
-    return PageView.builder(
-      controller: _pageController,
-      itemBuilder: (BuildContext context, int index) {
-        return Container(
-            margin: const EdgeInsets.all(10),
-            child: ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                child: Image.network(
-                  "https://images.unsplash.com/photo-1595445364671-15205e6c380c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=764&q=80",
-                  fit: BoxFit.fill,
-                )));
-      },
-      itemCount: 10,
-    );
-  }
+              }
+              else{
+                return Container();
+
+              }
+            }));
+    }
+
 
   mySites() {
     String lang = EasyLocalization.of(context)!.locale.languageCode;
@@ -293,7 +276,8 @@ class _mainWidgetState extends State<mainWidget>
     MainPageCubit cubit = BlocProvider.of<MainPageCubit>(context);
     return BlocProvider.value(
         value: cubit,
-        child: BlocBuilder<MainPageCubit, MainPageState>(
+        child:
+        BlocBuilder<MainPageCubit, MainPageState>(
             builder: (context, state) {
           if (state is IsLoadingData) {
             return const Expanded(
@@ -354,7 +338,8 @@ class _mainWidgetState extends State<mainWidget>
                                       child: Row(
                                         children: [
                                           const SizedBox(width: 10),
-                                          Text(
+                                          Expanded(
+                                              child: Text(
                                             lang == "ar"
                                                 ? list
                                                     .elementAt(index)
@@ -368,22 +353,17 @@ class _mainWidgetState extends State<mainWidget>
                                                 fontSize: 20.0,
                                                 fontWeight: FontWeight.bold,
                                                 color: AppColors.black),
-                                          ),
+                                          )),
                                           Expanded(
-                                            flex: 1,
-                                            child: Container(),
-                                          ),
-                                          Text(
-                                            list.elementAt(index).title,
-                                            style: const TextStyle(
-                                                fontSize: 20.0,
-                                                fontWeight: FontWeight.bold,
-                                                color: AppColors.black),
-                                          ),
-                                          Expanded(
-                                            flex: 1,
-                                            child: Container(),
-                                          ),
+                                              flex: 2,
+                                              child: Center(
+                                                  child: Text(
+                                                list.elementAt(index).title,
+                                                style: const TextStyle(
+                                                    fontSize: 20.0,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: AppColors.black),
+                                              ))),
                                           SvgPicture.asset(
                                             '${AppConstant.localImagePath}remove.svg',
                                             width: 20.0,
@@ -409,9 +389,87 @@ class _mainWidgetState extends State<mainWidget>
         }));
   }
 
+  sliders() {
+    String lang = EasyLocalization.of(context)!.locale.languageCode;
+
+    MainPageCubit cubit = BlocProvider.of<MainPageCubit>(context);
+    return
+      BlocProvider.value(
+        value: cubit,
+        child: BlocBuilder<MainPageCubit, MainPageState>(
+            builder: (context, state) {
+          if (state is IsLoadingData) {
+            return Container(
+              height: 180,
+              child: Center(
+                child: CircularProgressIndicator(
+                  color: AppColors.colorPrimary,
+                ),
+              ),
+            );
+          } else if (state is OnError) {
+            return Expanded(
+              child: Center(
+                child: InkWell(
+                  onTap: refreshData1,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      AppWidget.svg(
+                          'reload.svg', AppColors.colorPrimary, 24.0, 24.0),
+                      SizedBox(
+                        height: 8.0,
+                      ),
+                      Text(
+                        'reload'.tr(),
+                        style: TextStyle(
+                            color: AppColors.colorPrimary, fontSize: 15.0),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            );
+          } else {
+            List<SliderModel> list = cubit.sliders;
+
+            if (list.isNotEmpty) {
+              return
+                Expanded(
+                  child: RefreshIndicator(
+                      color: AppColors.colorPrimary,
+                      onRefresh: refreshData1,
+                      child:
+                      AddScreenWidget(
+                        sliderModel: list
+
+                      ),
+
+                      )
+                );
+            } else {
+              return Expanded(
+                  child: Center(
+                child: Text(
+                  'no_projects'.tr(),
+                  style: TextStyle(color: AppColors.black, fontSize: 15.0),
+                ),
+              ));
+            }
+          }
+        }));
+  }
+
   Future<void> refreshData() async {
     MainPageCubit cubit = BlocProvider.of<MainPageCubit>(context);
     cubit.getData();
+
+  }
+  Future<void> refreshData1() async {
+    MainPageCubit cubit = BlocProvider.of<MainPageCubit>(context);
+    cubit.getData();
+
   }
 
   cardsocialitem(String name) {
@@ -434,4 +492,7 @@ class _mainWidgetState extends State<mainWidget>
                                 fit: BoxFit.cover,
                                 '${AppConstant.localImagePath}$name')))))));
   }
+
+
+
 }
