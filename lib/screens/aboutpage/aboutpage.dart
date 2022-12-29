@@ -8,14 +8,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:makasb/constants/app_constant.dart';
 import 'package:makasb/colors/colors.dart';
 import 'package:makasb/widgets/app_widgets.dart';
-class aboutpage extends StatefulWidget {
-  const aboutpage({Key? key}) : super(key: key);
+class Aboutpage extends StatelessWidget {
+  final String? Kind;
+  final String text ;
+  const Aboutpage({Key? key, this.Kind, required this.text}) : super(key: key);
 
-  @override
-  State<aboutpage> createState() => _aboutpageState();
-}
-
-class _aboutpageState extends State<aboutpage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +23,7 @@ class _aboutpageState extends State<aboutpage> {
           backgroundColor: AppColors.white,
           centerTitle: false,
           title: Text(
-            'adsite'.tr(),
+            Kind!.tr(),
             style: const TextStyle(
                 color: AppColors.black,
                 fontSize: 16.0,
@@ -59,46 +56,36 @@ class _aboutpageState extends State<aboutpage> {
             ],
           ),
         ),
-          Row(
-
-            children: [
-           // give it width
-
-              Text(
-
-                'Makasb'.tr(),
-                style: const TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.normal,
-                    color: AppColors.colorPrimary),
-              ),
-              SizedBox(width: 10,),
-              Text(
-                'Makasb helps you to'.tr(),
-                style: const TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.normal,
-                    color: AppColors.black),
-              )
-            ],
-          ),
+          // Row(
+          //
+          //   children: [
+          //  // give it width
+          //
+          //     Text(
+          //
+          //       'Makasb'.tr(),
+          //       style: const TextStyle(
+          //           fontSize: 16.0,
+          //           fontWeight: FontWeight.normal,
+          //           color: AppColors.colorPrimary),
+          //     ),
+          //     SizedBox(width: 10,),
+          //     Text(
+          //       'Makasb helps you to'.tr(),
+          //       style: const TextStyle(
+          //           fontSize: 16.0,
+          //           fontWeight: FontWeight.normal,
+          //           color: AppColors.black),
+          //     )
+          //   ],
+          // ),
 
           const SizedBox(
             height: 10.0,
           ),
           Expanded(flex: 1,child: Container(
-              child:const Text(
-                  "increase Facebook Likes, Facebook Share, Facebook Followers, Facebook Post Likes, Facebook Post Share, CoinMarketCap Watchlists, Reddit Community Members, Reddit Post/Comments Upvotes, YouTube Subscribe, YouTube Video Likes, YouTube Views, Twitter Followers, Twitter Tweets, Twitter Likes, VK Page Followers, VK Group Join, Instagram Followers, Instagram Photo Likes, Pinterest Followers, Pinterest Post Save, Reverbnation Fans, SoundCloud Followers, SoundCloud Music Listening, Twitch Followers, TikTok Followers, TikTok Video Likes, Likee Followers/Fan, Telegram Channel Subscribers, Subscribers and Website Hits"
-                      "increase Facebook Likes, Facebook Share, Facebook Followers, Facebook Post Likes, Facebook Post Share, CoinMarketCap Watchlists, Reddit Community Members, Reddit Post/Comments Upvotes, YouTube Subscribe, YouTube Video Likes, YouTube Views, Twitter Followers, Twitter Tweets, Twitter Likes, VK Page Followers, VK Group Join, Instagram Followers, Instagram Photo Likes, Pinterest Followers, Pinterest Post Save, Reverbnation Fans, SoundCloud Followers, SoundCloud Music Listening, Twitch Followers, TikTok Followers, TikTok Video Likes, Likee Followers/Fan, Telegram Channel Subscribers, Subscribers and Website Hits"
-                      "increase Facebook Likes, Facebook Share, Facebook Followers, Facebook Post Likes, Facebook Post Share, CoinMarketCap Watchlists, Reddit Community Members, Reddit Post/Comments Upvotes, YouTube Subscribe, YouTube Video Likes, YouTube Views, Twitter Followers, Twitter Tweets, Twitter Likes, VK Page Followers, VK Group Join, Instagram Followers, Instagram Photo Likes, Pinterest Followers, Pinterest Post Save, Reverbnation Fans, SoundCloud Followers, SoundCloud Music Listening, Twitch Followers, TikTok Followers, TikTok Video Likes, Likee Followers/Fan, Telegram Channel Subscribers, Subscribers and Website Hits"
-                      "increase Facebook Likes, Facebook Share, Facebook Followers, Facebook Post Likes, Facebook Post Share, CoinMarketCap Watchlists, Reddit Community Members, Reddit Post/Comments Upvotes, YouTube Subscribe, YouTube Video Likes, YouTube Views, Twitter Followers, Twitter Tweets, Twitter Likes, VK Page Followers, VK Group Join, Instagram Followers, Instagram Photo Likes, Pinterest Followers, Pinterest Post Save, Reverbnation Fans, SoundCloud Followers, SoundCloud Music Listening, Twitch Followers, TikTok Followers, TikTok Video Likes, Likee Followers/Fan, Telegram Channel Subscribers, Subscribers and Website Hits"
-                      "increase Facebook Likes, Facebook Share, Facebook Followers, Facebook Post Likes, Facebook Post Share, CoinMarketCap Watchlists, Reddit Community Members, Reddit Post/Comments Upvotes, YouTube Subscribe, YouTube Video Likes, YouTube Views, Twitter Followers, Twitter Tweets, Twitter Likes, VK Page Followers, VK Group Join, Instagram Followers, Instagram Photo Likes, Pinterest Followers, Pinterest Post Save, Reverbnation Fans, SoundCloud Followers, SoundCloud Music Listening, Twitch Followers, TikTok Followers, TikTok Video Likes, Likee Followers/Fan, Telegram Channel Subscribers, Subscribers and Website Hits"
-                      "increase Facebook Likes, Facebook Share, Facebook Followers, Facebook Post Likes, Facebook Post Share, CoinMarketCap Watchlists, Reddit Community Members, Reddit Post/Comments Upvotes, YouTube Subscribe, YouTube Video Likes, YouTube Views, Twitter Followers, Twitter Tweets, Twitter Likes, VK Page Followers, VK Group Join, Instagram Followers, Instagram Photo Likes, Pinterest Followers, Pinterest Post Save, Reverbnation Fans, SoundCloud Followers, SoundCloud Music Listening, Twitch Followers, TikTok Followers, TikTok Video Likes, Likee Followers/Fan, Telegram Channel Subscribers, Subscribers and Website Hits"
-                      "increase Facebook Likes, Facebook Share, Facebook Followers, Facebook Post Likes, Facebook Post Share, CoinMarketCap Watchlists, Reddit Community Members, Reddit Post/Comments Upvotes, YouTube Subscribe, YouTube Video Likes, YouTube Views, Twitter Followers, Twitter Tweets, Twitter Likes, VK Page Followers, VK Group Join, Instagram Followers, Instagram Photo Likes, Pinterest Followers, Pinterest Post Save, Reverbnation Fans, SoundCloud Followers, SoundCloud Music Listening, Twitch Followers, TikTok Followers, TikTok Video Likes, Likee Followers/Fan, Telegram Channel Subscribers, Subscribers and Website Hits"
-                      "increase Facebook Likes, Facebook Share, Facebook Followers, Facebook Post Likes, Facebook Post Share, CoinMarketCap Watchlists, Reddit Community Members, Reddit Post/Comments Upvotes, YouTube Subscribe, YouTube Video Likes, YouTube Views, Twitter Followers, Twitter Tweets, Twitter Likes, VK Page Followers, VK Group Join, Instagram Followers, Instagram Photo Likes, Pinterest Followers, Pinterest Post Save, Reverbnation Fans, SoundCloud Followers, SoundCloud Music Listening, Twitch Followers, TikTok Followers, TikTok Video Likes, Likee Followers/Fan, Telegram Channel Subscribers, Subscribers and Website Hits"
-                      "increase Facebook Likes, Facebook Share, Facebook Followers, Facebook Post Likes, Facebook Post Share, CoinMarketCap Watchlists, Reddit Community Members, Reddit Post/Comments Upvotes, YouTube Subscribe, YouTube Video Likes, YouTube Views, Twitter Followers, Twitter Tweets, Twitter Likes, VK Page Followers, VK Group Join, Instagram Followers, Instagram Photo Likes, Pinterest Followers, Pinterest Post Save, Reverbnation Fans, SoundCloud Followers, SoundCloud Music Listening, Twitch Followers, TikTok Followers, TikTok Video Likes, Likee Followers/Fan, Telegram Channel Subscribers, Subscribers and Website Hits"
-                      "increase Facebook Likes, Facebook Share, Facebook Followers, Facebook Post Likes, Facebook Post Share, CoinMarketCap Watchlists, Reddit Community Members, Reddit Post/Comments Upvotes, YouTube Subscribe, YouTube Video Likes, YouTube Views, Twitter Followers, Twitter Tweets, Twitter Likes, VK Page Followers, VK Group Join, Instagram Followers, Instagram Photo Likes, Pinterest Followers, Pinterest Post Save, Reverbnation Fans, SoundCloud Followers, SoundCloud Music Listening, Twitch Followers, TikTok Followers, TikTok Video Likes, Likee Followers/Fan, Telegram Channel Subscribers, Subscribers and Website Hits"
-                      ""
+              child: Text(
+                  '$text'
                   ,
                 style: TextStyle(
                     fontSize: 16.0,

@@ -1,12 +1,19 @@
 import 'dart:async';
 import 'dart:ui';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:makasb/colors/colors.dart';
 import 'package:makasb/constants/app_constant.dart';
+import 'package:makasb/models/setting_model.dart';
 import 'package:makasb/widgets/app_widgets.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
+import '../../../../models/user_model.dart';
+import '../../../aboutpage/aboutpage.dart';
+import 'cubit/profile_cubit.dart';
 
 class profileWidget extends StatefulWidget {
   const profileWidget({Key? key}) : super(key: key);
@@ -17,6 +24,7 @@ class profileWidget extends StatefulWidget {
 
 class _profileWidgetState extends State<profileWidget>
     with SingleTickerProviderStateMixin {
+
   @override
   void initState() {
     super.initState();
@@ -30,27 +38,40 @@ class _profileWidgetState extends State<profileWidget>
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+    ProfileCubit cubit = BlocProvider.of(context);
 
-    return SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        padding: EdgeInsets.zero,
-        physics: ClampingScrollPhysics(),
-        child: ListView(shrinkWrap: true, children: [
+    return BlocConsumer<ProfileCubit, ProfileState>(listener: (context, state) {
+      if (state is OnSettingModelGet) {
 
+        cubit.getUserModel();
+      }
+    },
+        builder: (context, state) {
+      if (state is OnLoading) {
+        return Center(child: CircularProgressIndicator());
+      }
+      else if (state is OnLoading ) {
+        return Center(child: CircularProgressIndicator());
+
+      }
+      else {
+        UserModel userModel = cubit.userModel;
+print("Sdkkfk${userModel.data.email}");
+        return ListView(shrinkWrap: true, children: [
           SizedBox(
               height: 173,
               child: Stack(
                 children: [
                   Positioned(
                       child: Container(
-                    width: width,
-                    height: 125.0,
-                    decoration: const BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage(
-                                '${AppConstant.localImagePath}top_profile.png'),
-                            fit: BoxFit.fill)),
-                  )),
+                        width: width,
+                        height: 125.0,
+                        decoration: const BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage(
+                                    '${AppConstant.localImagePath}top_profile.png'),
+                                fit: BoxFit.fill)),
+                      )),
                   Positioned(
                       top: 77.0,
                       left: width / 2 - 48,
@@ -59,9 +80,23 @@ class _profileWidgetState extends State<profileWidget>
                         height: 96,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(width),
-                          child: Image.asset(
-                            "${AppConstant.localImagePath}avatar.png",
-                            fit: BoxFit.cover,
+                          child:
+                          userModel != null && userModel.data.image != null
+                              ? CachedNetworkImage(
+                              width: 90.0,
+                              height: 90.0,
+                              imageUrl: userModel.data.image!,
+                              placeholder: (context, url) => Container(
+                                color: AppColors.grey2,
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  Container(
+                                    color: AppColors.grey2,
+                                  ))
+                              : Image.asset(
+                            '${AppConstant.localImagePath}logo.png',
+                            width: 90.0,
+                            height: 90.0,
                           ),
                         ),
                       )),
@@ -76,17 +111,18 @@ class _profileWidgetState extends State<profileWidget>
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  "Emad",
-
-                  style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold,
-                  color: AppColors.black),
+                  '${userModel.data.userName}',
+                  style: const TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.black),
                 ),
-
               ],
             ),
           ),
           Container(
-            margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+            margin:
+            const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
             child: Card(
               color: AppColors.white,
               elevation: 1.0,
@@ -104,26 +140,28 @@ class _profileWidgetState extends State<profileWidget>
                         child: Card(
                           elevation: 1.0,
                           color: AppColors.grey3,
-                          shape:
-                          RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16.0)),
                           child: Container(
                             alignment: Alignment.center,
-                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                            child:
-                            Row(
+                            padding:
+                            const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    AppWidget.svg('profile.svg', AppColors.colorPrimary, 24.0, 24.0),
+                                    AppWidget.svg('profile.svg',
+                                        AppColors.colorPrimary, 24.0, 24.0),
                                     const SizedBox(
                                       width: 12.0,
                                     ),
                                     Text(
                                       "Edit Profile".tr(),
                                       style: const TextStyle(
-                                          color: AppColors.color3, fontSize: 16.0),
+                                          color: AppColors.color3,
+                                          fontSize: 16.0),
                                     )
                                   ],
                                 ),
@@ -136,12 +174,14 @@ class _profileWidgetState extends State<profileWidget>
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
                                   child: Transform.rotate(
-                                      angle: Localizations.localeOf(context).languageCode == 'ar'
+                                      angle: Localizations.localeOf(context)
+                                          .languageCode ==
+                                          'ar'
                                           ? (180 * (3.14 / 180))
                                           : (0 * (3.14 / 180)),
                                       alignment: Alignment.center,
-                                      child: AppWidget.svg(
-                                          'arrow.svg', AppColors.black, 20.0, 20.0)),
+                                      child: AppWidget.svg('arrow.svg',
+                                          AppColors.black, 20.0, 20.0)),
                                 )
                               ],
                             ),
@@ -158,26 +198,43 @@ class _profileWidgetState extends State<profileWidget>
                         child: Card(
                           elevation: 1.0,
                           color: AppColors.grey3,
-                          shape:
-                          RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16.0)),
                           child: Container(
                             alignment: Alignment.center,
-                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                            padding:
+                            const EdgeInsets.symmetric(horizontal: 16.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    AppWidget.svg('profile.svg', AppColors.colorPrimary, 24.0, 24.0),
+                                    AppWidget.svg('profile.svg',
+                                        AppColors.colorPrimary, 24.0, 24.0),
                                     const SizedBox(
                                       width: 12.0,
                                     ),
-                                    Text(
+                                    InkWell(
+                                      onTap: () {
+                                        String lang = EasyLocalization.of(context)!.locale.languageCode;
+
+                                        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                                          return Aboutpage(
+                                            Kind: "aboutUs".tr(),
+                                            text: lang == 'ar'
+                                                ?  cubit.settingModel.data!.about_us!
+                                                :  cubit.settingModel.data!.about_us_en!,
+                                          );
+                                        }));
+
+                                      },
+                                    child: Text(
                                       "About Us".tr(),
                                       style: const TextStyle(
-                                          color: AppColors.color3, fontSize: 16.0),
-                                    )
+                                          color: AppColors.color3,
+                                          fontSize: 16.0),
+                                    ))
                                   ],
                                 ),
                                 Container(
@@ -189,12 +246,14 @@ class _profileWidgetState extends State<profileWidget>
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
                                   child: Transform.rotate(
-                                      angle: Localizations.localeOf(context).languageCode == 'ar'
+                                      angle: Localizations.localeOf(context)
+                                          .languageCode ==
+                                          'ar'
                                           ? (180 * (3.14 / 180))
                                           : (0 * (3.14 / 180)),
                                       alignment: Alignment.center,
-                                      child: AppWidget.svg(
-                                          'arrow.svg', AppColors.black, 20.0, 20.0)),
+                                      child: AppWidget.svg('arrow.svg',
+                                          AppColors.black, 20.0, 20.0)),
                                 )
                               ],
                             ),
@@ -211,26 +270,33 @@ class _profileWidgetState extends State<profileWidget>
                         child: Card(
                           elevation: 1.0,
                           color: AppColors.grey3,
-                          shape:
-                          RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16.0)),
                           child: Container(
                             alignment: Alignment.center,
-                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                            padding:
+                            const EdgeInsets.symmetric(horizontal: 16.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    AppWidget.svg('profile.svg', AppColors.colorPrimary, 24.0, 24.0),
+                                    AppWidget.svg('profile.svg',
+                                        AppColors.colorPrimary, 24.0, 24.0),
                                     const SizedBox(
                                       width: 12.0,
                                     ),
-                                    Text(
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.pushNamed(context, AppConstant.pagesettingRoute);
+                                      },
+                                    child: Text(
                                       "Settings".tr(),
                                       style: const TextStyle(
-                                          color: AppColors.color3, fontSize: 16.0),
-                                    )
+                                          color: AppColors.color3,
+                                          fontSize: 16.0),
+                                    ))
                                   ],
                                 ),
                                 Container(
@@ -242,12 +308,14 @@ class _profileWidgetState extends State<profileWidget>
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
                                   child: Transform.rotate(
-                                      angle: Localizations.localeOf(context).languageCode == 'ar'
+                                      angle: Localizations.localeOf(context)
+                                          .languageCode ==
+                                          'ar'
                                           ? (180 * (3.14 / 180))
                                           : (0 * (3.14 / 180)),
                                       alignment: Alignment.center,
-                                      child: AppWidget.svg(
-                                          'arrow.svg', AppColors.black, 20.0, 20.0)),
+                                      child: AppWidget.svg('arrow.svg',
+                                          AppColors.black, 20.0, 20.0)),
                                 )
                               ],
                             ),
@@ -258,7 +326,6 @@ class _profileWidgetState extends State<profileWidget>
                     const SizedBox(
                       height: 8.0,
                     ),
-
                   ],
                 ),
               ),
@@ -283,7 +350,6 @@ class _profileWidgetState extends State<profileWidget>
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     InkWell(
-
                         child: Image.asset(
                           '${AppConstant.localImagePath}facebook.png',
                           width: 40.0,
@@ -321,7 +387,8 @@ class _profileWidgetState extends State<profileWidget>
               ],
             ),
           )
-
-        ]));
+        ]);
+      }
+    });
   }
 }

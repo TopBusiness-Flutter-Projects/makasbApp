@@ -1,13 +1,18 @@
 import 'dart:convert';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:makasb/colors/colors.dart';
 import 'package:makasb/constants/app_constant.dart';
-import 'package:makasb/screens/homePage/widget/coinsWidget.dart';
+import 'package:makasb/models/user_model.dart';
+import 'package:makasb/screens/homePage/widget/coinswidget/coinsWidget.dart';
 import 'package:makasb/screens/homePage/widget/homewidget/main_widget.dart';
-import 'package:makasb/screens/homePage/widget/profileWidget.dart';
+import 'package:makasb/screens/homePage/widget/profile_widget/profileWidget.dart';
 import 'package:makasb/screens/homePage/widget/socialwidget/socialWidget.dart';
+
+import '../../routes/app_routes.dart';
+import 'cubit/home_page_cubit.dart';
 
 class homePage extends StatefulWidget {
   const homePage({Key? key}) : super(key: key);
@@ -38,11 +43,22 @@ class _homePageState extends State<homePage> {
       const coinsWidget(),
       const profileWidget()
     ];
+    return BlocBuilder<HomePageCubit, HomePageState>(
+        builder: (context, state) {
+          int index = 0;
+          UserModel? userModel;
+        if (state is UserData) {
+
+            userModel=AppRoutes.homePageCubit.userModel;
+
+          }
 
     return Scaffold(
       body: SafeArea(
-      child: Column(mainAxisSize: MainAxisSize.max, children: [
-    _buildAppBar(context, "0"),
+      child:
+      Column(mainAxisSize: MainAxisSize.max, children: [
+        if(userModel!=null)
+    _buildAppBar(context, "0",userModel!),
     Expanded(
       child: IndexedStack(index: indexpage, children: screens),
     ),
@@ -87,9 +103,10 @@ class _homePageState extends State<homePage> {
     selectedItemColor: AppColors.colorPrimary,
       ),
     );
+        });
   }
 
-  Widget _buildAppBar(BuildContext context, String notificationCount) {
+  Widget _buildAppBar(BuildContext context, String notificationCount, UserModel userModel) {
     return AppBar(
         backgroundColor: AppColors.white,
         elevation: 10,
@@ -119,7 +136,7 @@ class _homePageState extends State<homePage> {
                   // give it width
 
                   Text(
-                    '1250'.tr(),
+                    '${userModel!=null?userModel.data.balance:'0'}',
                     style: const TextStyle(
                         fontSize: 16.0,
                         fontWeight: FontWeight.bold,

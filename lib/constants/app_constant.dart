@@ -11,5 +11,6 @@ class AppConstant {
   static const pagesettingRoute = '/settingPage';
   static const pageaboutRoute = '/aboutPage';
   static const pageCountriesRoute = '/countries';
+  static const pagePaymentRoute = '/payment';
   static const pageTypeRoute = '/types';
 }

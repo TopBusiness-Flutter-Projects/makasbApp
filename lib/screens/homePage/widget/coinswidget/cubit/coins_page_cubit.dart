@@ -4,41 +4,40 @@ import 'package:flutter/cupertino.dart';
 import 'package:makasb/models/sites.dart';
 
 import '../../../../../models/mysites.dart';
+import '../../../../../models/payment_model.dart';
+import '../../../../../models/points.dart';
+import '../../../../../models/points_data.dart';
 import '../../../../../models/slider.dart';
 import '../../../../../models/slider_data_model.dart';
 import '../../../../../models/status_resspons.dart';
 import '../../../../../models/user_model.dart';
 import '../../../../../preferences/preferences.dart';
 import '../../../../../remote/service.dart';
+import '../../../../../widgets/app_widgets.dart';
 
-part 'main_page_state.dart';
+part 'coins_page_state.dart';
 
-class MainPageCubit extends Cubit<MainPageState> {
+class CoinsPageCubit extends Cubit<CoinsPageState> {
 
-  late List<Sites> projects = [];
+  late List<Points> projects = [];
   late List<SliderModel> sliders = [];
   late ServiceApi api;
   UserModel? userModel;
 
-  MainPageCubit() : super(IsLoadingData()) {
+  CoinsPageCubit() : super(IsLoadingData()) {
     api = ServiceApi();
-    getUserData1().then((value) => getData());
+    getUserData().then((value) => getData());
     getUserData();
 
     getSlider();
 
    // getCategories();
   }
-   Future<UserModel?> getUserData1() async {
+   Future<UserModel?> getUserData() async {
     userModel = await Preferences.instance.getUserModel();
    return userModel;
   }
-  void getUserData() async {
-    //emit(IsLoadingData());
-    userModel = await Preferences.instance.getUserModel();
-    emit(UserData(userModel!));
-    //getData();
-  }
+
 
 
 
@@ -54,8 +53,8 @@ class MainPageCubit extends Cubit<MainPageState> {
         user_id = userModel!.data.id.toString();
       }
 
-      MySites home = await api.getmySitesData(
-        user_id,userModel!.data.token
+      PointsDataModel home = await api.getPoints(
+        userModel!.data.token
       );
       if (home.status.status == 200) {
 
@@ -89,22 +88,25 @@ class MainPageCubit extends Cubit<MainPageState> {
       OnError(error.toString());
     }
   }
-  void deleteSite(int post_index,int site_id) async{
-    try{
-      getUserData1().then((value) async{
-        StatusResponse response =  await api.deleteSite(value!.data.token, site_id);
-        if(response.status==200){
-          projects.removeAt(post_index);
-          emit(OnDataSuccess(projects));
+  void sendOrder(BuildContext context,int point_id) async {
+    AppWidget.createProgressDialog(context, 'wait'.tr());
 
 
+    try {
+      PaymentDataModel response = await api.buyPoint(point_id,userModel!);
+      Navigator.pop(context);
 
-        }else{
+      if (response.status.status == 200) {
 
-        }
-      });
+        emit(OnOrderSuccess(response));
 
-    }catch (e){
+
+      } else {
+
+      }
+    } catch (e) {
+      print("error${e.toString()}");
+      Navigator.pop(context);
       emit(OnError(e.toString()));
     }
   }

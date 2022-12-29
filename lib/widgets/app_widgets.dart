@@ -71,5 +71,18 @@ class AppWidget {
           );
         });
   }
+  static Widget circleAvatar(double width, double height,{String? path}) {
+    return Container(
+      width: width,
+      height: height,
+      padding: const EdgeInsets.all(8.0),
+      decoration:  BoxDecoration(
+        shape: BoxShape.circle,
+        image: DecorationImage(
+            image: AssetImage(path ??'${AppConstant.localImagePath}avatar.png'),
+            fit: BoxFit.cover),
+      ),
+    );
+  }
 
 }

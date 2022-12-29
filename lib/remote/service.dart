@@ -9,6 +9,9 @@ import 'package:makasb/remote/handle_exeption.dart';
 
 import '../models/add_site_model.dart';
 import '../models/country_data_model.dart';
+import '../models/payment_model.dart';
+import '../models/points_data.dart';
+import '../models/setting_model.dart';
 import '../models/slider_data_model.dart';
 import '../models/type_data_model.dart';
 import '../models/user_sign_up_model.dart';
@@ -72,13 +75,16 @@ class ServiceApi {
     }
   }
 
-  Future<MySites> getmySitesData(String user_id) async {
+  Future<MySites> getmySitesData(String user_id, String token) async {
     try {
       Response response;
       BaseOptions baseOptions = dio.options;
       CancelToken cancelToken = CancelToken();
 
-      baseOptions.headers = {'Content-Type': 'application/json'};
+      baseOptions.headers = {'Content-Type': 'application/json'
+      ,
+        'Authorization':"Bearer ${token}"
+      };
       dio.options = baseOptions;
 
       response = await dio.get('api/mySites',
@@ -89,6 +95,58 @@ class ServiceApi {
       }
       // print("dlldldldl${response.toString()}");
       return MySites.fromJson(response.data);
+    } on DioError catch (e) {
+      print(e.toString());
+      final errorMessage = DioExceptions.fromDioError(e).toString();
+      throw errorMessage;
+    }
+  }
+  Future<PointsDataModel> getPoints( String token) async {
+    try {
+      Response response;
+      BaseOptions baseOptions = dio.options;
+      CancelToken cancelToken = CancelToken();
+
+      baseOptions.headers = {'Content-Type': 'application/json'
+        ,
+        'Authorization':"Bearer ${token}"
+      };
+      dio.options = baseOptions;
+
+      response = await dio.get('api/latestPoints',
+          cancelToken: cancelToken);
+
+      if (!cancelToken.isCancelled) {
+        cancelToken.cancel();
+      }
+      // print("dlldldldl${response.toString()}");
+      return PointsDataModel.fromJson(response.data);
+    } on DioError catch (e) {
+      print(e.toString());
+      final errorMessage = DioExceptions.fromDioError(e).toString();
+      throw errorMessage;
+    }
+  }
+  Future<PointsDataModel> getAllPoints( String token) async {
+    try {
+      Response response;
+      BaseOptions baseOptions = dio.options;
+      CancelToken cancelToken = CancelToken();
+
+      baseOptions.headers = {'Content-Type': 'application/json'
+        ,
+        'Authorization':"Bearer ${token}"
+      };
+      dio.options = baseOptions;
+
+      response = await dio.get('api/allPoints',
+          cancelToken: cancelToken);
+
+      if (!cancelToken.isCancelled) {
+        cancelToken.cancel();
+      }
+      // print("dlldldldl${response.toString()}");
+      return PointsDataModel.fromJson(response.data);
     } on DioError catch (e) {
       print(e.toString());
       final errorMessage = DioExceptions.fromDioError(e).toString();
@@ -108,9 +166,12 @@ class ServiceApi {
     }
   }
 
-  Future<TypeDataModel> getType() async {
+  Future<TypeDataModel> getType(UserModel userModel) async {
     try {
       // print("dldlldl");
+      BaseOptions options = dio.options;
+      options.headers = {'Authorization': "Bearer ${userModel.data.token}"};
+      dio.options=options;
       Response response = await dio.get('api/postTypes');
       return TypeDataModel.fromJson(response.data);
     } on DioError catch (e) {
@@ -130,10 +191,15 @@ class ServiceApi {
     }
   }
 
-  Future<StatusResponse> addSite(AddSideModel model) async {
+  Future<StatusResponse> addSite(AddSideModel model,String user_token) async {
     var fields = FormData.fromMap({});
     try {
+      BaseOptions options = dio.options;
+      options.headers = {'Authorization':"Bearer ${user_token}"
+      };
+      dio.options = options;
       fields = FormData.fromMap(AddSideModel.toJson(model));
+
       print("dlldldl${fields.fields}");
       Response response = await dio.post('api/addPost', data: fields);
       print("Flflflfl${response.toString()}");
@@ -142,6 +208,57 @@ class ServiceApi {
       final errorMessage = DioExceptions.fromDioError(e).toString();
       print('Error=>${e}');
 
+      throw errorMessage;
+    }
+  }
+  Future<StatusResponse> deleteSite(
+      String user_token, int post_id) async {
+    var fields =
+    FormData.fromMap({'site_id': post_id});
+    try {
+      BaseOptions options = dio.options;
+      options.headers = {'Authorization':"Bearer ${user_token}"
+      };
+      dio.options = options;
+      Response response =
+      await dio.post('api/deleteMySite', data: fields);
+      return StatusResponse.fromJson(response.data);
+    } on DioError catch (e) {
+      final errorMessage = DioExceptions.fromDioError(e).toString();
+      print('Error=>${errorMessage}');
+
+      throw errorMessage;
+    }
+  }
+
+  Future<PaymentDataModel> buyPoint(int  point_id, UserModel userModel) async {
+    try {
+      BaseOptions options = dio.options;
+      options.headers = {'Authorization': "Bearer ${userModel.data.token}"};
+      dio.options = options;
+
+
+      Response response =
+      await dio.get('api/pointsPrices', queryParameters: {
+        'user_id': userModel.data.id,
+        'point_id': point_id
+      });
+      print(response.data);
+      return PaymentDataModel.fromJson(response.data);
+    } on DioError catch (e) {
+      print(e.toString());
+      final errorMessage = DioExceptions.fromDioError(e).toString();
+      throw errorMessage;
+    }
+  }
+  Future<SettingModel> getSetting() async {
+    try {
+      Response response = await dio.get('api/setting');
+      print("Ddldldl${response}");
+      return SettingModel.fromJson(response.data);
+    } on DioError catch (e) {
+      print("D;dldll${e}");
+      final errorMessage = DioExceptions.fromDioError(e).toString();
       throw errorMessage;
     }
   }

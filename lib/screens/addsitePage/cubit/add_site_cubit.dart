@@ -24,6 +24,8 @@ class AddSiteCubit extends Cubit<AddSiteState> {
 
   bool isDataValid = false;
 
+  String? token;
+
   AddSiteCubit() : super(AddSiteInitial()) {
     selectedtypeModel = TypeModel.initValues();
 
@@ -35,6 +37,7 @@ class AddSiteCubit extends Cubit<AddSiteState> {
     Preferences.instance.getUserModel().then((value) {
       if (value.data.isLoggedIn) {
         model.user_id = value.data.id!;
+        token=value.data.token;
       }
     });
   }
@@ -85,7 +88,7 @@ class AddSiteCubit extends Cubit<AddSiteState> {
   addPost(BuildContext context) async {
     AppWidget.createProgressDialog(context, 'wait'.tr());
     try {
-      StatusResponse response = await api.addSite(model);
+      StatusResponse response = await api.addSite(model,token!);
       if (response.status == 200) {
 
           Navigator.pop(context);

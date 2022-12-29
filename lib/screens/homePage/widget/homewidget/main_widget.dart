@@ -189,8 +189,42 @@ class _mainWidgetState extends State<mainWidget>
         child:
         BlocBuilder<MainPageCubit, MainPageState>(
             builder: (context, state) {
-              UserModel userModel;
-              if(state is UserData){
+
+              UserModel? userModel;
+              if (state is IsLoadingData) {
+                return const Expanded(
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      color: AppColors.colorPrimary,
+                    ),
+                  ),
+                );
+              }
+              else if (state is OnError) {
+                return Expanded(
+                  child: Center(
+                    child: InkWell(
+                      onTap: refreshData,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          AppWidget.svg(
+                              'reload.svg', AppColors.colorPrimary, 24.0, 24.0),
+                          SizedBox(
+                            height: 8.0,
+                          ),
+                          Text(
+                            'reload'.tr(),
+                            style: TextStyle(
+                                color: AppColors.colorPrimary, fontSize: 15.0),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              }else{
                 userModel=cubit.userModel!;
                 return  Container(
                     margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -209,7 +243,7 @@ class _mainWidgetState extends State<mainWidget>
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(8.0),
                               child:
-                              userModel!.data.image!=null?
+                              userModel!=null&&userModel.data.image!=null?
                               CachedNetworkImage(
                                   width: 90.0,
                                   height: 90.0,
@@ -250,7 +284,7 @@ class _mainWidgetState extends State<mainWidget>
                                   ],
                                 )),
                             Text(
-                              "${userModel.data.userName}",
+                              "${userModel!=null?userModel.data.userName:"username".tr()}",
                               style: TextStyle(
                                   fontSize: 20.0,
                                   fontWeight: FontWeight.bold,
@@ -259,13 +293,11 @@ class _mainWidgetState extends State<mainWidget>
                           ],
                         )
                       ],
-                    ));
+                    ));}
 
-              }
-              else{
-                return Container();
 
-              }
+
+
             }));
     }
 
@@ -287,7 +319,8 @@ class _mainWidgetState extends State<mainWidget>
                 ),
               ),
             );
-          } else if (state is OnError) {
+          }
+          else if (state is OnError) {
             return Expanded(
               child: Center(
                 child: InkWell(
@@ -311,7 +344,8 @@ class _mainWidgetState extends State<mainWidget>
                 ),
               ),
             );
-          } else {
+          }
+          else {
             List<Sites> list = cubit.projects;
 
             if (list.isNotEmpty) {
@@ -364,11 +398,16 @@ class _mainWidgetState extends State<mainWidget>
                                                     fontWeight: FontWeight.bold,
                                                     color: AppColors.black),
                                               ))),
-                                          SvgPicture.asset(
+                                          InkWell(
+                                            onTap: () {
+                                              cubit.deleteSite(index, list.elementAt(index).id );
+
+                                            },
+                                          child: SvgPicture.asset(
                                             '${AppConstant.localImagePath}remove.svg',
                                             width: 20.0,
                                             height: 20.0,
-                                          ),
+                                          )),
                                           const SizedBox(
                                             width: 10,
                                           )
