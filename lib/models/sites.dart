@@ -12,6 +12,7 @@ class Sites {
  late String status;
  late String createdAt;
  late String updatedAt;
+ late String share;
  late TypeModel type;
  late int dailyClicksLimit;
 
@@ -29,6 +30,7 @@ class Sites {
     neededClicks = json['needed_clicks'] ??0;
     points_for_click = json['points_for_click'] ??0;
     status = json['status'] ??"";
+    share = json['share'] ??"";
     createdAt = json['created_at'] ??"";
     updatedAt = json['updated_at'] ??"";
     if(json['type']!=null){
@@ -46,6 +48,7 @@ class Sites {
    data['needed_clicks'] = this.neededClicks;
    data['points_for_click'] = this.points_for_click;
    data['status'] = this.status;
+   data['share'] = this.share;
    data['created_at'] = this.createdAt;
    data['updated_at'] = this.updatedAt;
    data['type'] = type.toJson(type);

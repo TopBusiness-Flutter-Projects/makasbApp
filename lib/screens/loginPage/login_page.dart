@@ -184,14 +184,18 @@ class _LoginPageState extends State<LoginPage> {
           Row(
             children: [
               // give it width
-
-              Text(
-                'forgotpassword'.tr(),
-                style: const TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.normal,
-                    color: AppColors.colorPrimary),
-              )
+              InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(
+                        context, AppConstant.resetPasswordRoute);
+                  },
+                  child: Text(
+                    'forgotpassword'.tr(),
+                    style: const TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.normal,
+                        color: AppColors.colorPrimary),
+                  ))
             ],
           ),
           Padding(
@@ -204,8 +208,7 @@ class _LoginPageState extends State<LoginPage> {
                 } else if (state is OnLoginVaild) {
                   isValid = true;
                 } else if (state is OnError) {}
-                return
-                  MaterialButton(
+                return MaterialButton(
                   onPressed: isValid
                       ? () {
                           cubit.login(context);

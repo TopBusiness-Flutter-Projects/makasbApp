@@ -13,6 +13,9 @@ class AppConstant {
   static const pageaboutRoute = '/aboutPage';
   static const pageCountriesRoute = '/countries';
   static const pagePaymentRoute = '/payment';
+  static const pagePostRoute = '/postwebpage';
   static const pageTypeRoute = '/types';
   static const pageSitesRoute = '/sites';
+
+  static const String resetPasswordRoute='/resetpass';
 }

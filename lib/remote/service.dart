@@ -376,7 +376,7 @@ class ServiceApi {
 
 
       Response response =
-      await dio.get('api/checkUserView', queryParameters: {
+      await dio.post('api/checkUserView', data: {
         'user_id': userModel.data.id,
         'site_id': site_id
       });

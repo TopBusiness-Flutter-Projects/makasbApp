@@ -4,5 +4,7 @@
   "forgotpassword": "Forgot Password",
   "email": "Email",
   "welcome_back": "Welcome Back",
-  "top_social_media": "Top Social Media"
+  "top_social_media": "Top Social Media",
+  "forget_password_title": " Please enter your registered in the email ID.",
+  "forget_password_desc": " We will send a verification code to your registered  email ID."
 }

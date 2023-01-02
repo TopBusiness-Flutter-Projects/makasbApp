@@ -24,10 +24,12 @@ import '../screens/buypointpage/cubit/all_coins_page_cubit.dart';
 import '../screens/countries_screen/countries_page.dart';
 import '../screens/countries_screen/cubit/countries_cubit.dart';
 import '../screens/editprofilepage/edit_profile_page.dart';
+import '../screens/forgotpassword/forget_password.dart';
 import '../screens/homePage/cubit/home_page_cubit.dart';
 import '../screens/homePage/widget/coinswidget/cubit/coins_page_cubit.dart';
 import '../screens/homePage/widget/homewidget/cubit/main_page_cubit.dart';
 import '../screens/payment_screen/payment_page.dart';
+import '../screens/postwebpage/post-web_page.dart';
 import '../screens/sites/cubit/sites_page_cubit.dart';
 import '../screens/sites/sitespage.dart';
 import '../screens/splashPage/cubit/splash_cubit.dart';
@@ -148,6 +150,14 @@ class AppRoutes {
           builder: (context) => paymetPage(
               paymentDataModel: paymentDataModel
           ));
+      case AppConstant.pagePostRoute:
+        String url = settings.arguments as String;
+
+
+        return MaterialPageRoute(
+            builder: (context) => PostWebPage(
+                url: url
+            ));
       case AppConstant.pageSitesRoute:
         TypeModel typeModel = settings.arguments as TypeModel;
         return MaterialPageRoute(
@@ -156,6 +166,10 @@ class AppRoutes {
               child: SitesWidget(
                 typeModel: typeModel,
               ),
+            ));
+      case AppConstant.resetPasswordRoute:
+        return MaterialPageRoute(
+            builder: (context) => ForgetPasswordScreen(
             ));
 
     }

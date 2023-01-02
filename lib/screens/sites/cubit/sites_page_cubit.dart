@@ -25,11 +25,11 @@ class SitesPageCubit extends Cubit<SitesPageState> {
   late ServiceApi api;
   UserModel? userModel;
   TypeModel? typemodel;
+  Sites? site;
 
   SitesPageCubit() : super(IsLoadingData()) {
     api = ServiceApi();
     getUserData().then((value) => getData(typemodel!.id));
-
 
     // getCategories();
   }

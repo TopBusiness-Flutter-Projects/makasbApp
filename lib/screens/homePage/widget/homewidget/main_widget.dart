@@ -113,7 +113,8 @@ class _mainWidgetState extends State<mainWidget>
                 onTap: () {
 
                 },
-                child: SvgPicture.asset(
+                child:
+                SvgPicture.asset(
                   '${AppConstant.localImagePath}info.svg',
                   width: 20.0,
                   height: 20.0,
