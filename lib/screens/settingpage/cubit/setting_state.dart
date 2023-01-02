@@ -10,6 +10,7 @@ class OnSettingModelGet extends SettingState {
   SettingModel settingModel;
   OnSettingModelGet(this.settingModel);
 }
+class OnLogOutSuccess extends SettingState {}
 
 class OnLoading extends SettingState {}
 class OnError extends SettingState {

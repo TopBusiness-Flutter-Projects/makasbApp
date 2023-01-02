@@ -8,7 +8,7 @@ class Sites {
  late String url;
  late int totalClicksLimit;
  late int neededClicks;
- late int poStringsForClick;
+ late int points_for_click;
  late String status;
  late String createdAt;
  late String updatedAt;
@@ -27,12 +27,13 @@ class Sites {
     dailyClicksLimit = json['daily_clicks_limit'] ??0;
     totalClicksLimit = json['total_clicks_limit'] ??0;
     neededClicks = json['needed_clicks'] ??0;
-    poStringsForClick = json['poStrings_for_click'] ??0;
+    points_for_click = json['points_for_click'] ??0;
     status = json['status'] ??"";
     createdAt = json['created_at'] ??"";
     updatedAt = json['updated_at'] ??"";
+    if(json['type']!=null){
     type = TypeModel.fromJson(json['type']);
-  }
+  }}
  Map<String, dynamic> toJson() {
    final Map<String, dynamic> data = new Map<String, dynamic>();
    data['id'] = this.id;
@@ -43,7 +44,7 @@ class Sites {
    data['daily_clicks_limit'] = this.dailyClicksLimit;
    data['total_clicks_limit'] = this.totalClicksLimit;
    data['needed_clicks'] = this.neededClicks;
-   data['poStrings_forclick'] = this.poStringsForClick;
+   data['points_for_click'] = this.points_for_click;
    data['status'] = this.status;
    data['created_at'] = this.createdAt;
    data['updated_at'] = this.updatedAt;

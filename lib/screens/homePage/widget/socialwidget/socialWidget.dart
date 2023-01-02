@@ -96,7 +96,14 @@ children: [
             physics: NeverScrollableScrollPhysics(),
 
             itemBuilder: (BuildContext context, int index) {
-              return Container(
+              return 
+                InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, AppConstant.pageSitesRoute,arguments: _list.elementAt(index));
+
+                    },
+                child: Container(
+                
                   height: 40,
                   margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
                   decoration: const BoxDecoration(
@@ -107,6 +114,7 @@ children: [
                   child: Row(
                     children: [
                       const SizedBox(width: 10),
+                      
                       Text(
                         lang=="ar"?_list.elementAt(index).titleAr:_list.elementAt(index).titleEn,
                         style: const TextStyle(
@@ -115,7 +123,7 @@ children: [
                             color: AppColors.grey1),
                       ),
                     ],
-                  ));
+                  )));
             },
           )
         ],

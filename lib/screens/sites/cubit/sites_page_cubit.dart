@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:makasb/models/sites.dart';
+import 'package:makasb/models/type.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../../../models/mysites.dart';
@@ -17,93 +18,74 @@ import '../../../models/payment_model.dart';
 import '../../../remote/notificationlisten.dart';
 import '../../../widgets/app_widgets.dart';
 
-part 'all_coins_page_state.dart';
+part 'sites_page_state.dart';
 
-class AllCoinsPageCubit extends Cubit<AllCoinsPageState> {
-
-  late List<Points> projects = [];
+class SitesPageCubit extends Cubit<SitesPageState> {
+  late List<Sites> projects = [];
   late ServiceApi api;
   UserModel? userModel;
+  TypeModel? typemodel;
 
-  AllCoinsPageCubit() : super(IsLoadingData()) {
+  SitesPageCubit() : super(IsLoadingData()) {
     api = ServiceApi();
-    getUserData().then((value) => getData());
-   // getUserData();
+    getUserData().then((value) => getData(typemodel!.id));
 
 
-   // getCategories();
+    // getCategories();
   }
-   Future<UserModel?> getUserData() async {
+
+  Future<UserModel?> getUserData() async {
     userModel = await Preferences.instance.getUserModel();
-   return userModel;
+    return userModel;
   }
 
-
-
-
-
-
-
-  void getData() async {
+  void getData(int type_id) async {
     try {
       projects.clear();
       emit(IsLoadingData());
-      String user_id = '';
-      if (userModel!.data.isLoggedIn) {
-        user_id = userModel!.data.id.toString();
-      }
 
-      PointsDataModel home = await api.getAllPoints(
-        userModel!.data.token
-      );
+      MySites home = await api.getSitesData(userModel!.data.token, type_id);
       if (home.status.status == 200) {
-
         projects = home.data;
         emit(OnDataSuccess(projects));
       } else {}
     } catch (e) {
       print("ldlldkdkkd${e.toString()}");
       emit(OnError(e.toString()));
-
     }
   }
-
-
 
   void onErrorData(String error) {
     emit(OnError(error));
   }
-  void sendOrder(BuildContext context,int point_id) async {
+
+  void sendOrder(BuildContext context, int site_id) async {
     AppWidget.createProgressDialog(context, 'wait'.tr());
 
-
     try {
-      PaymentDataModel response = await api.buyPoint(point_id,userModel!);
+      StatusResponse response = await api.checkSites(site_id, userModel!);
       Navigator.pop(context);
 
-      if (response.status.status == 200) {
-
+      if (response.status == 200) {
         emit(OnOrderSuccess(response));
-
-
-      } else {
-
-      }
+      } else {}
     } catch (e) {
       print("error${e.toString()}");
       Navigator.pop(context);
       emit(OnError(e.toString()));
     }
   }
+
   updateUserData(context) async {
     await api.getProfileByToken(userModel!.data.token).then((value) {
-      value.data.token=userModel!.data.token;
+      value.data.token = userModel!.data.token;
       Preferences.instance.setUser(value);
       NotificationsBloc.instance.newNotification("new");
-
-
     });
   }
 
-
+  void remove(int index) {
+    projects.removeAt(index);
+    emit(OnDataSuccess(projects));
+  }
 }

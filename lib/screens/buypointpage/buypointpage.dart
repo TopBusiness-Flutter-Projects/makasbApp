@@ -66,7 +66,8 @@ class _buyBointWidgetState extends State<buyBointWidget>
 
       if(state is OnOrderSuccess){
         state.model.token=cubit.userModel!.data.token;
-        Navigator.pushNamed(context, AppConstant.pagePaymentRoute,arguments: state.model);
+        Navigator.pushNamed(context, AppConstant.pagePaymentRoute,arguments: state.model).then((value) =>
+        {cubit.updateUserData(context)});
       }},
     child:  BlocProvider.value(
         value: cubit,

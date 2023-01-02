@@ -11,7 +11,11 @@ class MySites {
     );
   MySites.fromJson(Map<String,dynamic> json){
     data = [];
-    json['data'].forEach((v)=>data.add(Sites.fromJson(v)));
+    if(json['data']!=null){
+    json['data'].forEach((v)=>data.add(Sites.fromJson(v)));}
+    else{
+      json['posts'].forEach((v)=>data.add(Sites.fromJson(v)));
+    }
     status = StatusResponse.fromJson(json);
   }
 

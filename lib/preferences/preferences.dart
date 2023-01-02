@@ -4,6 +4,8 @@ import 'package:makasb/models/user.dart';
 import 'package:makasb/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../models/app_settings.dart';
+
 class Preferences {
   static final Preferences instance = Preferences._internal();
 
@@ -39,5 +41,23 @@ class Preferences {
   clearUserData() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.clear();
+  }
+  Future<void> setAppSetting(AppSettings appSettings) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setString(
+        'appSetting', json.encode(appSettings.toJson(appSettings)));
+  }
+
+  Future<AppSettings> getAppSetting() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? jsonData = preferences.getString('appSetting');
+    AppSettings appSettings;
+    if (jsonData == null) {
+      appSettings = AppSettings(lang: 'ar');
+    } else {
+      appSettings = AppSettings.fromJson(jsonData);
+    }
+
+    return appSettings;
   }
 }

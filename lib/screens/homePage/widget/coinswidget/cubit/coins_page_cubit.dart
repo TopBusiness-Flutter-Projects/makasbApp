@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:makasb/models/sites.dart';
+import 'package:rxdart/rxdart.dart';
 
 import '../../../../../models/mysites.dart';
 import '../../../../../models/payment_model.dart';
@@ -12,6 +13,7 @@ import '../../../../../models/slider_data_model.dart';
 import '../../../../../models/status_resspons.dart';
 import '../../../../../models/user_model.dart';
 import '../../../../../preferences/preferences.dart';
+import '../../../../../remote/notificationlisten.dart';
 import '../../../../../remote/service.dart';
 import '../../../../../widgets/app_widgets.dart';
 
@@ -111,5 +113,12 @@ class CoinsPageCubit extends Cubit<CoinsPageState> {
     }
   }
 
+  updateUserData(context) async {
+    await api.getProfileByToken(userModel!.data.token).then((value) {
+      value.data.token=userModel!.data.token;
+      Preferences.instance.setUser(value);
 
+      NotificationsBloc.instance.newNotification("new");
+    });
+  }
 }

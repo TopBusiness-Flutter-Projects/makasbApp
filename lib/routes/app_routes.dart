@@ -2,10 +2,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:makasb/constants/app_constant.dart';
+import 'package:makasb/models/type.dart';
 import 'package:makasb/screens/aboutpage/aboutpage.dart';
 import 'package:makasb/screens/addsitePage/addsite_page.dart';
 import 'package:makasb/screens/addsitePage/cubit/add_site_cubit.dart';
 import 'package:makasb/screens/buypointpage/buypointpage.dart';
+import 'package:makasb/screens/editprofilepage/cubit/user_edit_cubit.dart';
 import 'package:makasb/screens/homePage/homePage.dart';
 import 'package:makasb/screens/homePage/widget/profile_widget/cubit/profile_cubit.dart';
 import 'package:makasb/screens/loginPage/cubit/login_cubit.dart';
@@ -21,10 +23,13 @@ import '../models/payment_model.dart';
 import '../screens/buypointpage/cubit/all_coins_page_cubit.dart';
 import '../screens/countries_screen/countries_page.dart';
 import '../screens/countries_screen/cubit/countries_cubit.dart';
+import '../screens/editprofilepage/edit_profile_page.dart';
 import '../screens/homePage/cubit/home_page_cubit.dart';
 import '../screens/homePage/widget/coinswidget/cubit/coins_page_cubit.dart';
 import '../screens/homePage/widget/homewidget/cubit/main_page_cubit.dart';
 import '../screens/payment_screen/payment_page.dart';
+import '../screens/sites/cubit/sites_page_cubit.dart';
+import '../screens/sites/sitespage.dart';
 import '../screens/splashPage/cubit/splash_cubit.dart';
 import '../screens/type_screen/type_page.dart';
 
@@ -56,7 +61,16 @@ class AppRoutes {
             child: LoginPage(),
           );
         });
-
+      case AppConstant.pageeditProfileRoute:
+        return MaterialPageRoute(builder: (context) {
+          return BlocProvider<EditprofileCubit>(
+            create: (context) {
+              EditprofileCubit cubit = EditprofileCubit();
+              return cubit;
+            },
+            child:  Editprofilepage(),
+          );
+        });
       case AppConstant.pageHomeRoute:
         return MaterialPageRoute(builder: (context) {
           return MultiBlocProvider(providers: [
@@ -134,6 +148,15 @@ class AppRoutes {
           builder: (context) => paymetPage(
               paymentDataModel: paymentDataModel
           ));
+      case AppConstant.pageSitesRoute:
+        TypeModel typeModel = settings.arguments as TypeModel;
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider(
+              create: (context) => SitesPageCubit(),
+              child: SitesWidget(
+                typeModel: typeModel,
+              ),
+            ));
 
     }
   }

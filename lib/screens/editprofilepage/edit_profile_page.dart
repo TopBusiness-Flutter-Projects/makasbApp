@@ -15,17 +15,18 @@ import 'package:makasb/widgets/app_widgets.dart';
 
 import '../../models/user_model.dart';
 import '../../preferences/preferences.dart';
-import 'cubit/user_sign_up_cubit.dart';
-import 'cubit/user_sign_up_state.dart';
+import 'cubit/user_edit_cubit.dart';
+import 'cubit/user_edit_state.dart';
 
-class signuppage extends StatefulWidget {
-  const signuppage({Key? key}) : super(key: key);
+
+class Editprofilepage extends StatefulWidget {
+  const Editprofilepage({Key? key}) : super(key: key);
 
   @override
-  State<signuppage> createState() => _signuppageState();
+  State<Editprofilepage> createState() => _EditprofilepageState();
 }
 
-class _signuppageState extends State<signuppage>
+class _EditprofilepageState extends State<Editprofilepage>
  with SingleTickerProviderStateMixin {
   bool isHidden = true;
   late AnimationController _controller;
@@ -51,7 +52,7 @@ class _signuppageState extends State<signuppage>
         backgroundColor: AppColors.white,
         centerTitle: true,
         title: Text(
-          'signup'.tr(),
+          'edit profile'.tr(),
           style: const TextStyle(
               color: AppColors.black,
               fontSize: 16.0,
@@ -85,8 +86,8 @@ class _signuppageState extends State<signuppage>
   }
 
   _buildLoginSection() {
-    UserSignUpCubit cubit = BlocProvider.of<UserSignUpCubit>(context);
-    return BlocListener<UserSignUpCubit, UserSignUpState>(
+    EditprofileCubit cubit = BlocProvider.of<EditprofileCubit>(context);
+    return BlocListener<EditprofileCubit, EditprofileState>(
         listener: (context, state) {
           if (state is OnError) {
             AlertController.show('warning'.tr(), state.error, TypeAlert.warning);
@@ -128,6 +129,7 @@ class _signuppageState extends State<signuppage>
                 child: TextFormField(
                   maxLines: 1,
                   autofocus: false,
+                    controller: cubit.controllerFirstName,
                   onChanged: (data) {
                     cubit.model.user_name = data;
                     cubit.checkData();
@@ -172,6 +174,7 @@ class _signuppageState extends State<signuppage>
                 child: TextFormField(
                   maxLines: 1,
                   autofocus: false,
+                  controller: cubit.controllerEmail,
                   cursorColor: AppColors.colorPrimary,
                   keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.next,
@@ -186,149 +189,17 @@ class _signuppageState extends State<signuppage>
                           color: AppColors.grey1, fontSize: 14.0)),
                 ),
               )),
-          Row(
-            children: [
-              AppWidget.svg('lock.svg', AppColors.colorPrimary, 15.0, 15.0),
-              const SizedBox(width: 5), // give it width
 
-              Text(
-                'password'.tr(),
-                style: const TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.normal,
-                    color: AppColors.black),
-              )
-            ],
-          ),
-          const SizedBox(
-            height: 8.0,
-          ),
-          Container(
-              height: 56.0,
-              decoration: BoxDecoration(
-                  color: AppColors.grey8,
-                  borderRadius: BorderRadius.circular(16.0)),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                child: TextFormField(
-                  maxLines: 1,
-                  autofocus: false,
-                  obscureText: isHidden,
-                  onChanged: (data) {
-                    cubit.model.password = data;
-                    cubit.checkData();
-                  },
-                  cursorColor: AppColors.colorPrimary,
-                  keyboardType: TextInputType.text,
-                  textInputAction: TextInputAction.next,
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'password'.tr(),
-                      hintStyle: const TextStyle(
-                          color: AppColors.grey1, fontSize: 14.0),
-                      suffixIcon: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isHidden = !isHidden;
-                          });
-                        },
-                        child: isHidden
-                            ? const Icon(
-                                Icons.visibility,
-                              )
-                            : const Icon(Icons.visibility_off),
-                      )),
-                ),
-              )),
-          const SizedBox(
-            height: 20,
-          ),
-          Row(
-            children: [
-              AppWidget.svg('lock.svg', AppColors.colorPrimary, 15.0, 15.0),
-              const SizedBox(width: 5), // give it width
 
-              Text(
-                'password'.tr(),
-                style: const TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.normal,
-                    color: AppColors.black),
-              )
-            ],
-          ),
-          const SizedBox(
-            height: 8.0,
-          ),
-          Container(
-              height: 56.0,
-              decoration: BoxDecoration(
-                  color: AppColors.grey8,
-                  borderRadius: BorderRadius.circular(16.0)),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                child: TextFormField(
-                  maxLines: 1,
-                  autofocus: false,
-                  obscureText: isHidden,
-                  cursorColor: AppColors.colorPrimary,
-                  keyboardType: TextInputType.text,
-                  textInputAction: TextInputAction.next,
-                  onChanged: (data) {
-                    cubit.model.password_confirmation = data;
-                    cubit.checkData();
-                  },
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'confirmpassword'.tr(),
-                      hintStyle: const TextStyle(
-                          color: AppColors.grey1, fontSize: 14.0),
-                      suffixIcon: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isHidden = !isHidden;
-                          });
-                        },
-                        child: isHidden
-                            ? const Icon(
-                                Icons.visibility,
-                              )
-                            : const Icon(Icons.visibility_off),
-                      )),
-                ),
-              )),
           buildButtonStart(),
-          const SizedBox(height: 50),
-          RichText(
-              text: TextSpan(
-            style: const TextStyle(color: AppColors.black),
-            /*defining default style is optional */
-
-            children: <TextSpan>[
-              TextSpan(
-                  text: 'dont_have_account?'.tr(),
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 16)),
-              TextSpan(
-                  text: 'login'.tr(),
-                  recognizer: TapGestureRecognizer()
-                    ..onTap = () {
-                      Navigator.of(context)
-                          .pushReplacementNamed(AppConstant.pageSignupRoute);
-                    },
-                  style: const TextStyle(
-                      color: AppColors.colorPrimary,
-                      decoration: TextDecoration.underline,
-                      fontSize: 16)),
-            ],
-          ))
+          const SizedBox(height: 50)
         ],
       ),
     ));
   }
   buildButtonStart() {
-    UserSignUpCubit cubit = BlocProvider.of<UserSignUpCubit>(context);
-    return BlocBuilder<UserSignUpCubit, UserSignUpState>(
+    EditprofileCubit cubit = BlocProvider.of<EditprofileCubit>(context);
+    return BlocBuilder<EditprofileCubit, EditprofileState>(
       builder: (context, state) {
         bool isValid = cubit.isDataValid;
         if (state is UserDataValidation) {
@@ -339,9 +210,9 @@ class _signuppageState extends State<signuppage>
                   ? () async {
                 UserModel model = await Preferences.instance.getUserModel();
                 if(model.data.isLoggedIn){
-                //  cubit.updateProfile(context,model.data.token);
+                  cubit.updateProfile(context,model.data.token,model.data.id!);
                 }else{
-                  cubit.signUp(context);
+                //  cubit.signUp(context);
                 }
 
               }
@@ -352,7 +223,7 @@ class _signuppageState extends State<signuppage>
               shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
               child: Text(
-                'start'.tr(),
+                'edit'.tr(),
                 style: TextStyle(fontSize: 16.0, color: AppColors.white),
               ),
             );
@@ -361,10 +232,10 @@ class _signuppageState extends State<signuppage>
   }
 
   buildAvatarSection(String image) {
-    UserSignUpCubit cubit = BlocProvider.of(context);
+    EditprofileCubit cubit = BlocProvider.of(context);
     return BlocProvider.value(
-      value: BlocProvider.of<UserSignUpCubit>(context),
-      child: BlocBuilder<UserSignUpCubit, UserSignUpState>(
+      value: BlocProvider.of<EditprofileCubit>(context),
+      child: BlocBuilder<EditprofileCubit, EditprofileState>(
         builder: (context, state) {
           String imagePath = cubit.model.imagePath;
           if (state is UserPhotoPicked) {
@@ -384,7 +255,7 @@ class _signuppageState extends State<signuppage>
                   height: 147.0,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(147.0),
-                    child: BlocProvider.of<UserSignUpCubit>(context)
+                    child: BlocProvider.of<EditprofileCubit>(context)
                         .imageType
                         .isEmpty
                         ?
@@ -446,7 +317,7 @@ class _signuppageState extends State<signuppage>
         context: context,
         builder: (_) {
           return BlocProvider.value(
-            value: BlocProvider.of<UserSignUpCubit>(context),
+            value: BlocProvider.of<EditprofileCubit>(context),
             child: AlertDialog(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16.0)),
@@ -473,7 +344,7 @@ class _signuppageState extends State<signuppage>
                   InkWell(
                     onTap: () {
                       Navigator.pop(context);
-                      BlocProvider.of<UserSignUpCubit>(context)
+                      BlocProvider.of<EditprofileCubit>(context)
                           .pickImage(type: 'camera');
                     },
                     child: Text(
@@ -487,7 +358,7 @@ class _signuppageState extends State<signuppage>
                   InkWell(
                     onTap: () {
                       Navigator.pop(context);
-                      BlocProvider.of<UserSignUpCubit>(context)
+                      BlocProvider.of<EditprofileCubit>(context)
                           .pickImage(type: 'gallery');
                     },
                     child: Text(

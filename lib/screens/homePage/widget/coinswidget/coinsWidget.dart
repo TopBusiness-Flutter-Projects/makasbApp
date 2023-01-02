@@ -74,36 +74,36 @@ class _coinsWidgetState extends State<coinsWidget>
   Widget build(BuildContext context) {
     return
       ListView(children: [
-        const SizedBox(height: 10),
-        Row(
-          children: [
-            Transform.rotate(
-                angle: Localizations.localeOf(context).languageCode == 'en'
-                    ? 0
-                    : 3.14,
-                child: Image.asset(
-                  '${AppConstant.localImagePath}rectangle.png',
-                  width: 20.0,
-                  height: 40.0,
-                )),
-            Text(
-              "top_social_media".tr(),
-              style: const TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.black),
-            ),
-          ],
-        ),
-        Container(
-            constraints: const BoxConstraints.expand(height: 260),
-            child: _imageSlider(context)),
-        SmoothPageIndicator(
-          controller: _pageController, // PageController
-          count: 10,
-          effect: const ExpandingDotsEffect(
-              expansionFactor: 2), // your preferred effect
-        ),
+        // const SizedBox(height: 10),
+        // Row(
+        //   children: [
+        //     Transform.rotate(
+        //         angle: Localizations.localeOf(context).languageCode == 'en'
+        //             ? 0
+        //             : 3.14,
+        //         child: Image.asset(
+        //           '${AppConstant.localImagePath}rectangle.png',
+        //           width: 20.0,
+        //           height: 40.0,
+        //         )),
+        //     Text(
+        //       "top_social_media".tr(),
+        //       style: const TextStyle(
+        //           fontSize: 20.0,
+        //           fontWeight: FontWeight.bold,
+        //           color: AppColors.black),
+        //     ),
+        //   ],
+        // ),
+        // Container(
+        //     constraints: const BoxConstraints.expand(height: 260),
+        //     child: _imageSlider(context)),
+        // SmoothPageIndicator(
+        //   controller: _pageController, // PageController
+        //   count: 10,
+        //   effect: const ExpandingDotsEffect(
+        //       expansionFactor: 2), // your preferred effect
+        // ),
         const SizedBox(height: 10),
         Row(
           children: [
@@ -202,7 +202,8 @@ class _coinsWidgetState extends State<coinsWidget>
 
       if(state is OnOrderSuccess){
         state.model.token=cubit.userModel!.data.token;
-        Navigator.pushNamed(context, AppConstant.pagePaymentRoute,arguments: state.model);
+        Navigator.pushNamed(context, AppConstant.pagePaymentRoute,arguments: state.model).then((value) =>
+        {cubit.updateUserData(context)});
       }},
     child: BlocProvider.value(
         value: cubit,

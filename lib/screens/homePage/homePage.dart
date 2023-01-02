@@ -10,7 +10,9 @@ import 'package:makasb/screens/homePage/widget/coinswidget/coinsWidget.dart';
 import 'package:makasb/screens/homePage/widget/homewidget/main_widget.dart';
 import 'package:makasb/screens/homePage/widget/profile_widget/profileWidget.dart';
 import 'package:makasb/screens/homePage/widget/socialwidget/socialWidget.dart';
+import 'package:rxdart/rxdart.dart';
 
+import '../../remote/notificationlisten.dart';
 import '../../routes/app_routes.dart';
 import 'cubit/home_page_cubit.dart';
 
@@ -24,9 +26,18 @@ class homePage extends StatefulWidget {
 class _homePageState extends State<homePage> {
   int indexpage = 0;
 
+  late Stream<String> _notificationsStream;
+
   @override
   void initState() {
     super.initState();
+    _notificationsStream = NotificationsBloc.instance.notificationsStream;
+    _notificationsStream.listen((event) {
+      print("D;ddlkdkkdk");
+     AppRoutes.homePageCubit.getUserData();
+      //_buildAppBar(context, notificationCount, userModel)
+    }
+      );
   }
 
   @override
@@ -155,4 +166,5 @@ class _homePageState extends State<homePage> {
           )),
         ));
   }
+
 }

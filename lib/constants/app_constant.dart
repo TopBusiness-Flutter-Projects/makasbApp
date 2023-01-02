@@ -5,6 +5,7 @@ class AppConstant {
   static const pageSplashRoute = '/';
   static const pageLoginRoute = '/loginPage';
   static const pageSignupRoute = '/signupPage';
+  static const pageeditProfileRoute = '/editprofilePage';
   static const pageHomeRoute = '/homePage';
   static const pageAddSiteRoute = '/addSitePage';
   static const pageBuypointRoute = '/buypointPage';
@@ -13,4 +14,5 @@ class AppConstant {
   static const pageCountriesRoute = '/countries';
   static const pagePaymentRoute = '/payment';
   static const pageTypeRoute = '/types';
+  static const pageSitesRoute = '/sites';
 }

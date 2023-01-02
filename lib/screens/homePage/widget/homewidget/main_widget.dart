@@ -181,7 +181,7 @@ class _mainWidgetState extends State<mainWidget>
     ]);
   }
 
-  _userShow() {
+ Widget _userShow() {
 
     MainPageCubit cubit = BlocProvider.of(context);
     return BlocProvider.value(
@@ -302,7 +302,7 @@ class _mainWidgetState extends State<mainWidget>
     }
 
 
-  mySites() {
+  Widget mySites() {
     String lang = EasyLocalization.of(context)!.locale.languageCode;
 
     MainPageCubit cubit = BlocProvider.of<MainPageCubit>(context);
@@ -428,7 +428,7 @@ class _mainWidgetState extends State<mainWidget>
         }));
   }
 
-  sliders() {
+  Widget sliders() {
     String lang = EasyLocalization.of(context)!.locale.languageCode;
 
     MainPageCubit cubit = BlocProvider.of<MainPageCubit>(context);

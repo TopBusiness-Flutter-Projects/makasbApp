@@ -10,21 +10,21 @@ import '../../../../../remote/service.dart';
 part 'profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
-  late UserModel userModel;
+   UserModel? userModel;
 
   late ServiceApi api;
-  late SettingModel settingModel;
+   SettingModel? settingModel;
 
   ProfileCubit() : super(MoreInitial()) {
     api = ServiceApi();
 
-    getSetting();
+    getUserModel();
   }
 
   void getUserModel() async {
     userModel = await Preferences.instance.getUserModel();
 
-    emit(OnUserModelGet(userModel));
+    emit(OnUserModelGet(userModel!));
   }
 
   void onUserDataUpdated(UserModel userModel) {
@@ -34,7 +34,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   getSetting() async {
     emit(OnLoading());
     settingModel=await api.getSetting();
-    print("d;ldldl${settingModel.code}");
-    emit(OnSettingModelGet(settingModel));
+    print("d;ldldl${settingModel?.code}");
+    emit(OnSettingModelGet(settingModel!));
   }
 }

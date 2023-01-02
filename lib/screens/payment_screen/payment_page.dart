@@ -73,7 +73,7 @@ class _paymetPageState extends State<paymetPage> {
     headers: headers,
     );
        }
-       else{
+       else if(url.contains("status=0")){
          Fluttertoast.showToast(
              msg:'faild pay'.tr(), // message
              toastLength: Toast.LENGTH_SHORT, // length

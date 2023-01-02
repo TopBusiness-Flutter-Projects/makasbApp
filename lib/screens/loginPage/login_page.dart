@@ -204,7 +204,8 @@ class _LoginPageState extends State<LoginPage> {
                 } else if (state is OnLoginVaild) {
                   isValid = true;
                 } else if (state is OnError) {}
-                return MaterialButton(
+                return
+                  MaterialButton(
                   onPressed: isValid
                       ? () {
                           cubit.login(context);

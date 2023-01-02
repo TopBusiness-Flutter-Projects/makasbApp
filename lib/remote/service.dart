@@ -9,6 +9,7 @@ import 'package:makasb/remote/handle_exeption.dart';
 
 import '../models/add_site_model.dart';
 import '../models/country_data_model.dart';
+import '../models/edit_profile_model.dart';
 import '../models/payment_model.dart';
 import '../models/points_data.dart';
 import '../models/setting_model.dart';
@@ -101,6 +102,33 @@ class ServiceApi {
       throw errorMessage;
     }
   }
+  Future<MySites> getSitesData( String token, int type_id) async {
+    try {
+      Response response;
+      BaseOptions baseOptions = dio.options;
+      CancelToken cancelToken = CancelToken();
+
+      baseOptions.headers = {'Content-Type': 'application/json'
+        ,
+        'Authorization':"Bearer ${token}"
+      };
+      dio.options = baseOptions;
+
+      response = await dio.get('api/posts',
+          queryParameters: {'type_id':type_id}, cancelToken: cancelToken);
+
+      if (!cancelToken.isCancelled) {
+        cancelToken.cancel();
+      }
+       print("dlldldldl${response.toString()}");
+      return MySites.fromJson(response.data);
+    } on DioError catch (e) {
+      print(e.toString());
+      final errorMessage = DioExceptions.fromDioError(e).toString();
+      throw errorMessage;
+    }
+  }
+
   Future<PointsDataModel> getPoints( String token) async {
     try {
       Response response;
@@ -243,7 +271,7 @@ class ServiceApi {
         'user_id': userModel.data.id,
         'point_id': point_id
       });
-      print(response.data);
+      print("sssss${response.data}");
       return PaymentDataModel.fromJson(response.data);
     } on DioError catch (e) {
       print(e.toString());
@@ -262,4 +290,103 @@ class ServiceApi {
       throw errorMessage;
     }
   }
+  Future<UserModel> getProfileByToken(String token) async {
+    try {
+      BaseOptions options = dio.options;
+      options.headers = {'Authorization': "Bearer ${token}"};
+      dio.options = options;
+      Response response = await dio.get('api/my-profile');
+      return UserModel.fromJson(response.data);
+    } on DioError catch (e) {
+      final errorMessage = DioExceptions.fromDioError(e).toString();
+      throw errorMessage;
+    }
+  }
+
+  Future<StatusResponse> logout(String user_token, int user_id) async {
+    var fields = FormData.fromMap({'user_id': user_id});
+    try {
+      BaseOptions options = dio.options;
+      options.headers = {'Authorization':"Bearer ${user_token}"};
+      dio.options = options;
+      Response response = await dio.post('api/logout', data: fields);
+      return StatusResponse.fromJson(response.data);
+    } on DioError catch (e) {
+      final errorMessage = DioExceptions.fromDioError(e).toString();
+      print('Error=>${errorMessage}');
+
+      throw errorMessage;
+    }
+  }
+  Future<StatusResponse> deleteAccount(String user_token, int user_id) async {
+    var fields = FormData.fromMap({'user_id': user_id});
+    try {
+      BaseOptions options = dio.options;
+      options.headers = {'Authorization':"Bearer ${user_token}"};
+      dio.options = options;
+      Response response = await dio.post('api/deleteMyAccount', data: fields);
+      return StatusResponse.fromJson(response.data);
+    } on DioError catch (e) {
+      final errorMessage = DioExceptions.fromDioError(e).toString();
+      print('Error=>${errorMessage}');
+
+      throw errorMessage;
+    }
+  }
+
+  Future<UserModel> updateProfile(
+      EditProfileModel model, String user_token,int user_id) async {
+    var fields = FormData.fromMap({});
+    try {
+      BaseOptions options = dio.options;
+      options.headers = {'Authorization': "Bearer ${user_token}"};
+      dio.options = options;
+
+      if (model.imagePath.isNotEmpty && !model.imagePath.startsWith('http')) {
+        fields = FormData.fromMap({
+          'user_id':user_id,
+          'user_name': model.user_name,
+          'email': model.email,
+          'image': await MultipartFile.fromFile(model.imagePath)
+        });
+      } else {
+        fields = FormData.fromMap({
+          'user_id':user_id,
+          'user_name': model.user_name,
+          'email': model.email,
+          });
+      }
+
+      Response response =
+      await dio.post('api/updateProfile', data: fields);
+      print("Slslsl${response}");
+      return UserModel.fromJson(response.data);
+    } on DioError catch (e) {
+      final errorMessage = DioExceptions.fromDioError(e).toString();
+      print('Error=>${errorMessage}');
+
+      throw errorMessage;
+    }
+  }
+  Future<StatusResponse> checkSites(int  site_id, UserModel userModel) async {
+    try {
+      BaseOptions options = dio.options;
+      options.headers = {'Authorization': "Bearer ${userModel.data.token}"};
+      dio.options = options;
+
+
+      Response response =
+      await dio.get('api/checkUserView', queryParameters: {
+        'user_id': userModel.data.id,
+        'site_id': site_id
+      });
+      print("sssss${response.data}");
+      return StatusResponse.fromJson(response.data);
+    } on DioError catch (e) {
+      print(e.toString());
+      final errorMessage = DioExceptions.fromDioError(e).toString();
+      throw errorMessage;
+    }
+  }
+
 }
