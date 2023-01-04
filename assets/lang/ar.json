@@ -6,5 +6,10 @@
  "welcome_back": "مرحبا برجعوك",
  "top_social_media":"أعلى وسائل التواصل الاجتماعي",
  "forget_password_title": "الرجاء إدخال معرف البريد الإلكتروني المسجل الخاص بك.",
- "forget_password_desc": "سنرسل رمز التحقق إلى معرف البريد الإلكتروني المسجل الخاص بك."
+ "forget_password_desc": "سنرسل رمز التحقق إلى معرف البريد الإلكتروني المسجل الخاص بك.",
+ "reset_password_title": "الرجاء إدخال رمز التحقق الخاص بك .",
+ "reset_password_desc": "لقد أرسلنا رمز التحقق إلى رقم الهاتف المسجل الخاص بك",
+ "new_password_title": "الرجاء إدخال كلمة مرور جديدة",
+ "You can add unlimited": "You can add unlimited links, pages, or social media accounts. Increase your social media activity. Get more and more likes, fans, followers and etc.. Please use the button at bottom of this page to ADD Your site, page, social media account or any other link, and start a Social Media Marketing right now! Please carefully read our Terms once again, to not be banned from Makasb because of added content."
+
 }

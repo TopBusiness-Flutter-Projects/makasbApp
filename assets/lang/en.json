@@ -6,5 +6,9 @@
   "welcome_back": "Welcome Back",
   "top_social_media": "Top Social Media",
   "forget_password_title": " Please enter your registered in the email ID.",
-  "forget_password_desc": " We will send a verification code to your registered  email ID."
+  "forget_password_desc": " We will send a verification code to your registered  email ID.",
+  "reset_password_title": "Please enter your verification code .",
+  "reset_password_desc": "We have sent a verification code to your registered Phone Number ",
+  "new_password_title": "Please enter a new password",
+  "You can add unlimited": "You can add unlimited links, pages, or social media accounts. Increase your social media activity. Get more and more likes, fans, followers and etc.. Please use the button at bottom of this page to ADD Your site, page, social media account or any other link, and start a Social Media Marketing right now! Please carefully read our Terms once again, to not be banned from Makasb because of added content."
 }

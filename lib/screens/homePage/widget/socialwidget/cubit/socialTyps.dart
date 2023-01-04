@@ -19,6 +19,7 @@ class SocialTypes  {
   late List<TypeModel> soundCloud=[];
   late List<TypeModel> twitter=[];
   late List<TypeModel> reddit=[];
+  late List<TypeModel> pinterest=[];
   UserModel? userModel;
 
   SocialTypes()  {
@@ -47,7 +48,8 @@ class SocialTypes  {
     twitter.add(TypeModel(8, "اعجابات تويتر",  "Twitter Likes\r\n",));
     reddit.add(TypeModel(29, "تحديثات رديت",  "Reddit Updates",));
     reddit.add(TypeModel(30, "اعضاء رديت",  "Reddit Members",));
-
+    pinterest.add(TypeModel(14, "حفظ بنترست",  "Pinterest Save\r\n",));
+    pinterest.add(TypeModel(15, "متابعين بنترست",  "Pinterest Followers\r\n",));
     list.add( facebook);
     list.add( instagram);
     list.add(youtube);
@@ -55,6 +57,7 @@ class SocialTypes  {
     list.add(soundCloud);
     list.add(twitter);
     list.add(reddit);
+    list.add(pinterest);
   }
 
 

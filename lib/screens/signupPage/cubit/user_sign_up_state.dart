@@ -25,6 +25,11 @@ class UserDataValidation extends UserSignUpState {
   UserDataValidation(this.valid);
 }
 
+class PasswordHidden extends UserSignUpState{
+  bool valid;
+
+  PasswordHidden(this.valid);
+}
 
 
 

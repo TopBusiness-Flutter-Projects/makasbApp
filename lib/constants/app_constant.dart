@@ -18,4 +18,7 @@ class AppConstant {
   static const pageSitesRoute = '/sites';
 
   static const String resetPasswordRoute='/resetpass';
+  static const String checkcodePasswordRoute='/checkcodepass';
+  static const String newPasswordRoute='/newpass';
+
 }

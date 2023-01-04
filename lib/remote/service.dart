@@ -10,6 +10,7 @@ import 'package:makasb/remote/handle_exeption.dart';
 import '../models/add_site_model.dart';
 import '../models/country_data_model.dart';
 import '../models/edit_profile_model.dart';
+import '../models/new_password_model.dart';
 import '../models/payment_model.dart';
 import '../models/points_data.dart';
 import '../models/setting_model.dart';
@@ -388,5 +389,64 @@ class ServiceApi {
       throw errorMessage;
     }
   }
+  Future<StatusResponse> sendcode(String email) async {
+    try {
+
+
+
+      Response response =
+      await dio.post('api/password/email', data: {
+        'email': email
+      });
+      print("sssss${response.data}");
+      return StatusResponse.fromJson(response.data);
+    } on DioError catch (e) {
+      print(e.toString());
+      final errorMessage = DioExceptions.fromDioError(e).toString();
+      throw errorMessage;
+    }
+  }
+  Future<StatusResponse> checkcode(String email,String code) async {
+    try {
+
+
+
+      Response response =
+      await dio.post('api/password/code/check', data: {
+        'email': email,
+        'code': code
+
+      });
+      print("sssss${response.data}");
+      return StatusResponse.fromJson(response.data);
+    } on DioError catch (e) {
+      print(e.toString());
+      final errorMessage = DioExceptions.fromDioError(e).toString();
+      throw errorMessage;
+    }
+  }
+  Future<StatusResponse> newpassword(NewPasswordModel model) async {
+    var fields = FormData.fromMap({});
+    try {
+
+        fields = FormData.fromMap({
+          'code': model.code,
+          'email': model.email,
+          'password': model.password,
+          'password_confirmation': model.confirm_password,
+        });
+
+      print("dlldldl${fields.fields}");
+      Response response = await dio.post('api/password/reset', data: fields);
+      print("Flflflfl${response.toString()}");
+      return StatusResponse.fromJson(response.data);
+    } on DioError catch (e) {
+      final errorMessage = DioExceptions.fromDioError(e).toString();
+      print('Error=>${e}');
+
+      throw errorMessage;
+    }
+  }
+
 
 }

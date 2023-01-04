@@ -8,9 +8,9 @@ import 'package:makasb/screens/addsitePage/addsite_page.dart';
 import 'package:makasb/screens/addsitePage/cubit/add_site_cubit.dart';
 import 'package:makasb/screens/buypointpage/buypointpage.dart';
 import 'package:makasb/screens/editprofilepage/cubit/user_edit_cubit.dart';
+import 'package:makasb/screens/forgotpassword/cubit/forgot_password_cubit.dart';
 import 'package:makasb/screens/homePage/homePage.dart';
 import 'package:makasb/screens/homePage/widget/profile_widget/cubit/profile_cubit.dart';
-import 'package:makasb/screens/loginPage/cubit/login_cubit.dart';
 import 'package:makasb/screens/loginPage/login_page.dart';
 import 'package:makasb/screens/settingpage/cubit/setting_cubit.dart';
 import 'package:makasb/screens/settingpage/settingpage.dart';
@@ -19,15 +19,21 @@ import 'package:makasb/screens/signupPage/signup_page.dart';
 import 'package:makasb/screens/splashPage/splash_page.dart';
 import 'package:makasb/screens/type_screen/cubit/type_cubit.dart';
 
+import '../models/new_password_model.dart';
 import '../models/payment_model.dart';
 import '../screens/buypointpage/cubit/all_coins_page_cubit.dart';
 import '../screens/countries_screen/countries_page.dart';
 import '../screens/countries_screen/cubit/countries_cubit.dart';
 import '../screens/editprofilepage/edit_profile_page.dart';
 import '../screens/forgotpassword/forget_password.dart';
+import '../screens/forgotpasswordcheckcode/check_code_password.dart';
+import '../screens/forgotpasswordcheckcode/cubit/forgot_password_check_code_cubit.dart';
 import '../screens/homePage/cubit/home_page_cubit.dart';
 import '../screens/homePage/widget/coinswidget/cubit/coins_page_cubit.dart';
 import '../screens/homePage/widget/homewidget/cubit/main_page_cubit.dart';
+import '../screens/loginPage/cubit/login_cubit.dart';
+import '../screens/newpassword/cubit/new_password_cubit.dart';
+import '../screens/newpassword/new_password.dart';
 import '../screens/payment_screen/payment_page.dart';
 import '../screens/postwebpage/post-web_page.dart';
 import '../screens/sites/cubit/sites_page_cubit.dart';
@@ -70,7 +76,7 @@ class AppRoutes {
               EditprofileCubit cubit = EditprofileCubit();
               return cubit;
             },
-            child:  Editprofilepage(),
+            child: Editprofilepage(),
           );
         });
       case AppConstant.pageHomeRoute:
@@ -142,36 +148,51 @@ class AppRoutes {
             child: const TypePage(),
           );
         });
-        case AppConstant.pagePaymentRoute:
-      PaymentDataModel paymentDataModel = settings.arguments as PaymentDataModel;
+      case AppConstant.pagePaymentRoute:
+        PaymentDataModel paymentDataModel =
+            settings.arguments as PaymentDataModel;
 
-
-      return MaterialPageRoute(
-          builder: (context) => paymetPage(
-              paymentDataModel: paymentDataModel
-          ));
+        return MaterialPageRoute(
+            builder: (context) =>
+                paymetPage(paymentDataModel: paymentDataModel));
       case AppConstant.pagePostRoute:
         String url = settings.arguments as String;
 
-
-        return MaterialPageRoute(
-            builder: (context) => PostWebPage(
-                url: url
-            ));
+        return MaterialPageRoute(builder: (context) => PostWebPage(url: url));
       case AppConstant.pageSitesRoute:
         TypeModel typeModel = settings.arguments as TypeModel;
         return MaterialPageRoute(
             builder: (context) => BlocProvider(
-              create: (context) => SitesPageCubit(),
-              child: SitesWidget(
-                typeModel: typeModel,
-              ),
-            ));
+                  create: (context) => SitesPageCubit(),
+                  child: SitesWidget(
+                    typeModel: typeModel,
+                  ),
+                ));
       case AppConstant.resetPasswordRoute:
         return MaterialPageRoute(
-            builder: (context) => ForgetPasswordScreen(
-            ));
+            builder: (context) => BlocProvider(
+                  create: (context) => ForgotPasswordCubit(),
+                  child: ForgetPasswordScreen(),
+                ));
+      case AppConstant.checkcodePasswordRoute:
+        String email = settings.arguments as String;
 
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider(
+                  create: (context) => ForgotPasswordCheckCodeCubit(),
+                  child: CheckCodePassword(email: email),
+                ));
+      case AppConstant.newPasswordRoute:
+        NewPasswordModel newPasswordModel =
+            settings.arguments as NewPasswordModel;
+
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider(
+                  create: (context) => NewPasswordCubit(),
+                  child: NewPassword(
+                    newPasswordModel: newPasswordModel,
+                  ),
+                ));
     }
   }
 }

@@ -13,7 +13,8 @@ import 'package:bloc/bloc.dart';
 import 'package:makasb/widgets/app_widgets.dart';
 import 'dart:async';
 
-part 'login_state.dart';
+import 'login_state.dart';
+
 
 class LoginCubit extends Cubit<LoginState> {
   late ServiceApi api;
@@ -21,6 +22,8 @@ class LoginCubit extends Cubit<LoginState> {
   bool isLoginValid = false;
 
   LoginModel loginModel = LoginModel();
+
+  bool ishidden=true;
 
 
   LoginCubit()
@@ -31,6 +34,12 @@ class LoginCubit extends Cubit<LoginState> {
 
 
 
+  }
+  hide() {
+    print("sss${ishidden}");
+    ishidden=!ishidden;
+    print("seess${ishidden}");
+    emit(PasswordHidden(ishidden));
   }
 
   void login(BuildContext context) async {

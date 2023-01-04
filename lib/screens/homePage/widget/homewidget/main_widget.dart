@@ -111,7 +111,7 @@ class _mainWidgetState extends State<mainWidget>
             ),
             InkWell(
                 onTap: () {
-
+                  showFilterSheet();
                 },
                 child:
                 SvgPicture.asset(
@@ -512,7 +512,7 @@ class _mainWidgetState extends State<mainWidget>
 
   }
 
-  cardsocialitem(String name) {
+  Widget cardsocialitem(String name) {
     return Expanded(
         child: Card(
             elevation: 10,
@@ -533,6 +533,66 @@ class _mainWidgetState extends State<mainWidget>
                                 '${AppConstant.localImagePath}$name')))))));
   }
 
+  void showFilterSheet() {
+    showModalBottomSheet(
+        enableDrag: true,
+        isScrollControlled: true,
+        elevation: 8.0,
+        isDismissible: false,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(24.0),
+                topLeft: Radius.circular(24.0))),
+        context: context,
+        builder: (_) {
+          return Container(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+              Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+                children: [   Text(
+                  'Info'.tr(),
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.black),
+                ),
+                Expanded(child: Container(),),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: AppWidget.svg(
+                        'close.svg', AppColors.colorPrimary, 24.0, 24.0),
+                  ),
+                ],
+              ),
+                const SizedBox(
+                  height: 24,
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text(
+                    'How to add your site?'.tr(),
+                    style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Text(
+                  'You can add unlimited'.tr(),
+                  style: const TextStyle(color: Colors.black54, fontSize: 13),
+                ),
+              ],
+            ),
+          );
+        });
+  }
 
 
 }

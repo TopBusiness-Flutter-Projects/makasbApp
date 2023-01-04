@@ -1,6 +1,6 @@
 class StatusResponse{
   late int status =0;
-  late String msg="";
+  late dynamic msg="";
 
   StatusResponse();
   StatusResponse.fromJson(Map<String,dynamic> json){

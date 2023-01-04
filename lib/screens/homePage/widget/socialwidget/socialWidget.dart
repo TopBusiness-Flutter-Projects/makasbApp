@@ -33,7 +33,8 @@ children: [
   socialMedia("tiktok.png","tiktok".tr(),socialTypes.list.elementAt(3)),
   socialMedia("sound_cloud.png","sound_cloud".tr(),socialTypes.list.elementAt(4)),
   socialMedia("twitter.png","twitter".tr(),socialTypes.list.elementAt(5)),
-  socialMedia("reddit.png","reddit".tr(),socialTypes.list.elementAt(6))
+  socialMedia("reddit.png","reddit".tr(),socialTypes.list.elementAt(6)),
+  socialMedia("pinterest.png","pinterest".tr(),socialTypes.list.elementAt(7))
 
 
 ]            ,

@@ -1,9 +1,10 @@
 
-part of 'login_cubit.dart';
 
 
 
-@immutable
+import '../../../models/login_model.dart';
+import '../../../models/user_model.dart';
+
 abstract class LoginState {}
 
 class LoginInitial extends LoginState {
@@ -32,7 +33,11 @@ class OnError extends LoginState {
   String error;
   OnError(this.error);
 }
+class PasswordHidden extends LoginState {
+  bool valid;
 
+  PasswordHidden(this.valid);
+}
 class OnSignUp extends LoginState {
   LoginModel loginModel;
   OnSignUp(this.loginModel);
