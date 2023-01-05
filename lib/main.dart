@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:makasb/colors/colors.dart';
+import 'package:makasb/preferences/preferences.dart';
 import 'package:makasb/routes/app_routes.dart';
 
 Future<void> main() async {
@@ -13,6 +14,7 @@ Future<void> main() async {
       statusBarColor: AppColors.white,
     ),
   );
+
   runApp(EasyLocalization(
       supportedLocales: const [Locale('ar',''), Locale('en','')],
       path: 'assets/lang',
@@ -28,9 +30,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-   // Preferences.instance.getAppSetting().then((value) => {
-   // EasyLocalization.of(context)!.setLocale(Locale(value.lang))
-   // });
+   Preferences.instance.getAppSetting().then((value) => {
+   EasyLocalization.of(context)!.setLocale(Locale(value.lang))
+   });
 
     return MaterialApp(
         localizationsDelegates: context.localizationDelegates,

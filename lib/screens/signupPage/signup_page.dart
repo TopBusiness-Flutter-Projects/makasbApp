@@ -295,6 +295,7 @@ class _signuppageState extends State<signuppage>
                           )),
                     ),
                   )),
+              SizedBox(height: 20,),
               buildButtonStart(),
               const SizedBox(height: 50),
               RichText(

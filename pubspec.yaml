@@ -57,9 +57,18 @@ dependencies:
   cached_network_image: ^3.2.3
   image_cropper: ^3.0.1
   modal_bottom_sheet: ^2.1.2
+  flutter_localizations:
+    sdk: flutter
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.11.0
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/logo.png"
+  adaptive_icon_foreground: "assets/images/logo.jpg"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -77,7 +86,7 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-
+  generate: true
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/lang/
@@ -94,6 +103,11 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+  fonts:
+    - family: normal
+      fonts:
+        - asset: assets/fonts/font_normal.ttf
+        - asset: assets/fonts/font_bold.ttf
   # fonts:
   #   - family: Schyler
   #     fonts:

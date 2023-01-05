@@ -54,7 +54,7 @@ class _settingpageState extends State<settingpage> {
           backgroundColor: AppColors.white,
           centerTitle: false,
           title: Text(
-          'setting'.tr(),
+          'Settings'.tr(),
       style: const TextStyle(
       color: AppColors.black,
       fontSize: 16.0,
@@ -225,7 +225,7 @@ class _settingpageState extends State<settingpage> {
       width: 12.0,
       ),
       Text(
-      "Privacy".tr(),
+      "privacy".tr(),
       style: const TextStyle(
       color: AppColors.color3, fontSize: 16.0),
       ),
@@ -406,10 +406,10 @@ class _settingpageState extends State<settingpage> {
       elevation:
     15.0,
           ),
-          child: const Padding(
+          child:  Padding(
             padding: EdgeInsets.all(15.0),
-            child: const Text(
-              'logout',
+            child: Text(
+              'logout'.tr(),
               style: const TextStyle(fontSize: 20),
             ),
           ),

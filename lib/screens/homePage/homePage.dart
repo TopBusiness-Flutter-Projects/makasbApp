@@ -106,7 +106,7 @@ class _homePageState extends State<homePage> {
           '${AppConstant.localImagePath}user.svg',
           color: indexpage == 3 ? AppColors.colorPrimary : AppColors.grey6,
         ),
-        label: 'Profile'.tr(),
+        label: 'profile'.tr(),
       ),
     ],
     onTap: _onItemTapped,

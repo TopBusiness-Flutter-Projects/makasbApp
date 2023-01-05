@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../colors/colors.dart';
 import '../../../../models/slider.dart';
@@ -125,7 +126,10 @@ class _AddScreenWidgetState extends State<AddScreenWidget> {
                                             Radius.circular(10))),
                                     elevation: 5,
                                   ),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    _openSocialUrl(url: sliderModel[index].btnLink!);
+
+                                  },
                                   child: Text(
                                     ' ${lang == 'ar' ? sliderModel[index].btnTitleAr : sliderModel[index].btnTitleEn}',
                                     style: TextStyle(
@@ -167,4 +171,24 @@ class _AddScreenWidgetState extends State<AddScreenWidget> {
       ),
     );
   }
+  void _openSocialUrl({required String url}) async {
+    Uri uri = Uri.parse(url);
+
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri,
+          webViewConfiguration: const WebViewConfiguration(
+              enableJavaScript: true, enableDomStorage: true));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          'invalidUrl'.tr(),
+          style: const TextStyle(fontSize: 18.0),
+        ),
+        backgroundColor: AppColors.colorPrimary,
+        elevation: 8.0,
+        duration: const Duration(seconds: 3),
+      ));
+    }
+  }
+
 }

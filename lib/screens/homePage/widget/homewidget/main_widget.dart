@@ -567,7 +567,7 @@ class _mainWidgetState extends State<mainWidget>
                       Navigator.pop(context);
                     },
                     child: AppWidget.svg(
-                        'close.svg', AppColors.colorPrimary, 24.0, 24.0),
+                        'close.svg', AppColors.black, 24.0, 24.0),
                   ),
                 ],
               ),

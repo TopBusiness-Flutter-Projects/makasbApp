@@ -57,7 +57,7 @@ class _AddSitePageState extends State<AddSitePage>
         backgroundColor: AppColors.white,
         centerTitle: false,
         title: Text(
-          'adsite'.tr(),
+          'addsite'.tr(),
           style: const TextStyle(
               color: AppColors.black,
               fontSize: 16.0,
@@ -520,7 +520,7 @@ class _AddSitePageState extends State<AddSitePage>
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             decoration: BoxDecoration(
                 color: AppColors.white, borderRadius: BorderRadius.circular(8)),
-            child: Text('select country'),
+            child: Text('select country'.tr()),
           );
         },
       ),

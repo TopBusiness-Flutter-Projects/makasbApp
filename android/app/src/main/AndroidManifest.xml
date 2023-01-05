@@ -2,7 +2,7 @@
     package="com.app.makasb">
    <application
        android:requestLegacyExternalStorage="true"
-        android:label="makasb"
+        android:label="@string/appname"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

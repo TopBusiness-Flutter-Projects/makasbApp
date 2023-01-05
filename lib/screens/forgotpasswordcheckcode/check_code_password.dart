@@ -150,16 +150,17 @@ Widget body(BuildContext context,String email) {
             ),
           );}),
           SizedBox(height: 22),
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: Image.asset(
-              '${AppConstant.localImagePath}check_code_password.png',
-              height: 180,
-              width: 210,
-              fit: BoxFit.fill,
-            ),
-          )
-        ]))
+
+        ])),
+    Align(
+      alignment: Alignment.bottomLeft,
+      child: Image.asset(
+        '${AppConstant.localImagePath}check_code_password.png',
+        height: 180,
+        width: 210,
+        fit: BoxFit.fill,
+      ),
+    )
   ]);}));
 }
 
