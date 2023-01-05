@@ -187,7 +187,7 @@ class _buyBointWidgetState extends State<buyBointWidget>
                                                 "buy".tr(),
                                                 style: const TextStyle(
                                                     decoration: TextDecoration.underline,
-                                                    fontSize: 20.0,
+                                                    fontSize: 17.0,
                                                     fontWeight: FontWeight.bold,
                                                     color: AppColors.red),
                                               ))

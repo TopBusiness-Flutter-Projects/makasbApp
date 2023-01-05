@@ -206,7 +206,7 @@ class _profileWidgetState extends State<profileWidget>
                               MaterialPageRoute(
                                   builder: (context) {
                                     return Aboutpage(
-                                      Kind: "aboutUs".tr(),
+                                      Kind: "About Us".tr(),
                                       text: lang == 'ar'
                                           ? cubit.settingModel!.data!
                                           .about_us!

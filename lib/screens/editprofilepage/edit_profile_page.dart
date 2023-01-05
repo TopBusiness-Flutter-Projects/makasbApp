@@ -52,7 +52,7 @@ class _EditprofilepageState extends State<Editprofilepage>
         backgroundColor: AppColors.white,
         centerTitle: true,
         title: Text(
-          'edit profile'.tr(),
+          'Edit Profile'.tr(),
           style: const TextStyle(
               color: AppColors.black,
               fontSize: 16.0,

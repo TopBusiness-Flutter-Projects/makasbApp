@@ -144,7 +144,7 @@ class _settingpageState extends State<settingpage> {
           Navigator.of(context).push(MaterialPageRoute(builder: (context) {
             return Aboutpage(
 
-              Kind: "terms".tr(),
+              Kind: "Terms And Conditions".tr(),
               text: lang == 'ar'
                   ?  cubit.settingModel.data!.terms!
                   :  cubit.settingModel.data!.terms_en!,

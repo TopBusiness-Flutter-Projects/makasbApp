@@ -222,7 +222,7 @@ class _SitesWidgetState extends State<SitesWidget> {
                                                       child: Text(
                                                 list.elementAt(index).title,
                                                 style: const TextStyle(
-                                                    fontSize: 20.0,
+                                                    fontSize: 17.0,
                                                     fontWeight: FontWeight.bold,
                                                     color: AppColors.black),
                                               ))),
