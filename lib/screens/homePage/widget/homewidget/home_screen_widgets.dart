@@ -159,7 +159,7 @@ class _AddScreenWidgetState extends State<AddScreenWidget> {
                 scrollDirection: Axis.horizontal,
                 autoPlayAnimationDuration: const Duration(milliseconds: 800),
                 initialPage: 0,
-                autoPlayInterval: const Duration(seconds: 4),
+                autoPlayInterval: const Duration(seconds: 10),
                 enlargeCenterPage: true,
               ),
             ),
