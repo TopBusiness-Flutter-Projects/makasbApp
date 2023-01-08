@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -29,13 +31,14 @@ class AddScreenWidget extends StatefulWidget {
 class _AddScreenWidgetState extends State<AddScreenWidget> {
   final List<SliderModel> sliderModel;
   int index1 = 0;
+  StreamController<int> valueController = StreamController();
 
   _AddScreenWidgetState({required this.sliderModel});
 
   @override
   Widget build(BuildContext context) {
     String lang = EasyLocalization.of(context)!.locale.languageCode;
-
+    valueController.add(0);
     return Container(
       margin: const EdgeInsets.only(top: 10.0),
       color: AppColors.grey3,
@@ -69,51 +72,52 @@ class _AddScreenWidgetState extends State<AddScreenWidget> {
                         child: Column(
                           children: [
                             Expanded(
-                              child: ListView(
-                                children: [
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-                                  Center(
-                                    child: sliderModel[index]
-                                            .image!
-                                            .contains('svg')
-                                        ? SvgPicture.network(
-                                            sliderModel[index].image!,
-                                            height: 30,
-                                            width: 30,
-                                          )
-                                        :
-                                    CachedNetworkImage(
-                                            height: 30,
-                                            imageUrl: sliderModel[index].image!,
-                                            placeholder: (context, url) =>
-                                                Container(
-                                                  color: AppColors.grey2,
-                                                ),
-                                            errorWidget:
-                                                (context, url, error) =>
-                                                    Container(
-                                                      color: AppColors.grey2,
-                                                    )),
-                                  ),
-                                  Expanded(
-                                    child: Html(
-                                      data: lang == 'ar'
-                                          ? sliderModel[index].descAr
-                                          : sliderModel[index].descEn,
-                                      style: {
-                                        "body": Style(
-                                            fontSize: FontSize(14.0),
-                                            fontWeight: FontWeight.bold,
-                                            color: AppColors.white)
-                                      },
+
+                              child: Container(
+                                child: ListView(
+                                  children: [
+                                    SizedBox(
+                                      height: 20,
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: 20,
-                                  )
-                                ],
+                                    Center(
+                                      child: sliderModel[index]
+                                              .image!
+                                              .contains('svg')
+                                          ? SvgPicture.network(
+                                              sliderModel[index].image!,
+                                              height: 30,
+                                              width: 30,
+                                            )
+                                          : CachedNetworkImage(
+                                              height: 30,
+                                              imageUrl: sliderModel[index].image!,
+                                              placeholder: (context, url) =>
+                                                  Container(
+                                                    color: AppColors.grey2,
+                                                  ),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      Container(
+                                                        color: AppColors.grey2,
+                                                      )),
+                                    ),
+                                    Html(
+                                        data: lang == 'ar'
+                                            ? sliderModel[index].descAr
+                                            : sliderModel[index].descEn,
+                                        style: {
+                                          "body": Style(
+                                              fontSize: FontSize(14.0),
+                                              fontWeight: FontWeight.bold,
+                                              color: AppColors.white)
+                                        },
+                                      ),
+
+                                    SizedBox(
+                                      height: 20,
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                             Align(
@@ -127,8 +131,8 @@ class _AddScreenWidgetState extends State<AddScreenWidget> {
                                     elevation: 5,
                                   ),
                                   onPressed: () {
-                                    _openSocialUrl(url: sliderModel[index].btnLink!);
-
+                                    _openSocialUrl(
+                                        url: sliderModel[index].btnLink!);
                                   },
                                   child: Text(
                                     ' ${lang == 'ar' ? sliderModel[index].btnTitleAr : sliderModel[index].btnTitleEn}',
@@ -146,9 +150,8 @@ class _AddScreenWidgetState extends State<AddScreenWidget> {
                       ))),
               options: CarouselOptions(
                 onPageChanged: (index, reason) {
-                  setState(() {
-                    index1 = index;
-                  });
+                  index1 = index;
+                  valueController.add(index1);
                 },
                 autoPlay: true,
                 enableInfiniteScroll: sliderModel.length > 1 ? true : false,
@@ -161,16 +164,13 @@ class _AddScreenWidgetState extends State<AddScreenWidget> {
               ),
             ),
           ),
-          AnimatedSmoothIndicator(
-            count: sliderModel.length,
-            effect: const ExpandingDotsEffect(expansionFactor: 2),
-            activeIndex: index1,
-            // your preferred effect
-          ),
+          SizedBox(height: 2,),
+          dots()
         ],
       ),
     );
   }
+
   void _openSocialUrl({required String url}) async {
     Uri uri = Uri.parse(url);
 
@@ -191,4 +191,15 @@ class _AddScreenWidgetState extends State<AddScreenWidget> {
     }
   }
 
+ Widget dots() {
+  return  StreamBuilder(
+        stream: valueController.stream,
+        builder: (context, snapshot) {
+          Object? value = snapshot.data;
+          return AnimatedSmoothIndicator(
+              count: sliderModel.length,
+              effect: const ExpandingDotsEffect(expansionFactor: 2),
+              activeIndex: int.parse(value!=null?value.toString():"0"));
+        });
+  }
 }

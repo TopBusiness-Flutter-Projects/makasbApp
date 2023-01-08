@@ -193,17 +193,15 @@ class _mainWidgetState extends State<mainWidget>
 
               UserModel? userModel;
               if (state is IsLoadingData) {
-                return const Expanded(
-                  child: Center(
+                return  Center(
                     child: CircularProgressIndicator(
                       color: AppColors.colorPrimary,
                     ),
-                  ),
+
                 );
               }
               else if (state is OnError) {
-                return Expanded(
-                  child: Center(
+                return Center(
                     child: InkWell(
                       onTap: refreshData,
                       child: Column(
@@ -223,7 +221,7 @@ class _mainWidgetState extends State<mainWidget>
                         ],
                       ),
                     ),
-                  ),
+
                 );
               }else{
                 userModel=cubit.userModel!;
@@ -270,8 +268,11 @@ class _mainWidgetState extends State<mainWidget>
                                 alignment: Alignment.topRight,
                                 child: Row(
                                   children: [
-                                    SvgPicture.asset(
-                                      '${AppConstant.localImagePath}hand.svg',
+                                    Image.asset(
+                                      '${AppConstant.localImagePath}hand.png',
+                                      width:24,
+                                      height: 24,
+
                                     ),
                                     const SizedBox(width: 5), // give it width
 
@@ -313,17 +314,16 @@ class _mainWidgetState extends State<mainWidget>
         BlocBuilder<MainPageCubit, MainPageState>(
             builder: (context, state) {
           if (state is IsLoadingData) {
-            return const Expanded(
-              child: Center(
+            return
+              Center(
                 child: CircularProgressIndicator(
                   color: AppColors.colorPrimary,
                 ),
-              ),
+
             );
           }
           else if (state is OnError) {
-            return Expanded(
-              child: Center(
+            return  Center(
                 child: InkWell(
                   onTap: refreshData,
                   child: Column(
@@ -343,15 +343,14 @@ class _mainWidgetState extends State<mainWidget>
                     ],
                   ),
                 ),
-              ),
+
             );
           }
           else {
             List<Sites> list = cubit.projects;
 
             if (list.isNotEmpty) {
-              return Expanded(
-                  child: RefreshIndicator(
+              return  RefreshIndicator(
                       color: AppColors.colorPrimary,
                       onRefresh: refreshData,
                       child: ListView.builder(
@@ -415,15 +414,14 @@ class _mainWidgetState extends State<mainWidget>
                                         ],
                                       ))));
                         },
-                      )));
+                      ));
             } else {
-              return Expanded(
-                  child: Center(
+              return  Center(
                 child: Text(
                   'no_projects'.tr(),
                   style: TextStyle(color: AppColors.black, fontSize: 15.0),
                 ),
-              ));
+              );
             }
           }
         }));
@@ -448,8 +446,8 @@ class _mainWidgetState extends State<mainWidget>
               ),
             );
           } else if (state is OnError) {
-            return Expanded(
-              child: Center(
+            return
+             Center(
                 child: InkWell(
                   onTap: refreshData1,
                   child: Column(
@@ -469,15 +467,14 @@ class _mainWidgetState extends State<mainWidget>
                     ],
                   ),
                 ),
-              ),
-            );
+              )
+            ;
           } else {
             List<SliderModel> list = cubit.sliders;
 
             if (list.isNotEmpty) {
               return
-                Expanded(
-                  child: RefreshIndicator(
+               RefreshIndicator(
                       color: AppColors.colorPrimary,
                       onRefresh: refreshData1,
                       child:
@@ -487,15 +484,14 @@ class _mainWidgetState extends State<mainWidget>
                       ),
 
                       )
-                );
+                ;
             } else {
-              return Expanded(
-                  child: Center(
+              return  Center(
                 child: Text(
                   'no_projects'.tr(),
                   style: TextStyle(color: AppColors.black, fontSize: 15.0),
                 ),
-              ));
+              );
             }
           }
         }));
@@ -567,7 +563,7 @@ class _mainWidgetState extends State<mainWidget>
                       Navigator.pop(context);
                     },
                     child: AppWidget.svg(
-                        'close.svg', AppColors.black, 24.0, 24.0),
+                        'close.svg', AppColors.colorPrimary, 24.0, 24.0),
                   ),
                 ],
               ),

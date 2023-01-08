@@ -40,6 +40,7 @@ class _profileWidgetState extends State<profileWidget>
     double width = MediaQuery.of(context).size.width;
     ProfileCubit cubit = BlocProvider.of(context);
     cubit.getSetting();
+
     return BlocBuilder<ProfileCubit, ProfileState>(builder: (context, state) {
       if (state is OnLoading) {
         return const Center(child: CircularProgressIndicator());
@@ -47,7 +48,7 @@ class _profileWidgetState extends State<profileWidget>
         return const Center(child: CircularProgressIndicator());
       } else {
         UserModel? userModel = cubit.userModel;
-        print("Sdkkfk${userModel!.data.email}");
+        print("Sdkkfk${userModel!.data.image}");
         return ListView(shrinkWrap: true, children: [
           SizedBox(
               height: 173,
@@ -72,20 +73,20 @@ class _profileWidgetState extends State<profileWidget>
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(width),
                           child:
-                              userModel != null && userModel.data.image != null
+                              userModel.data.image != null&&!userModel.data.image!.contains("empty")
                                   ? CachedNetworkImage(
                                       width: 90.0,
                                       height: 90.0,
                                       imageUrl: userModel.data.image!,
                                       placeholder: (context, url) => Container(
-                                            color: AppColors.grey2,
+
                                           ),
                                       errorWidget: (context, url, error) =>
                                           Container(
                                             color: AppColors.grey2,
                                           ))
                                   : Image.asset(
-                                      '${AppConstant.localImagePath}logo.png',
+                                      '${AppConstant.localImagePath}avatar.png',
                                       width: 90.0,
                                       height: 90.0,
                                     ),
@@ -134,7 +135,7 @@ class _profileWidgetState extends State<profileWidget>
 
                           print("Dldldldlsssssss");
                           Navigator.pushNamed(context,
-                              AppConstant.pageeditProfileRoute);
+                              AppConstant.pageeditProfileRoute).then((value) => cubit.getUserModel());
                         },
 
                         child: Card(
@@ -230,7 +231,7 @@ class _profileWidgetState extends State<profileWidget>
                                 Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    AppWidget.svg('profile.svg',
+                                    AppWidget.svg('info.svg',
                                         AppColors.colorPrimary, 24.0, 24.0),
                                     const SizedBox(
                                       width: 12.0,
@@ -295,7 +296,7 @@ class _profileWidgetState extends State<profileWidget>
                                 Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    AppWidget.svg('profile.svg',
+                                    AppWidget.svg('setting.svg',
                                         AppColors.colorPrimary, 24.0, 24.0),
                                     const SizedBox(
                                       width: 12.0,

@@ -75,12 +75,17 @@ class _SitesWidgetState extends State<SitesWidget> {
                 
                 child:Padding( 
                     padding: EdgeInsets.all(4),
-                    child: SvgPicture.asset(
+                    child: InkWell(
+                      onTap: () {
+                        showFilterSheet();
+                      },
+                      child:
+                   SvgPicture.asset(
                   alignment: Alignment.topLeft,
                   '${AppConstant.localImagePath}info.svg',
                   width: 20.0,
                   height: 20.0,
-                )))
+                ))))
           ],
         ),
         Container(
@@ -123,7 +128,6 @@ class _SitesWidgetState extends State<SitesWidget> {
   }
 
   Widget coins() {
-    String lang = EasyLocalization.of(context)!.locale.languageCode;
 
     SitesPageCubit cubit = BlocProvider.of<SitesPageCubit>(context);
     cubit.typemodel = typeModel;
@@ -291,6 +295,88 @@ class _SitesWidgetState extends State<SitesWidget> {
                 }
               }
             })));
+  }
+  void showFilterSheet() {
+    String lang = EasyLocalization.of(context)!.locale.languageCode;
+
+    showModalBottomSheet(
+        enableDrag: true,
+        isScrollControlled: true,
+        elevation: 8.0,
+        isDismissible: false,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(24.0),
+                topLeft: Radius.circular(24.0))),
+        context: context,
+        builder: (_) {
+          return Container(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [   Text(
+                    '${lang == 'ar' ? typeModel!.titleAr : typeModel!.titleEn}',
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.black),
+                  ),
+                    Expanded(child: Container(),),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: AppWidget.svg(
+                          'close.svg', AppColors.black, 24.0, 24.0),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 24,
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text(
+                   typeModel!.desctitle,
+                    style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Text(
+                  typeModel!.desc,
+                  style: const TextStyle(color: Colors.black54, fontSize: 13),
+                ),
+                Center(
+                child: MaterialButton(
+                  onPressed:
+                       () {
+                    Navigator.pop(context);
+                    /*showConfirmCodeDialog();*/
+                    Navigator.pushNamed(context, AppConstant.pageAddSiteRoute);
+                  }
+                     ,
+                  height: 56.0,
+                  disabledColor: AppColors.grey4,
+                  child: Text(
+                    'Get'.tr()+ '${lang == 'ar' ? typeModel!.titleAr : typeModel!.titleEn}',
+                    style: TextStyle(color: AppColors.white, fontSize: 16.0),
+                  ),
+                  color: AppColors.colorPrimary ,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0)),
+                )),
+                SizedBox(height: 5,)
+              ],
+            ),
+          );
+        });
   }
 
   Future<void> refreshData() async {

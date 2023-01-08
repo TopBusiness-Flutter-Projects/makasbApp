@@ -21,7 +21,7 @@ class AppWidget {
     );
   }
 
-  static Widget svg(String name, Color color, double width, double height) {
+  static Widget svg(String name, Color? color, double width, double height) {
     return SvgPicture.asset(
       AppConstant.localImagePath + name,
       width: width,

@@ -23,50 +23,17 @@ class coinsWidget extends StatefulWidget {
 class _coinsWidgetState extends State<coinsWidget>
     with SingleTickerProviderStateMixin {
   double _currentPage = 0;
-  List<int> _list = [
-    10,
-    20,
-    30,
-    40,
-    50,
-    10,
-    20,
-    30,
-    40,
-    50,
-    10,
-    20,
-    30,
-    40,
-    50
-  ];
-  late Timer _timer;
-  PageController _pageController = PageController(
-    initialPage: 0,
-  );
 
   @override
   void initState() {
     super.initState();
-    _timer = Timer.periodic(const Duration(seconds: 5), (Timer timer) {
-      if (_currentPage < 10) {
-        _currentPage++;
-      }
-      else {
-        _currentPage = 0;
-      }
 
-      _pageController.animateToPage(
-        _currentPage.toInt(),
-        duration: const Duration(milliseconds: 350),
-        curve: Curves.easeIn,
-      );
-    });
+
+
   }
 
   @override
   void dispose() {
-    _timer.cancel();
     super.dispose();
   }
 
@@ -146,54 +113,54 @@ class _coinsWidgetState extends State<coinsWidget>
       ]);
   }
 
-  _imageSlider(context) {
-    return PageView.builder(
-      controller: _pageController,
-      itemBuilder: (BuildContext context, int index) {
-        return Container(
-            margin: const EdgeInsets.all(10),
-            child: Card(
-              child: Container(
-                child: Column(
-                  children: [
-                    Html(
-                      data: """
-                <div>Follow<a class='sup'><sup>pl</sup></a>
-                  Below hr
-                    <b>Bold</b>
-                <h1>what was sent down to you from your Lord</h1>,
-                and do not follow other guardians apart from Him. Little do
-                <span class='h'>you remind yourselves</span><a class='f'><sup f=2437>1</sup></a></div>
-                """,
-                      onImageError: (node, children) {
-                        if (node is dom.Element) {
-                          switch (node.localName) {
-                            case "custom_tag": // using this, you can handle custom tags in your HTML
-                            // return Column(children: children);
-                          }
-                        } else {}
-                      },
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: AppColors.colorPrimary,
-                          elevation: 5,
-                          shadowColor: AppColors.grey8),
-                      onPressed: () {
-                        Navigator.of(context)
-                            .pushReplacementNamed(AppConstant.pageHomeRoute);
-                      },
-                      child: Text('buy now'.tr()),
-                    ),
-                  ],
-                ),
-              ),
-            ));
-      },
-      itemCount: 10,
-    );
-  }
-  coins() {
+  // _imageSlider(context) {
+  //   return PageView.builder(
+  //     controller: _pageController,
+  //     itemBuilder: (BuildContext context, int index) {
+  //       return Container(
+  //           margin: const EdgeInsets.all(10),
+  //           child: Card(
+  //             child: Container(
+  //               child: Column(
+  //                 children: [
+  //                   Html(
+  //                     data: """
+  //               <div>Follow<a class='sup'><sup>pl</sup></a>
+  //                 Below hr
+  //                   <b>Bold</b>
+  //               <h1>what was sent down to you from your Lord</h1>,
+  //               and do not follow other guardians apart from Him. Little do
+  //               <span class='h'>you remind yourselves</span><a class='f'><sup f=2437>1</sup></a></div>
+  //               """,
+  //                     onImageError: (node, children) {
+  //                       if (node is dom.Element) {
+  //                         switch (node.localName) {
+  //                           case "custom_tag": // using this, you can handle custom tags in your HTML
+  //                           // return Column(children: children);
+  //                         }
+  //                       } else {}
+  //                     },
+  //                   ),
+  //                   ElevatedButton(
+  //                     style: ElevatedButton.styleFrom(
+  //                         primary: AppColors.colorPrimary,
+  //                         elevation: 5,
+  //                         shadowColor: AppColors.grey8),
+  //                     onPressed: () {
+  //                       Navigator.of(context)
+  //                           .pushReplacementNamed(AppConstant.pageHomeRoute);
+  //                     },
+  //                     child: Text('buy now'.tr()),
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //           ));
+  //     },
+  //     itemCount: 10,
+  //   );
+  // }
+  Widget coins() {
     String lang = EasyLocalization.of(context)!.locale.languageCode;
 
     CoinsPageCubit cubit = BlocProvider.of<CoinsPageCubit>(context);
@@ -211,17 +178,16 @@ class _coinsWidgetState extends State<coinsWidget>
         BlocBuilder<CoinsPageCubit, CoinsPageState>(
             builder: (context, state) {
               if (state is IsLoadingData) {
-                return const Expanded(
-                  child: Center(
+                return
+                  Center(
                     child: CircularProgressIndicator(
                       color: AppColors.colorPrimary,
                     ),
-                  ),
+
                 );
               }
               else if (state is OnError) {
-                return Expanded(
-                  child: Center(
+                return  Center(
                     child: InkWell(
                       onTap: refreshData,
                       child: Column(
@@ -241,15 +207,14 @@ class _coinsWidgetState extends State<coinsWidget>
                         ],
                       ),
                     ),
-                  ),
+
                 );
               }
               else {
                 List<Points> list = cubit.projects;
 
                 if (list.isNotEmpty) {
-                  return Expanded(
-                      child: RefreshIndicator(
+                  return RefreshIndicator(
                           color: AppColors.colorPrimary,
                           onRefresh: refreshData,
                           child:  LayoutBuilder(
@@ -330,15 +295,14 @@ class _coinsWidgetState extends State<coinsWidget>
                                             ),
                                           ));
                                 },
-                              ))));
+                              )));
                 } else {
-                  return Expanded(
-                      child: Center(
+                  return  Center(
                         child: Text(
                           'no_projects'.tr(),
                           style: TextStyle(color: AppColors.black, fontSize: 15.0),
                         ),
-                      ));
+                      );
                 }
               }
             })));

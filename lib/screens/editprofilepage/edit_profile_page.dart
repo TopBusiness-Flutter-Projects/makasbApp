@@ -93,9 +93,9 @@ class _EditprofilepageState extends State<Editprofilepage>
             AlertController.show('warning'.tr(), state.error, TypeAlert.warning);
 
           } else if (state is OnSignUpSuccess) {
-            Navigator.of(context)
-                .pushNamedAndRemoveUntil(AppConstant.pageHomeRoute,ModalRoute.withName(AppConstant.pageSplashRoute));
-            //Navigator.pop(context, true);
+            // Navigator.of(context)
+            //     .pushNamedAndRemoveUntil(AppConstant.pageHomeRoute,ModalRoute.withName(AppConstant.pageSplashRoute));
+            Navigator.pop(context, true);
           }
         },
     child: Container(
