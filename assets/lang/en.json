@@ -86,5 +86,9 @@
   "To get free points by liking others SoundCloud Tracks click on the like button":"To get free points by liking others SoundCloud Tracks click on the \"like\" button, then the track will be opened with popUp and after like the track CLOSE the popUp yourself. The users who dont close manually the popUp, will not receive points.",
   "o get free points by upvoting others Reddit Posts or Comments click on the upvote":"o get free points by upvoting others Reddit Posts or Comments click on the \"upvote\" button, then the post/comment will be opened with popUp and after upvoting the post/comment CLOSE the popUp yourself. The users who dont close manually the popUp, will not receive points",
   "oGet free points by subscribing/joining others Telegram Channels/Groups":"oGet free points by subscribing/joining others Telegram Channels/Groups You can see which Telegram channel/group you are trying to subscribe/join by clicking on the subscribe button. You can also skip those you dont want to subscribe/join.",
-  "Get": "Get "
+  "Get": "Get ",
+  "Would you like to delete this account?": "Would you like to delete this account?",
+  "wait": "wait",
+  "Confirm": "Confirm",
+  "Cancel": "Cancel"
 }
