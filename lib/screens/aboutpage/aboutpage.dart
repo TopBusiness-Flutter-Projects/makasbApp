@@ -57,34 +57,11 @@ class Aboutpage extends StatelessWidget {
             ],
           ),
         ),
-          // Row(
-          //
-          //   children: [
-          //  // give it width
-          //
-          //     Text(
-          //
-          //       'Makasb'.tr(),
-          //       style: const TextStyle(
-          //           fontSize: 16.0,
-          //           fontWeight: FontWeight.normal,
-          //           color: AppColors.colorPrimary),
-          //     ),
-          //     SizedBox(width: 10,),
-          //     Text(
-          //       'Makasb helps you to'.tr(),
-          //       style: const TextStyle(
-          //           fontSize: 16.0,
-          //           fontWeight: FontWeight.normal,
-          //           color: AppColors.black),
-          //     )
-          //   ],
-          // ),
 
           const SizedBox(
             height: 10.0,
           ),
-          Expanded(flex: 1,child: Container(
+        Container(
               child: Text(
                   '$text'
                   ,
@@ -93,7 +70,7 @@ class Aboutpage extends StatelessWidget {
                     fontWeight: FontWeight.normal,
                     color: AppColors.black),
               )
-          ),)
+          )
 
         ],))
     );
