@@ -166,7 +166,8 @@ class _LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.circular(16.0)),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      child: TextFormField(
+                      child:
+                      TextFormField(
                         maxLines: 1,
                         autofocus: false,
                         obscureText: cubit.ishidden,
