@@ -146,7 +146,7 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(width: 5), // give it width
 
                 Text(
-                  'email'.tr(),
+                  'password'.tr(),
                   style: const TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.normal,
