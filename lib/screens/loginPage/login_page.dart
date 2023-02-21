@@ -28,7 +28,8 @@ class _LoginPageState extends State<LoginPage> {
   Widget buildBodySection() {
     LoginCubit cubit = BlocProvider.of<LoginCubit>(context);
 
-    return BlocListener<LoginCubit, LoginState>(listener: (context, state) {
+    return BlocListener<LoginCubit, LoginState>(
+        listener: (context, state) {
       print("Status=>${state}");
       if (state is OnSignUp) {
         Fluttertoast.showToast(

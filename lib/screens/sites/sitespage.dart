@@ -244,7 +244,7 @@ class _SitesWidgetState extends State<SitesWidget> {
                                                 height: 56.0,
                                                 disabledColor: AppColors.grey4,
                                                 child: Text(
-                                                  'share'.tr(),
+                                                  typeModel!.action,
                                                   style: TextStyle(
                                                       color: AppColors.white,
                                                       fontSize: 16.0),

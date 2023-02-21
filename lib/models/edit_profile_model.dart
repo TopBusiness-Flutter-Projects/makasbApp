@@ -5,12 +5,17 @@ class EditProfileModel {
   String user_name = '';
   String email = '';
 
+  int id=0;
+
+  String phone='';
+
 
 
   bool isDataValid() {
     if (user_name.isNotEmpty &&
+phone.isNotEmpty&&
+        EmailValidator.validate(email)&&id!=0
 
-        EmailValidator.validate(email)
        ) {
 
       return true;

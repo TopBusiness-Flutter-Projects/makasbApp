@@ -2,11 +2,17 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../models/country_model.dart';
+
 @immutable
 abstract class UserSignUpState {}
 
 class UserSignUpInitial extends UserSignUpState {}
+class OnCountrySelected extends UserSignUpState {
+ CountryModel countryModel;
 
+  OnCountrySelected(this.countryModel);
+}
 class UserPhotoPicked extends UserSignUpState {
   String imagePath;
 

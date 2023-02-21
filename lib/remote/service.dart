@@ -53,6 +53,8 @@ class ServiceApi {
         fields = FormData.fromMap({
           'user_name': model.user_name,
           'email': model.email,
+          'phone': model.phone,
+          'country': model.id,
           'password': model.password,
           'password_confirmation': model.password_confirmation,
           'image': await MultipartFile.fromFile(model.imagePath)
@@ -61,6 +63,8 @@ class ServiceApi {
         fields = FormData.fromMap({
           'user_name': model.user_name,
           'email': model.email,
+          'phone': model.phone,
+          'country': model.id,
           'password': model.password,
           'password_confirmation': model.password_confirmation,
         });

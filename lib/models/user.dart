@@ -5,9 +5,11 @@ class User {
   late String? userName;
   late int? balance;
   late String? email;
+  late String? phone;
   late String? image;
   late String? createdAt;
   late String? updatedAt;
+  late String? country;
   // late List<Sites> sites;
   late bool isLoggedIn = false;
   late String token;
@@ -20,6 +22,8 @@ class User {
     balance = json['balance'];
     email = json['email'];
     image = json['image'];
+    phone = json['phone'];
+    country = json['country'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     token = json['token'];
@@ -38,7 +42,9 @@ class User {
       'balance'  :user.balance,
       'email'      :user.email,
       'image'      :user.image,
+      'phone'      :user.phone,
       'created_at'  :user.createdAt,
+      'country'  :user.country,
       'updated_at'  :user.updatedAt,
       'token'  :user.token,
 

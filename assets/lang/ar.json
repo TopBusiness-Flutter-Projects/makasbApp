@@ -92,6 +92,17 @@
  "Would you like to delete this account?": "هل تريد حذف هذا الحساب ؟",
  "wait": "انتظر قليلا",
  "Confirm": "موافق",
- "Cancel": "الغاء"
+ "Cancel": "الغاء",
+ "phone": "رقم الجوال",
+ "like": "اعجاب",
+ "follow": "متابعه",
+ "follow like": "متابعه واعجاب",
+ "subscribe": "اشتراك",
+ "view": "مشاهدة",
+ "tweet": "تغريده",
+ "retweet": "اعادة تغريده",
+ "updates": "تحديثات",
+ "be part": "كن عضو",
+ "save": "حفظ"
 }
 

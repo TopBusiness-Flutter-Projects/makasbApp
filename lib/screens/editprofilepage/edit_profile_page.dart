@@ -13,6 +13,7 @@ import 'package:makasb/constants/app_constant.dart';
 import 'package:makasb/colors/colors.dart';
 import 'package:makasb/widgets/app_widgets.dart';
 
+import '../../models/country_model.dart';
 import '../../models/user_model.dart';
 import '../../preferences/preferences.dart';
 import 'cubit/user_edit_cubit.dart';
@@ -189,7 +190,77 @@ class _EditprofilepageState extends State<Editprofilepage>
                           color: AppColors.grey1, fontSize: 14.0)),
                 ),
               )),
+          const SizedBox(
+            height: 20.0,
+          ),
 
+          Row(
+            children: [
+              AppWidget.svg(
+                  'phone.svg', AppColors.colorPrimary, 15.0, 15.0),
+              const SizedBox(width: 5), // give it width
+
+              Text(
+                'phone'.tr(),
+                style: const TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.normal,
+                    color: AppColors.black),
+              )
+            ],
+          ),
+          const SizedBox(
+            height: 8.0,
+          ),
+          Container(
+              height: 56.0,
+              decoration: BoxDecoration(
+                  color: AppColors.grey8,
+                  borderRadius: BorderRadius.circular(16.0)),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: TextFormField(
+                  maxLines: 1,
+                  autofocus: false,
+                  cursorColor: AppColors.colorPrimary,
+                  keyboardType: TextInputType.phone,
+                  controller: cubit.controllerPhone,
+                  textInputAction: TextInputAction.next,
+                  onChanged: (data) {
+                    cubit.model.phone = data;
+                    cubit.checkData();
+                  },
+                  decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: 'phone'.tr(),
+                      hintStyle: const TextStyle(
+                          color: AppColors.grey1, fontSize: 14.0)),
+                ),
+              )),
+          const SizedBox(
+            height: 20.0,
+          ),
+          Row(
+            children: [
+              AppWidget.svg('world.svg', AppColors.colorPrimary, 15.0, 15.0),
+              const SizedBox(width: 5), // give it width
+
+              Text(
+                'Country'.tr(),
+                style: const TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.normal,
+                    color: AppColors.black),
+              )
+            ],
+          ),
+          const SizedBox(
+            height: 8.0,
+          ),
+          buildCityField(),
+          const SizedBox(
+            height: 20.0,
+          ),
 
           buildButtonStart(),
           const SizedBox(height: 50)
@@ -392,5 +463,39 @@ class _EditprofilepageState extends State<Editprofilepage>
           );
         });
   }
+  void navigateToCitiesPage() async {
+    EditprofileCubit cubit = BlocProvider.of<EditprofileCubit>(context);
 
+    var result =
+    await Navigator.pushNamed(context, AppConstant.pageCountriesRoute);
+    if (result != null) {
+      CountryModel model = result as CountryModel;
+
+      cubit.updateSelectedCity(model);
+    }
+  }
+
+  buildCityField() {
+    EditprofileCubit cubit = BlocProvider.of<EditprofileCubit>(context);
+
+    double width = MediaQuery.of(context).size.width;
+    String lang = EasyLocalization.of(context)!.locale.languageCode;
+    return InkWell(
+      onTap: () => navigateToCitiesPage(),
+      child: BlocBuilder<EditprofileCubit, EditprofileState>(
+        builder: (context, state) {
+          return Container(
+            width: width,
+            height: 54.0,
+            alignment:
+            lang == 'ar' ? Alignment.centerRight : Alignment.centerLeft,
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            decoration: BoxDecoration(
+                color: AppColors.grey8, borderRadius: BorderRadius.circular(8)),
+            child: Text(lang=='ar'?cubit.countryModel.ar_name : cubit.countryModel.en_name),
+          );
+        },
+      ),
+    );
+  }
 }

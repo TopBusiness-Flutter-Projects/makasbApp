@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../models/country_model.dart';
+
 @immutable
 abstract class EditprofileState {}
 
@@ -32,6 +34,11 @@ class IsLoading extends EditprofileState {}
 
 class OnSignUpSuccess extends EditprofileState {
 
+}
+class OnCountrySelected extends EditprofileState {
+  CountryModel countryModel;
+
+  OnCountrySelected(this.countryModel);
 }
 
 class OnUserDataGet extends EditprofileState {

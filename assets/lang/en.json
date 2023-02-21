@@ -90,5 +90,16 @@
   "Would you like to delete this account?": "Would you like to delete this account?",
   "wait": "wait",
   "Confirm": "Confirm",
-  "Cancel": "Cancel"
+  "Cancel": "Cancel",
+  "phone": "Phone",
+  "like": "Like",
+  "follow": "Follow",
+  "follow like": "Follow Like",
+  "subscribe": "Subscibe",
+  "view": "View",
+  "tweet": "Tweet",
+  "retweet": "ReTweet",
+  "updates": "Updates",
+  "be part": "Be Part",
+  "save": "Save"
 }

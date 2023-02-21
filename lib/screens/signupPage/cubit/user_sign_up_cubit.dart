@@ -5,6 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:makasb/models/country_model.dart';
 import 'package:makasb/screens/signupPage/cubit/user_sign_up_state.dart';
 
 import '../../../models/user_model.dart';
@@ -29,9 +30,15 @@ class UserSignUpCubit extends Cubit<UserSignUpState> {
   TextEditingController controllerLastName = TextEditingController();
   TextEditingController controllerEmail = TextEditingController();
 
+ late CountryModel countryModel;
+
   UserSignUpCubit() : super(UserSignUpInitial()) {
     api = ServiceApi();
+    countryModel=CountryModel.initValues();
+    model.id = countryModel.id;
+
     imagePath = "";
+
     updateUserDataUi();
   }
 
@@ -62,7 +69,8 @@ class UserSignUpCubit extends Cubit<UserSignUpState> {
     } else {
       isDataValid = false;
     }
-
+print("ddlldl");
+print(isDataValid);
     emit(UserDataValidation(isDataValid));
   }
 
@@ -85,7 +93,21 @@ class UserSignUpCubit extends Cubit<UserSignUpState> {
       emit(OnError(e.toString()));
     }
   }
+  updateSelectedCity(CountryModel countryModel) {
 
+print("ssss");
+print(countryModel.id);
+
+this.countryModel=countryModel;
+model.id=this.countryModel.id;
+print("D;d;d;dl");
+print(model.id);
+
+      // model.cityId = selectedCountryModel.id;
+      checkData();
+      emit(OnCountrySelected(countryModel));
+
+  }
   // updateProfile(BuildContext context, String user_token) async {
   //   AppWidget.createProgressDialog(context, 'wait'.tr());
   //   try {

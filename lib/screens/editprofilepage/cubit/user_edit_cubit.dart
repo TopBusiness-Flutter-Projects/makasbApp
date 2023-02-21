@@ -7,6 +7,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:makasb/screens/editprofilepage/cubit/user_edit_state.dart';
 
+import '../../../models/country_model.dart';
 import '../../../models/edit_profile_model.dart';
 import '../../../models/user_model.dart';
 import '../../../models/user_sign_up_model.dart';
@@ -16,7 +17,7 @@ import '../../../widgets/app_widgets.dart';
 
 class EditprofileCubit extends Cubit<EditprofileState> {
   XFile? imageFile;
- 
+
   String imageType = '';
   EditProfileModel model = EditProfileModel();
   bool isDataValid = false;
@@ -24,10 +25,15 @@ class EditprofileCubit extends Cubit<EditprofileState> {
   late String imagePath;
   TextEditingController controllerFirstName = TextEditingController();
   TextEditingController controllerEmail = TextEditingController();
+  TextEditingController controllerPhone = TextEditingController();
+
+  late CountryModel countryModel;
 
   EditprofileCubit() : super(EditprofileUpInitial()) {
     api = ServiceApi();
     imagePath = "";
+    countryModel = CountryModel.initValues();
+    model.id = countryModel.id;
     updateUserDataUi();
   }
 
@@ -62,11 +68,24 @@ class EditprofileCubit extends Cubit<EditprofileState> {
     emit(UserDataValidation(isDataValid));
   }
 
+  updateSelectedCity(CountryModel countryModel) {
+    print("ssss");
+    print(countryModel.id);
+
+    this.countryModel = countryModel;
+    model.id = this.countryModel.id;
+    print("D;d;d;dl");
+    print(model.id);
+
+    // model.cityId = selectedCountryModel.id;
+    checkData();
+    emit(OnCountrySelected(countryModel));
+  }
 
   updateProfile(BuildContext context, String user_token, int user_id) async {
     AppWidget.createProgressDialog(context, 'wait'.tr());
     try {
-      UserModel response = await api.updateProfile(model, user_token,user_id);
+      UserModel response = await api.updateProfile(model, user_token, user_id);
       response.data.isLoggedIn = true;
       print("Dkdkdkdk" + response.status.status.toString());
       if (response.status.status == 200) {
@@ -88,10 +107,12 @@ class EditprofileCubit extends Cubit<EditprofileState> {
       if (value.data.isLoggedIn) {
         model.user_name = value.data.userName!;
         model.email = value.data.email!;
+        model.phone = value.data.phone!;
         model.imagePath = value.data.image!;
         controllerFirstName.text = model.user_name;
         controllerEmail.text = model.email;
-
+        controllerPhone.text = model.phone;
+        model.id = int.parse(value.data.country.toString());
         emit(OnUserDataGet());
         emit(UserPhotoPicked(model.imagePath));
         checkData();

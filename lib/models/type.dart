@@ -6,6 +6,7 @@ class TypeModel {
   late String updatedAt;
   late String desctitle;
   late String desc;
+  late String action;
 
 
   TypeModel.initValues(){
@@ -14,7 +15,7 @@ class TypeModel {
     titleEn = 'Choose Type';
 
   }
-  TypeModel(this.id, this.titleAr, this.titleEn,this.desctitle,this.desc);
+  TypeModel(this.id, this.titleAr, this.titleEn,this.desctitle,this.desc,this.action);
 
   TypeModel.fromJson(Map<String, dynamic> json) {
     id = json['id'] ??0;

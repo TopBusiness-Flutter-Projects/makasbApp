@@ -94,7 +94,7 @@ class _CountriesPageState extends State<CountriesPage> {
           border: Border.all(color: AppColors.grey3, width: 1.0)),
       child: Row(
         children: [
-          AppWidget.svg('search.svg', AppColors.grey6, 24.0, 24.0),
+        //  AppWidget.svg('search.svg', AppColors.grey6, 24.0, 24.0),
           SizedBox(
             width: 8,
           ),
