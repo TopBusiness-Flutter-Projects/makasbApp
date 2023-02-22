@@ -81,385 +81,387 @@ class _AddSitePageState extends State<AddSitePage>
         },
     child: BlocBuilder<AddSiteCubit, AddSiteState>(builder: (context, state) {
 
-      return ListView(
-        children: [
-          Row(
-            children: [
-              AppWidget.svg('type.svg', AppColors.colorPrimary, 15.0, 15.0),
-              const SizedBox(width: 5), // give it width
+      return SingleChildScrollView(
+        child: Column(
+          children: [
+            Row(
+              children: [
+                AppWidget.svg('type.svg', AppColors.colorPrimary, 15.0, 15.0),
+                const SizedBox(width: 5), // give it width
 
-              Text(
-                'Type'.tr(),
-                style: const TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.normal,
-                    color: AppColors.black),
-              )
-            ],
-          ),
-          const SizedBox(
-            height: 8.0,
-          ),
-          buildTypsField(),
-          const SizedBox(
-            height: 20.0,
-          ),
-          Row(
-            children: [
-              AppWidget.svg('world.svg', AppColors.colorPrimary, 15.0, 15.0),
-              const SizedBox(width: 5), // give it width
+                Text(
+                  'Type'.tr(),
+                  style: const TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.normal,
+                      color: AppColors.black),
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 8.0,
+            ),
+            buildTypsField(),
+            const SizedBox(
+              height: 20.0,
+            ),
+            Row(
+              children: [
+                AppWidget.svg('world.svg', AppColors.colorPrimary, 15.0, 15.0),
+                const SizedBox(width: 5), // give it width
 
-              Text(
-                'Country'.tr(),
-                style: const TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.normal,
-                    color: AppColors.black),
-              )
-            ],
-          ),
-          const SizedBox(
-            height: 8.0,
-          ),
-          buildCityField(),
-          Expanded(
-              child: SizedBox(
-            height: 50,
-            child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: cubit.selectedCountryModel.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  CountryModel model =
-                      cubit.selectedCountryModel.elementAt(index);
-                  String lang =
-                      EasyLocalization.of(context)!.locale.languageCode;
+                Text(
+                  'Country'.tr(),
+                  style: const TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.normal,
+                      color: AppColors.black),
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 8.0,
+            ),
+            buildCityField(),
+            Expanded(
+                child: SizedBox(
+              height: 50,
+              child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: cubit.selectedCountryModel.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    CountryModel model =
+                        cubit.selectedCountryModel.elementAt(index);
+                    String lang =
+                        EasyLocalization.of(context)!.locale.languageCode;
 
-                  return Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      alignment: Alignment.centerLeft,
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 16.0, vertical: 1),
-                      color: AppColors.white,
-                      height: 48,
-                      child: Row(
-                        children: [
-                          Text(
-                            lang == 'ar' ? model.ar_name : model.en_name,
-                            maxLines: 1,
-                            style: const TextStyle(
-                                color: AppColors.black, fontSize: 15.0),
-                          ),
-                          InkWell(
-                              onTap: () {
-                                cubit.remove(model);
-                              },
-                              child: AppWidget.svg(
-                                  'remove.svg', AppColors.black, 24.0, 24.0)),
-                        ],
-                      ));
-                }),
-          )),
-          const SizedBox(
-            height: 20.0,
-          ),
-          Row(
-            children: [
-              AppWidget.svg(
-                  'title_page.svg', AppColors.colorPrimary, 15.0, 15.0),
-              const SizedBox(width: 5), // give it width
+                    return Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        alignment: Alignment.centerLeft,
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 16.0, vertical: 1),
+                        color: AppColors.white,
+                        height: 48,
+                        child: Row(
+                          children: [
+                            Text(
+                              lang == 'ar' ? model.ar_name : model.en_name,
+                              maxLines: 1,
+                              style: const TextStyle(
+                                  color: AppColors.black, fontSize: 15.0),
+                            ),
+                            InkWell(
+                                onTap: () {
+                                  cubit.remove(model);
+                                },
+                                child: AppWidget.svg(
+                                    'remove.svg', AppColors.black, 24.0, 24.0)),
+                          ],
+                        ));
+                  }),
+            )),
+            const SizedBox(
+              height: 20.0,
+            ),
+            Row(
+              children: [
+                AppWidget.svg(
+                    'title_page.svg', AppColors.colorPrimary, 15.0, 15.0),
+                const SizedBox(width: 5), // give it width
 
-              Text(
-                'set title for site - page'.tr(),
-                style: const TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.normal,
-                    color: AppColors.black),
-              )
-            ],
-          ),
-          const SizedBox(
-            height: 8.0,
-          ),
-          Container(
-              height: 56.0,
-              decoration: BoxDecoration(
-                  color: AppColors.grey8,
-                  borderRadius: BorderRadius.circular(16.0)),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                child: TextFormField(
-                  maxLines: 1,
-                  autofocus: false,
-                  cursorColor: AppColors.colorPrimary,
-                  textInputAction: TextInputAction.next,
-                  onChanged: (data) {
-                    cubit.model.title = data;
-                    cubit.checkData();
-                  },
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'site title'.tr(),
-                      hintStyle: const TextStyle(
-                          color: AppColors.grey1, fontSize: 14.0)),
+                Text(
+                  'set title for site - page'.tr(),
+                  style: const TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.normal,
+                      color: AppColors.black),
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 8.0,
+            ),
+            Container(
+                height: 56.0,
+                decoration: BoxDecoration(
+                    color: AppColors.grey8,
+                    borderRadius: BorderRadius.circular(16.0)),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  child: TextFormField(
+                    maxLines: 1,
+                    autofocus: false,
+                    cursorColor: AppColors.colorPrimary,
+                    textInputAction: TextInputAction.next,
+                    onChanged: (data) {
+                      cubit.model.title = data;
+                      cubit.checkData();
+                    },
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'site title'.tr(),
+                        hintStyle: const TextStyle(
+                            color: AppColors.grey1, fontSize: 14.0)),
+                  ),
+                )),
+            const SizedBox(
+              height: 20.0,
+            ),
+            Row(
+              children: [
+                AppWidget.svg('file.svg', AppColors.colorPrimary, 15.0, 15.0),
+                const SizedBox(width: 5), // give it width
+
+                Text(
+                  'page url'.tr(),
+                  style: const TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.normal,
+                      color: AppColors.black),
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 8.0,
+            ),
+            Container(
+                height: 56.0,
+                decoration: BoxDecoration(
+                    color: AppColors.grey8,
+                    borderRadius: BorderRadius.circular(16.0)),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  child: TextFormField(
+                    maxLines: 1,
+                    autofocus: false,
+                    cursorColor: AppColors.colorPrimary,
+                    keyboardType: TextInputType.text,
+                    textInputAction: TextInputAction.next,
+                    onChanged: (data) {
+                      cubit.model.url = data;
+                      cubit.checkData();
+                    },
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'page url'.tr(),
+                        hintStyle: const TextStyle(
+                            color: AppColors.grey1, fontSize: 14.0)),
+                  ),
+                )),
+            const SizedBox(
+              height: 8.0,
+            ),
+            Row(
+              children: [
+                AppWidget.svg(
+                    'hand_click.svg', AppColors.colorPrimary, 15.0, 15.0),
+                const SizedBox(width: 5), // give it width
+
+                Text(
+                  'Total clicks limit'.tr(),
+                  style: const TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.normal,
+                      color: AppColors.black),
                 ),
-              )),
-          const SizedBox(
-            height: 20.0,
-          ),
-          Row(
-            children: [
-              AppWidget.svg('file.svg', AppColors.colorPrimary, 15.0, 15.0),
-              const SizedBox(width: 5), // give it width
-
-              Text(
-                'page url'.tr(),
-                style: const TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.normal,
-                    color: AppColors.black),
-              )
-            ],
-          ),
-          const SizedBox(
-            height: 8.0,
-          ),
-          Container(
-              height: 56.0,
-              decoration: BoxDecoration(
-                  color: AppColors.grey8,
-                  borderRadius: BorderRadius.circular(16.0)),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                child: TextFormField(
-                  maxLines: 1,
-                  autofocus: false,
-                  cursorColor: AppColors.colorPrimary,
-                  keyboardType: TextInputType.text,
-                  textInputAction: TextInputAction.next,
-                  onChanged: (data) {
-                    cubit.model.url = data;
-                    cubit.checkData();
-                  },
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'page url'.tr(),
-                      hintStyle: const TextStyle(
-                          color: AppColors.grey1, fontSize: 14.0)),
+                Expanded(
+                  child: Container(),
+                  flex: 1,
                 ),
-              )),
-          const SizedBox(
-            height: 8.0,
-          ),
-          Row(
-            children: [
-              AppWidget.svg(
-                  'hand_click.svg', AppColors.colorPrimary, 15.0, 15.0),
-              const SizedBox(width: 5), // give it width
-
-              Text(
-                'Total clicks limit'.tr(),
-                style: const TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.normal,
-                    color: AppColors.black),
-              ),
-              Expanded(
-                child: Container(),
-                flex: 1,
-              ),
-              // Switch(
-              //   value: isSwitched,
-              //
-              //   onChanged: (value) {
-              //     setState(() {
-              //       isSwitched = value;
-              //       print(isSwitched);
-              //     });
-              //   },
-              //   activeTrackColor: AppColors.colorPrimary,
-              //   activeColor:AppColors.colorPrimary,
-              // )
-            ],
-          ),
-          const SizedBox(
-            height: 8.0,
-          ),
-          Row(
-            children: [
-              const SizedBox(
-                width: 10,
-              ),
-              Text(
-                'limit'.tr(),
-                style: const TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.normal,
-                    color: AppColors.black),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              Expanded(
-                flex: 1,
-                child: Container(
-                    height: 56.0,
-                    decoration: BoxDecoration(
-                        color: AppColors.grey8,
-                        borderRadius: BorderRadius.circular(16.0)),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 12.0),
-                      child: TextFormField(
-                        maxLines: 1,
-                        autofocus: false,
-                        cursorColor: AppColors.colorPrimary,
-                        keyboardType: TextInputType.number,
-                        textInputAction: TextInputAction.next,
-                        onChanged: (data) {
-                          cubit.model.total_clicks_limit = data;
-                          cubit.checkData();
-                        },
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: '1000',
-                            hintStyle: const TextStyle(
-                                color: AppColors.grey1, fontSize: 14.0)),
-                      ),
-                    )),
-              )
-            ],
-          ),
-          const SizedBox(
-            height: 8.0,
-          ),
-          Row(
-            children: [
-              AppWidget.svg(
-                  'hand_click.svg', AppColors.colorPrimary, 15.0, 15.0),
-              const SizedBox(width: 5), // give it width
-
-              Text(
-                'Daily clicks limit'.tr(),
-                style: const TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.normal,
-                    color: AppColors.black),
-              ),
-              Expanded(
-                child: Container(),
-                flex: 1,
-              ),
-              // Switch(
-              //   value: isSwitched,
-              //
-              //   onChanged: (value) {
-              //     setState(() {
-              //       isSwitched = value;
-              //       print(isSwitched);
-              //     });
-              //   },
-              //   activeTrackColor: AppColors.colorPrimary,
-              //   activeColor:AppColors.colorPrimary,
-              // )
-            ],
-          ),
-          const SizedBox(
-            height: 8.0,
-          ),
-          Row(
-            children: [
-              const SizedBox(
-                width: 10,
-              ),
-              Text(
-                'limit'.tr(),
-                style: const TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.normal,
-                    color: AppColors.black),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              Expanded(
-                flex: 1,
-                child: Container(
-                    height: 56.0,
-                    decoration: BoxDecoration(
-                        color: AppColors.grey8,
-                        borderRadius: BorderRadius.circular(16.0)),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 12.0),
-                      child: TextFormField(
-                        maxLines: 1,
-                        autofocus: false,
-                        cursorColor: AppColors.colorPrimary,
-                        keyboardType: TextInputType.number,
-                        textInputAction: TextInputAction.next,
-                        onChanged: (data) {
-                          cubit.model.daily_clicks_limit = data;
-                          cubit.checkData();
-                        },
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: '1000',
-                            hintStyle: const TextStyle(
-                                color: AppColors.grey1, fontSize: 14.0)),
-                      ),
-                    )),
-              )
-            ],
-          ),
-          const SizedBox(
-            height: 8.0,
-          ),
-          Row(
-            children: [
-              AppWidget.svg(
-                  'hand_dolar.svg', AppColors.colorPrimary, 15.0, 15.0),
-              const SizedBox(width: 5), // give it width
-
-              Text(
-                'Cost/Points Per Click (from 5 to 50)'.tr(),
-                style: const TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.normal,
-                    color: AppColors.black),
-              )
-            ],
-          ),
-          const SizedBox(
-            height: 8.0,
-          ),
-          Container(
-              height: 56.0,
-              decoration: BoxDecoration(
-                  color: AppColors.grey8,
-                  borderRadius: BorderRadius.circular(16.0)),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                child: TextFormField(
-                  maxLines: 1,
-                  autofocus: false,
-                  cursorColor: AppColors.colorPrimary,
-                  keyboardType: TextInputType.number,
-                  textInputAction: TextInputAction.next,
-                  onChanged: (data) {
-                    cubit.model.points_for_click = data;
-                    cubit.checkData();
-                  },
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: '5'.tr(),
-                      hintStyle: const TextStyle(
-                          color: AppColors.grey1, fontSize: 14.0)),
+                // Switch(
+                //   value: isSwitched,
+                //
+                //   onChanged: (value) {
+                //     setState(() {
+                //       isSwitched = value;
+                //       print(isSwitched);
+                //     });
+                //   },
+                //   activeTrackColor: AppColors.colorPrimary,
+                //   activeColor:AppColors.colorPrimary,
+                // )
+              ],
+            ),
+            const SizedBox(
+              height: 8.0,
+            ),
+            Row(
+              children: [
+                const SizedBox(
+                  width: 10,
                 ),
-              )),
-          const SizedBox(
-            height: 20.0,
-          ),
-          buildButtonStart(),
-        ],
+                Text(
+                  'limit'.tr(),
+                  style: const TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.normal,
+                      color: AppColors.black),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                      height: 56.0,
+                      decoration: BoxDecoration(
+                          color: AppColors.grey8,
+                          borderRadius: BorderRadius.circular(16.0)),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 12.0),
+                        child: TextFormField(
+                          maxLines: 1,
+                          autofocus: false,
+                          cursorColor: AppColors.colorPrimary,
+                          keyboardType: TextInputType.number,
+                          textInputAction: TextInputAction.next,
+                          onChanged: (data) {
+                            cubit.model.total_clicks_limit = data;
+                            cubit.checkData();
+                          },
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: '1000',
+                              hintStyle: const TextStyle(
+                                  color: AppColors.grey1, fontSize: 14.0)),
+                        ),
+                      )),
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 8.0,
+            ),
+            Row(
+              children: [
+                AppWidget.svg(
+                    'hand_click.svg', AppColors.colorPrimary, 15.0, 15.0),
+                const SizedBox(width: 5), // give it width
+
+                Text(
+                  'Daily clicks limit'.tr(),
+                  style: const TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.normal,
+                      color: AppColors.black),
+                ),
+                Expanded(
+                  child: Container(),
+                  flex: 1,
+                ),
+                // Switch(
+                //   value: isSwitched,
+                //
+                //   onChanged: (value) {
+                //     setState(() {
+                //       isSwitched = value;
+                //       print(isSwitched);
+                //     });
+                //   },
+                //   activeTrackColor: AppColors.colorPrimary,
+                //   activeColor:AppColors.colorPrimary,
+                // )
+              ],
+            ),
+            const SizedBox(
+              height: 8.0,
+            ),
+            Row(
+              children: [
+                const SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  'limit'.tr(),
+                  style: const TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.normal,
+                      color: AppColors.black),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                      height: 56.0,
+                      decoration: BoxDecoration(
+                          color: AppColors.grey8,
+                          borderRadius: BorderRadius.circular(16.0)),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 12.0),
+                        child: TextFormField(
+                          maxLines: 1,
+                          autofocus: false,
+                          cursorColor: AppColors.colorPrimary,
+                          keyboardType: TextInputType.number,
+                          textInputAction: TextInputAction.next,
+                          onChanged: (data) {
+                            cubit.model.daily_clicks_limit = data;
+                            cubit.checkData();
+                          },
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: '1000',
+                              hintStyle: const TextStyle(
+                                  color: AppColors.grey1, fontSize: 14.0)),
+                        ),
+                      )),
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 8.0,
+            ),
+            Row(
+              children: [
+                AppWidget.svg(
+                    'hand_dolar.svg', AppColors.colorPrimary, 15.0, 15.0),
+                const SizedBox(width: 5), // give it width
+
+                Text(
+                  'Cost/Points Per Click (from 5 to 50)'.tr(),
+                  style: const TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.normal,
+                      color: AppColors.black),
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 8.0,
+            ),
+            Container(
+                height: 56.0,
+                decoration: BoxDecoration(
+                    color: AppColors.grey8,
+                    borderRadius: BorderRadius.circular(16.0)),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  child: TextFormField(
+                    maxLines: 1,
+                    autofocus: false,
+                    cursorColor: AppColors.colorPrimary,
+                    keyboardType: TextInputType.number,
+                    textInputAction: TextInputAction.next,
+                    onChanged: (data) {
+                      cubit.model.points_for_click = data;
+                      cubit.checkData();
+                    },
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: '5'.tr(),
+                        hintStyle: const TextStyle(
+                            color: AppColors.grey1, fontSize: 14.0)),
+                  ),
+                )),
+            const SizedBox(
+              height: 20.0,
+            ),
+            buildButtonStart(),
+          ],
+        ),
       );
     }));
   }

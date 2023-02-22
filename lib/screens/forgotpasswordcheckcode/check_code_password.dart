@@ -70,61 +70,62 @@ Widget body(BuildContext context,String email) {
       }, child: LayoutBuilder(builder: (context, constraints) {
   return Column(children: [
     Expanded(
-        child: Column(children: [
-          const SizedBox(height: 80),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: Text(
-              'reset_password_title'.tr(),
-              style:
-              const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          Text(
-            'reset_password_desc'.tr(),
-            style: const TextStyle(color: Colors.black54, fontSize: 13),
-          ),
-          const SizedBox(height: 30),
-          Padding(
-            padding:
-            const EdgeInsets.symmetric(vertical: 8.0, horizontal: 30),
-            child: Directionality(
-              textDirection: TextDirection.ltr,
-              child: PinCodeTextField(
-                hintCharacter: '0',
-                pastedTextStyle: TextStyle(
-                    color: AppColors.colorPrimary,
-                    fontWeight: FontWeight.bold),
-                appContext: context,
-                length: 6,
-                animationType: AnimationType.fade,
-                validator: (v) {
-                  if (v!.length < 5) {
-                    return "";
-                  } else {
-                    return null;
-                  }
-                },
-                pinTheme: PinTheme(
-                  inactiveColor: AppColors.gray,
-                  activeColor: AppColors.gray,
-                  shape: PinCodeFieldShape.underline,
-                  selectedColor: AppColors.colorPrimary,
-                ),
-                cursorColor: AppColors.colorPrimary,
-                animationDuration: const Duration(milliseconds: 300),
-                // errorAnimationController: errorController,
-                keyboardType: TextInputType.number,
-                onChanged: (value) {
-                  print(value);
-                  cubit.code=value;
-                  cubit.checkValidForgotPasswordData();
-                },
+        child: SingleChildScrollView(
+          child: Column(children: [
+            const SizedBox(height: 80),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Text(
+                'reset_password_title'.tr(),
+                style:
+                const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                textAlign: TextAlign.center,
               ),
             ),
-          ),
-          const SizedBox(height: 20),
+            Text(
+              'reset_password_desc'.tr(),
+              style: const TextStyle(color: Colors.black54, fontSize: 13),
+            ),
+            const SizedBox(height: 30),
+            Padding(
+              padding:
+              const EdgeInsets.symmetric(vertical: 8.0, horizontal: 30),
+              child: Directionality(
+                textDirection: TextDirection.ltr,
+                child: PinCodeTextField(
+                  hintCharacter: '0',
+                  pastedTextStyle: TextStyle(
+                      color: AppColors.colorPrimary,
+                      fontWeight: FontWeight.bold),
+                  appContext: context,
+                  length: 6,
+                  animationType: AnimationType.fade,
+                  validator: (v) {
+                    if (v!.length < 5) {
+                      return "";
+                    } else {
+                      return null;
+                    }
+                  },
+                  pinTheme: PinTheme(
+                    inactiveColor: AppColors.gray,
+                    activeColor: AppColors.gray,
+                    shape: PinCodeFieldShape.underline,
+                    selectedColor: AppColors.colorPrimary,
+                  ),
+                  cursorColor: AppColors.colorPrimary,
+                  animationDuration: const Duration(milliseconds: 300),
+                  // errorAnimationController: errorController,
+                  keyboardType: TextInputType.number,
+                  onChanged: (value) {
+                    print(value);
+                    cubit.code=value;
+                    cubit.checkValidForgotPasswordData();
+                  },
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
   BlocBuilder<ForgotPasswordCheckCodeCubit, ForgotPasswordCheckCodeState>(
   builder: (context, state) {
   bool isValid = cubit.isForgotPasswordValid;
@@ -134,24 +135,25 @@ Widget body(BuildContext context,String email) {
   isValid = true;
   } else if (state is OnError) {}
   return
-          MaterialButton(
-            onPressed: () {
-               cubit.forgotPassword(context);
-            },
-            padding: EdgeInsets.all(10),
-            height: 56.0,
-            color: isValid ? AppColors.colorPrimary : AppColors.grey4,
-            disabledColor: AppColors.grey4,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0)),
-            child: Text(
-              'done'.tr(),
-              style: const TextStyle(fontSize: 16.0, color: AppColors.white),
-            ),
-          );}),
-          SizedBox(height: 22),
+            MaterialButton(
+              onPressed: () {
+                 cubit.forgotPassword(context);
+              },
+              padding: EdgeInsets.all(10),
+              height: 56.0,
+              color: isValid ? AppColors.colorPrimary : AppColors.grey4,
+              disabledColor: AppColors.grey4,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0)),
+              child: Text(
+                'done'.tr(),
+                style: const TextStyle(fontSize: 16.0, color: AppColors.white),
+              ),
+            );}),
+            SizedBox(height: 22),
 
-        ])),
+          ]),
+        )),
     Align(
       alignment: Alignment.bottomLeft,
       child: Image.asset(

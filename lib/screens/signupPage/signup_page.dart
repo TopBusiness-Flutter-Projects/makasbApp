@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dropdown_alert/alert_controller.dart';
 import 'package:flutter_dropdown_alert/model/data_alert.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:makasb/constants/app_constant.dart';
 import 'package:makasb/colors/colors.dart';
@@ -63,22 +64,23 @@ class _signuppageState extends State<signuppage>
         leading: AppWidget.buildBackArrow(context: context),
       ),
       backgroundColor: AppColors.white,
-      body: ListView(
-        shrinkWrap: true,
-        children: [
-          const SizedBox(
-            height: 30,
-          ),
-          SizedBox(
-              height: 173,
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  buildAvatarSection('avatar.png'),
-                ],
-              )),
-          _buildLoginSection(),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 30,
+            ),
+            SizedBox(
+                height: 173,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    buildAvatarSection('avatar.png'),
+                  ],
+                )),
+            _buildLoginSection(),
+          ],
+        ),
       ),
     );
   }
@@ -87,8 +89,14 @@ class _signuppageState extends State<signuppage>
     return BlocListener<UserSignUpCubit, UserSignUpState>(
         listener: (context, state) {
           if (state is OnError) {
-            AlertController.show(
-                'warning'.tr(), state.error, TypeAlert.warning);
+            Fluttertoast.showToast(
+                msg:   state.error, // message
+                toastLength: Toast.LENGTH_SHORT, // length
+                gravity: ToastGravity.BOTTOM, // location
+                timeInSecForIosWeb: 1 // duration
+            );
+            // AlertController.show(
+            //     'warning'.tr(), state.error, TypeAlert.warning);
           } else if (state is OnSignUpSuccess) {
             Navigator.of(context).pushNamedAndRemoveUntil(
                 AppConstant.pageHomeRoute,

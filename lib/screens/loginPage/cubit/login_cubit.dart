@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:meta/meta.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
@@ -50,14 +51,23 @@ class LoginCubit extends Cubit<LoginState> {
 
 
       if (response.status.status == 200) {
+        Navigator.pop(context);
         response.data.isLoggedIn = true;
         Preferences.instance.setUser(response).then((value) {
           emit(OnLoginSuccess(response));
         });
 
-      } else if (response.status.status == 406) {
+      } else if (response.status.status == 400) {
+        Navigator.pop(context);
         emit(OnSignUp(loginModel));
       } else {
+        Navigator.pop(context);
+        Fluttertoast.showToast(
+            msg: response.status.msg, // message
+            toastLength: Toast.LENGTH_SHORT, // length
+            gravity: ToastGravity.BOTTOM, // location
+            timeInSecForIosWeb: 1 // duration
+        );
         print("errorCode=>${response.status.status}");
       }
     } catch (e) {

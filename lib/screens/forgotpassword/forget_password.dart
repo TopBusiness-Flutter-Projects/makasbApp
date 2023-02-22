@@ -42,90 +42,92 @@ Widget body(BuildContext context) {
     return Column(
       children: [
         Expanded(
-          child: Column(
-            children: [
-              const SizedBox(height: 60),
-              Text(
-                'forget_password_title'.tr(),
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
-              ),
-              Text(
-                'forget_password_desc'.tr(),
-                style: const TextStyle(color: Colors.black54, fontSize: 13),
-              ),
-              const SizedBox(height: 30),
-              Row(
-                children: [
-                  const SizedBox(width: 10),
-                  AppWidget.svg(
-                      'email.svg', AppColors.colorPrimary, 15.0, 15.0),
-                  const SizedBox(width: 5), // give it width
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(height: 60),
+                Text(
+                  'forget_password_title'.tr(),
+                  style:
+                      const TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                ),
+                Text(
+                  'forget_password_desc'.tr(),
+                  style: const TextStyle(color: Colors.black54, fontSize: 13),
+                ),
+                const SizedBox(height: 30),
+                Row(
+                  children: [
+                    const SizedBox(width: 10),
+                    AppWidget.svg(
+                        'email.svg', AppColors.colorPrimary, 15.0, 15.0),
+                    const SizedBox(width: 5), // give it width
 
-                  Text(
-                    'email'.tr(),
-                    style: const TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.normal,
-                        color: AppColors.black),
-                  )
-                ],
-              ),
-              const SizedBox(
-                height: 8.0,
-              ),
-              Container(
-                  height: 56.0,
-                  decoration: BoxDecoration(
-                      color: AppColors.grey10,
-                      borderRadius: BorderRadius.circular(16.0)),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                    child: TextFormField(
-                      maxLines: 1,
-                      autofocus: false,
-                      cursorColor: AppColors.colorPrimary,
-                      keyboardType: TextInputType.emailAddress,
-                      textInputAction: TextInputAction.next,
-                      onChanged: (data) {
-                        cubit.email = data;
-                        // cubit.model.email = data;
-                         cubit.checkValidForgotPasswordData();
-                      },
-                      decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: 'email'.tr(),
-                          hintStyle: const TextStyle(
-                              color: AppColors.grey1, fontSize: 14.0)),
+                    Text(
+                      'email'.tr(),
+                      style: const TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.normal,
+                          color: AppColors.black),
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 8.0,
+                ),
+                Container(
+                    height: 56.0,
+                    decoration: BoxDecoration(
+                        color: AppColors.grey10,
+                        borderRadius: BorderRadius.circular(16.0)),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                      child: TextFormField(
+                        maxLines: 1,
+                        autofocus: false,
+                        cursorColor: AppColors.colorPrimary,
+                        keyboardType: TextInputType.emailAddress,
+                        textInputAction: TextInputAction.next,
+                        onChanged: (data) {
+                          cubit.email = data;
+                          // cubit.model.email = data;
+                           cubit.checkValidForgotPasswordData();
+                        },
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'email'.tr(),
+                            hintStyle: const TextStyle(
+                                color: AppColors.grey1, fontSize: 14.0)),
+                      ),
+                    )),
+                const SizedBox(height: 60),
+                BlocBuilder<ForgotPasswordCubit, ForgotPasswordState>(
+                    builder: (context, state) {
+                  bool isValid = cubit.isForgotPasswordValid;
+                  if (state is OnForgotPasswordVaildFaild) {
+                    isValid = false;
+                  } else if (state is OnForgotPasswordVaild) {
+                    isValid = true;
+                  } else if (state is OnError) {}
+                  return
+                    MaterialButton(
+                    onPressed: () {
+                      cubit.forgotPassword(context);
+                    },
+                    padding: EdgeInsets.all(10),
+                    height: 56.0,
+                    color: isValid ? AppColors.colorPrimary : AppColors.grey4,
+                    disabledColor: AppColors.grey4,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0)),
+                    child: Text(
+                      'send'.tr(),
+                      style: TextStyle(fontSize: 16.0, color: AppColors.white),
                     ),
-                  )),
-              const SizedBox(height: 60),
-              BlocBuilder<ForgotPasswordCubit, ForgotPasswordState>(
-                  builder: (context, state) {
-                bool isValid = cubit.isForgotPasswordValid;
-                if (state is OnForgotPasswordVaildFaild) {
-                  isValid = false;
-                } else if (state is OnForgotPasswordVaild) {
-                  isValid = true;
-                } else if (state is OnError) {}
-                return
-                  MaterialButton(
-                  onPressed: () {
-                    cubit.forgotPassword(context);
-                  },
-                  padding: EdgeInsets.all(10),
-                  height: 56.0,
-                  color: isValid ? AppColors.colorPrimary : AppColors.grey4,
-                  disabledColor: AppColors.grey4,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0)),
-                  child: Text(
-                    'send'.tr(),
-                    style: TextStyle(fontSize: 16.0, color: AppColors.white),
-                  ),
-                );
-              })
-            ],
+                  );
+                })
+              ],
+            ),
           ),
         ),
         Align(

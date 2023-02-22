@@ -3,6 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:makasb/screens/editprofilepage/cubit/user_edit_state.dart';
@@ -26,6 +27,7 @@ class EditprofileCubit extends Cubit<EditprofileState> {
   TextEditingController controllerFirstName = TextEditingController();
   TextEditingController controllerEmail = TextEditingController();
   TextEditingController controllerPhone = TextEditingController();
+  TextEditingController controllerbalance = TextEditingController();
 
   late CountryModel countryModel;
 
@@ -95,6 +97,41 @@ class EditprofileCubit extends Cubit<EditprofileState> {
           emit(OnSignUpSuccess());
         });
       }
+      else{
+        Navigator.pop(context);
+        Fluttertoast.showToast(
+            msg:response.status.msg, // message
+            toastLength: Toast.LENGTH_SHORT, // length
+            gravity: ToastGravity.BOTTOM, // location
+            timeInSecForIosWeb: 1 // duration
+        );
+      }
+
+    } catch (e) {
+      print("dldldldl${e}");
+      Navigator.pop(context);
+      OnError(e.toString());
+    }
+  }
+  transfertomoney(BuildContext context, String user_token) async {
+    AppWidget.createProgressDialog(context, 'wait'.tr());
+    try {
+      var response = await api.transfartomony( user_token);
+
+    //  print("Dkdkdkdk" + response.status.status.toString());
+      if (response.status == 200) {
+        Navigator.pop(context);
+
+      }
+      else{
+        Navigator.pop(context);
+      }
+      Fluttertoast.showToast(
+          msg:response.msg, // message
+          toastLength: Toast.LENGTH_SHORT, // length
+          gravity: ToastGravity.BOTTOM, // location
+          timeInSecForIosWeb: 1 // duration
+      );
     } catch (e) {
       print("dldldldl${e}");
       Navigator.pop(context);
@@ -112,7 +149,10 @@ class EditprofileCubit extends Cubit<EditprofileState> {
         controllerFirstName.text = model.user_name;
         controllerEmail.text = model.email;
         controllerPhone.text = model.phone;
-        model.id = int.parse(value.data.country.toString());
+        controllerbalance.text = value.data.balance.toString();
+        model.id = value.data.country_data.id;
+        this.countryModel=value.data.country_data;
+        emit(OnCountrySelected(countryModel));
         emit(OnUserDataGet());
         emit(UserPhotoPicked(model.imagePath));
         checkData();

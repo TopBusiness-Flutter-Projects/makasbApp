@@ -33,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
       print("Status=>${state}");
       if (state is OnSignUp) {
         Fluttertoast.showToast(
-            msg: 'Invaild User'.tr(), // message
+            msg: 'invaild user'.tr(), // message
             toastLength: Toast.LENGTH_SHORT, // length
             gravity: ToastGravity.BOTTOM, // location
             timeInSecForIosWeb: 1 // duration
@@ -43,13 +43,15 @@ class _LoginPageState extends State<LoginPage> {
       }
     },
         child: LayoutBuilder(builder: (context, constraints) {
-          return ListView(children: [
-            const SizedBox(
-              height: 56.0,
-            ),
-            _buildLogoSection(),
-            _buildLoginSection(cubit)
-          ]);
+          return SingleChildScrollView(
+            child: Column(children: [
+              const SizedBox(
+                height: 56.0,
+              ),
+              _buildLogoSection(),
+              _buildLoginSection(cubit)
+            ]),
+          );
         }));
   }
 

@@ -61,22 +61,23 @@ class _EditprofilepageState extends State<Editprofilepage>
         leading: AppWidget.buildBackArrow(context: context),
       ),
       backgroundColor: AppColors.white,
-      body: ListView(
-        shrinkWrap: true,
-        children: [
-          const SizedBox(
-            height: 30,
-          ),
-          SizedBox(
-              height: 173,
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  buildAvatarSection('avatar2.png'),
-                ],
-              )),
-          _buildLoginSection(),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 30,
+            ),
+            SizedBox(
+                height: 173,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    buildAvatarSection('avatar2.png'),
+                  ],
+                )),
+            _buildLoginSection(),
+          ],
+        ),
       ),
     );
   }
@@ -258,7 +259,52 @@ class _EditprofilepageState extends State<Editprofilepage>
               const SizedBox(
                 height: 20.0,
               ),
-              buildButtonStart(),
+              Row(
+                children: [
+                  AppWidget.svg(
+                      'coin.svg', AppColors.colorPrimary, 15.0, 15.0),
+                  const SizedBox(width: 5), // give it width
+
+                  Text(
+                    'balance'.tr(),
+                    style: const TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.normal,
+                        color: AppColors.black),
+                  )
+                ],
+              ),
+              const SizedBox(
+                height: 8.0,
+              ),
+              Container(
+                  height: 56.0,
+                  decoration: BoxDecoration(
+                      color: AppColors.grey8,
+                      borderRadius: BorderRadius.circular(16.0)),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: TextFormField(
+                      maxLines: 1,
+                      autofocus: false,
+                      cursorColor: AppColors.colorPrimary,
+                     enabled: false,
+                      controller: cubit.controllerbalance,
+                      textInputAction: TextInputAction.next,
+
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'balance'.tr(),
+                          hintStyle: const TextStyle(
+                              color: AppColors.grey1, fontSize: 14.0)),
+                    ),
+                  )),
+              const SizedBox(
+                height: 20.0,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+             children: [ buildButtonStart(),buildButtontransfartomony()]),
               const SizedBox(height: 50)
             ],
           ),
@@ -292,6 +338,35 @@ class _EditprofilepageState extends State<Editprofilepage>
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
           child: Text(
             'edit'.tr(),
+            style: TextStyle(fontSize: 16.0, color: AppColors.white),
+          ),
+        );
+      },
+    );
+  }
+  buildButtontransfartomony() {
+    EditprofileCubit cubit = BlocProvider.of<EditprofileCubit>(context);
+    return BlocBuilder<EditprofileCubit, EditprofileState>(
+      builder: (context, state) {
+
+        return MaterialButton(
+          onPressed:  () async {
+                  UserModel model = await Preferences.instance.getUserModel();
+                  if (model.data.isLoggedIn) {
+                    cubit.transfertomoney(
+                        context, model.data.token);
+                  } else {
+                    //  cubit.signUp(context);
+                  }
+                }
+            ,
+          height: 56.0,
+          color: AppColors.colorPrimary,
+          disabledColor: AppColors.grey4,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+          child: Text(
+            'transfar'.tr(),
             style: TextStyle(fontSize: 16.0, color: AppColors.white),
           ),
         );

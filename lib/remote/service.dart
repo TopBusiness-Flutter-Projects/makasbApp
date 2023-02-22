@@ -352,6 +352,8 @@ class ServiceApi {
           'user_id':user_id,
           'user_name': model.user_name,
           'email': model.email,
+          'phone': model.phone,
+          'country': model.id,
           'image': await MultipartFile.fromFile(model.imagePath)
         });
       } else {
@@ -359,6 +361,8 @@ class ServiceApi {
           'user_id':user_id,
           'user_name': model.user_name,
           'email': model.email,
+          'phone': model.phone,
+          'country': model.id,
           });
       }
 
@@ -402,6 +406,23 @@ class ServiceApi {
       await dio.post('api/password/email', data: {
         'email': email
       });
+      print("sssss${response.data}");
+      return StatusResponse.fromJson(response.data);
+    } on DioError catch (e) {
+      print(e.toString());
+      final errorMessage = DioExceptions.fromDioError(e).toString();
+      throw errorMessage;
+    }
+  }
+  Future<StatusResponse> transfartomony(String token) async {
+    try {
+
+
+      BaseOptions options = dio.options;
+      options.headers = {'Authorization': "Bearer ${token}"};
+      dio.options=options;
+      Response response =
+      await dio.get('api/make-points-money', );
       print("sssss${response.data}");
       return StatusResponse.fromJson(response.data);
     } on DioError catch (e) {
