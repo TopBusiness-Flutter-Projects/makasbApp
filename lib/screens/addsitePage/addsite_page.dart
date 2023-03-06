@@ -123,8 +123,8 @@ class _AddSitePageState extends State<AddSitePage>
               height: 8.0,
             ),
             buildCityField(),
-            Expanded(
-                child: SizedBox(
+
+              SizedBox(
               height: 50,
               child: ListView.builder(
                   shrinkWrap: true,
@@ -160,7 +160,7 @@ class _AddSitePageState extends State<AddSitePage>
                           ],
                         ));
                   }),
-            )),
+            ),
             const SizedBox(
               height: 20.0,
             ),
