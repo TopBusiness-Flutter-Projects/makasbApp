@@ -35,6 +35,7 @@
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UISupportedInterfaceOrientations</key>
+
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
@@ -53,5 +54,11 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	  <key>CFBundleURLName</key>
+              <string>makasip.com</string>
+              <key>CFBundleURLSchemes</key>
+              <array>
+                  <string>/register/</string>
+              </array>
 </dict>
 </plist>

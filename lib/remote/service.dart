@@ -46,7 +46,7 @@ class ServiceApi {
     }
   }
 
-  Future<UserModel> signUp(UserSignUpModel model) async {
+  Future<UserModel> signUp(UserSignUpModel model, String code) async {
     var fields = FormData.fromMap({});
     try {
       if (model.imagePath.isNotEmpty) {
@@ -56,6 +56,7 @@ class ServiceApi {
           'phone': model.phone,
           'country': model.id,
           'password': model.password,
+          'referral_code':code,
           'password_confirmation': model.password_confirmation,
           'image': await MultipartFile.fromFile(model.imagePath)
         });
@@ -66,6 +67,7 @@ class ServiceApi {
           'phone': model.phone,
           'country': model.id,
           'password': model.password,
+          'referral_code':code,
           'password_confirmation': model.password_confirmation,
         });
       }

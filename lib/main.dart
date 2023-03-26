@@ -1,10 +1,14 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:makasb/colors/colors.dart';
 import 'package:makasb/preferences/preferences.dart';
 import 'package:makasb/routes/app_routes.dart';
+import 'package:uni_links/uni_links.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,23 +20,27 @@ Future<void> main() async {
   );
 
   runApp(EasyLocalization(
-      supportedLocales: const [Locale('ar',''), Locale('en','')],
+      supportedLocales: const [Locale('ar', ''), Locale('en', '')],
       path: 'assets/lang',
       saveLocale: false,
-      startLocale: const Locale('ar',''),
-      fallbackLocale: const Locale('ar',''),
-      child: const MyApp()));
+      startLocale: const Locale('ar', ''),
+      fallbackLocale: const Locale('ar', ''),
+      child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class MyApp extends StatefulWidget {
+  MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-
-   Preferences.instance.getAppSetting().then((value) => {
-   EasyLocalization.of(context)!.setLocale(Locale(value.lang))
-   });
+    Preferences.instance.getAppSetting().then((value) =>
+        {EasyLocalization.of(context)!.setLocale(Locale(value.lang))});
 
     return MaterialApp(
         localizationsDelegates: context.localizationDelegates,
@@ -40,17 +48,16 @@ class MyApp extends StatelessWidget {
         locale: context.locale,
         initialRoute: "/",
         debugShowCheckedModeBanner: false,
-        theme:  ThemeData(
-          fontFamily: 'normal',
-          checkboxTheme: CheckboxThemeData(
-            fillColor: MaterialStateProperty.all(AppColors.colorPrimary),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3.0))
-          )
-        ),
-        onGenerateRoute: AppRoutes.getRoutes);
+
+        theme: ThemeData(
+            fontFamily: 'normal',
+            checkboxTheme: CheckboxThemeData(
+                fillColor: MaterialStateProperty.all(AppColors.colorPrimary),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(3.0)))),
+        onGenerateRoute: AppRoutes.getRoutes,
+     );
   }
-
-
 
 
 }

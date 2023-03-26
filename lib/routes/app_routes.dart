@@ -101,13 +101,14 @@ class AppRoutes {
           ], child: homePage());
         });
       case AppConstant.pageSignupRoute:
+        Uri _initialURI =settings.arguments as Uri;
         return MaterialPageRoute(builder: (context) {
           return BlocProvider<UserSignUpCubit>(
             create: (context) {
               UserSignUpCubit cubit = UserSignUpCubit();
               return cubit;
             },
-            child: signuppage(),
+            child: signuppage(initialURI:_initialURI),
           );
         });
 

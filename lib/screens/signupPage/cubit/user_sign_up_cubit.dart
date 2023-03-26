@@ -15,6 +15,7 @@ import '../../../remote/service.dart';
 import '../../../widgets/app_widgets.dart';
 
 class UserSignUpCubit extends Cubit<UserSignUpState> {
+
   XFile? imageFile;
   DateTime initialDate = DateTime(DateTime.now().year - 10);
   DateTime startData = DateTime(DateTime.now().year - 100);
@@ -74,10 +75,10 @@ print(isDataValid);
     emit(UserDataValidation(isDataValid));
   }
 
-  signUp(BuildContext context) async {
+  signUp(BuildContext context, String code) async {
     AppWidget.createProgressDialog(context, 'wait'.tr());
     try {
-      UserModel response = await api.signUp(model);
+      UserModel response = await api.signUp(model,code);
       response.data.isLoggedIn = true;
       if (response.status.status == 200) {
         Preferences.instance.setUser(response).then((value) {

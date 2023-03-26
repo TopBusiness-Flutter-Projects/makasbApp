@@ -21,7 +21,9 @@ import 'cubit/user_sign_up_cubit.dart';
 import 'cubit/user_sign_up_state.dart';
 
 class signuppage extends StatefulWidget {
-  const signuppage({Key? key}) : super(key: key);
+  final   Uri initialURI;
+
+  const signuppage({Key? key, required this.initialURI}) : super(key: key);
 
   @override
   State<signuppage> createState() => _signuppageState();
@@ -37,6 +39,7 @@ class _signuppageState extends State<signuppage>
   void initState() {
     super.initState();
     _controller = AnimationController(vsync: this);
+
   }
 
   @override
@@ -422,7 +425,12 @@ class _signuppageState extends State<signuppage>
                   if (model.data.isLoggedIn) {
                     //  cubit.updateProfile(context,model.data.token);
                   } else {
-                    cubit.signUp(context);
+                    String? code;
+                    if(widget.initialURI!=null){
+                      code=widget.initialURI.pathSegments.last;
+                      print(code);
+                    }
+                    cubit.signUp(context,code!);
                   }
                 }
               : null,
