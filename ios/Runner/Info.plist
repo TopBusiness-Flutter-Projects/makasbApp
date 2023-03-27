@@ -25,7 +25,8 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
-		<key>FlutterDeepLinkingEnabled</key> <true/>
+			<key>CFBundleIdentifier</key>
+			<string></string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
@@ -33,12 +34,19 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>https</string>
-				<string>makasip.com</string>
 			</array>
+			<key>FlutterDeepLinkingEnabled</key>
+			<true/>
+			<key>prefix</key>
+			<string></string>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>https</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>

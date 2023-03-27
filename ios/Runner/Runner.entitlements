@@ -6,5 +6,7 @@
 	<array>
 		<string>applinks:makasip.com</string>
 	</array>
+	<key>com.apple.developer.associated-domains.mdm-managed</key>
+	<true/>
 </dict>
 </plist>
