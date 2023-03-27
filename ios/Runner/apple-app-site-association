@@ -1,0 +1,11 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "ZYXWKAWWZ4.com.app.makasb",
+        "paths": [ "/register/*" ]
+      }
+    ]
+  }
+}
