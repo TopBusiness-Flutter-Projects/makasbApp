@@ -191,6 +191,8 @@ class _SplashPageState extends State<SplashPage> {
         debugPrint('Received URI: $uri');
         setState(() {
           _currentURI = uri;
+          print("llllkkoii");
+          print(_currentURI);
           _err = null;
         });
         // 3
