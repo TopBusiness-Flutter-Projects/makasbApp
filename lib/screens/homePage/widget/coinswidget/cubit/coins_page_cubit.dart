@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:makasb/models/sites.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../models/mysites.dart';
 import '../../../../../models/payment_model.dart';
@@ -90,27 +91,35 @@ class CoinsPageCubit extends Cubit<CoinsPageState> {
       OnError(error.toString());
     }
   }
-  void sendOrder(BuildContext context,int point_id) async {
-    AppWidget.createProgressDialog(context, 'wait'.tr());
+  void sendOrder(BuildContext context,String points) async {
+    String text="want_convert".tr()+"("+points+ ")"+"my_email".tr()+"("+userModel!.data.email!+")";
+    var   url = "https://wa.me/?$text";
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
 
-
-    try {
-      PaymentDataModel response = await api.buyPoint(point_id,userModel!);
-      Navigator.pop(context);
-
-      if (response.status.status == 200) {
-
-        emit(OnOrderSuccess(response));
-
-
-      } else {
-
-      }
-    } catch (e) {
-      print("error${e.toString()}");
-      Navigator.pop(context);
-      emit(OnError(e.toString()));
     }
+  //  AppWidget.createProgressDialog(context, 'wait'.tr());
+
+
+    // try {
+    //   PaymentDataModel response = await api.buyPoint(point_id,userModel!);
+    //   Navigator.pop(context);
+    //
+    //   if (response.status.status == 200) {
+    //
+    //     emit(OnOrderSuccess(response));
+    //
+    //
+    //   } else {
+    //
+    //   }
+    // } catch (e) {
+    //   print("error${e.toString()}");
+    //   Navigator.pop(context);
+    //   emit(OnError(e.toString()));
+    // }
   }
 
   updateUserData(context) async {

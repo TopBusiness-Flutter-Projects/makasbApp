@@ -104,5 +104,7 @@
   "save": "Save",
   "balance": "Balance",
   "invaild user": "invaild user",
-  "transfar": "Transfer Points To Money"
+  "transfar": "Transfer Points To Money",
+  "want_convert": "I Want to Convert The Number Of Points",
+  "my_email": "And My Email is"
 }

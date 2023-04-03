@@ -12,6 +12,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:makasb/constants/app_constant.dart';
 import 'package:makasb/colors/colors.dart';
 import 'package:makasb/widgets/app_widgets.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../models/country_model.dart';
 import '../../models/user_model.dart';
@@ -353,8 +354,16 @@ class _EditprofilepageState extends State<Editprofilepage>
           onPressed:  () async {
                   UserModel model = await Preferences.instance.getUserModel();
                   if (model.data.isLoggedIn) {
-                    cubit.transfertomoney(
-                        context, model.data.token);
+                     String text="want_convert".tr()+"("+model.data!.balance!.toString()+ ")"+"my_email".tr()+"("+model.data.email!+")";
+                    var   url = "https://wa.me/?$text";
+                      if (await canLaunch(url)) {
+                        await launch(url);
+                      } else {
+                        throw 'Could not launch $url';
+
+                    }
+                    // cubit.transfertomoney(
+                    //     context, model.data.token);
                   } else {
                     //  cubit.signUp(context);
                   }

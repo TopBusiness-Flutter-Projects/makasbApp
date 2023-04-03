@@ -180,7 +180,7 @@ class _buyBointWidgetState extends State<buyBointWidget>
                                               InkWell(
                                                 onTap: () {
 
-                                                    cubit.sendOrder(context,list.elementAt(index).id);
+                                                    cubit.sendOrder(context,list.elementAt(index).number_of_points.toString());
                                                     //   Navigator.pushNamed(context, AppConstant.pageRequestConsultationRoute,arguments: cubit.userModel);
                                                 },
                                               child: Text(

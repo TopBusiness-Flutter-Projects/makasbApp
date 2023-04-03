@@ -280,7 +280,7 @@ class _coinsWidgetState extends State<coinsWidget>
                                             InkWell(
                                               onTap: () {
 
-                                                cubit.sendOrder(context,list.elementAt(index).id);
+                                                cubit.sendOrder(context,list.elementAt(index).number_of_points.toString());
                                                 //   Navigator.pushNamed(context, AppConstant.pageRequestConsultationRoute,arguments: cubit.userModel);
                                               },
                                                 child: Text(
