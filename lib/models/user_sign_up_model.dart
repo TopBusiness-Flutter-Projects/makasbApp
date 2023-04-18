@@ -13,8 +13,8 @@ class UserSignUpModel {
   String password_confirmation = '';
 
   bool isDataValid() {
-    print(phone);
-    print(id.toString());
+   // print(phone);
+    //print(id.toString());
     if (user_name.isNotEmpty &&
         EmailValidator.validate(email) &&
         password.isNotEmpty &&

@@ -142,21 +142,21 @@ class _SplashPageState extends State<SplashPage> {
     if (!_initialURILinkHandled) {
       _initialURILinkHandled = true;
       // 2
-      Fluttertoast.showToast(
-          msg: "Invoked _initURIHandler",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.green,
-          textColor: Colors.white);
+    // /  Fluttertoast.showToast(
+    //       msg: "Invoked _initURIHandler",
+    //       toastLength: Toast.LENGTH_SHORT,
+    //       gravity: ToastGravity.BOTTOM,
+    //       timeInSecForIosWeb: 1,
+    //       backgroundColor: Colors.green,
+    //       textColor: Colors.white);
       try {
         // 3
         final initialURI = await getInitialUri();
         // 4
         if (initialURI != null) {
           // debugPrint("Initial URI received $initialURI");
-          print("ddkdkkdkdkdkdkfjgjgjhg");
-          print(initialURI);
+        //  print("ddkdkkdkdkdkdkfjgjgjhg");
+          //print(initialURI);
           if (!mounted) {
             return;
           }
@@ -164,17 +164,17 @@ class _SplashPageState extends State<SplashPage> {
             _initialURI = initialURI;
           });
         } else {
-          debugPrint("Null Initial URI received");
+       //   debugPrint("Null Initial URI received");
         }
       } on PlatformException {
         // 5
-        debugPrint("Failed to receive initial uri");
+        //debugPrint("Failed to receive initial uri");
       } on FormatException catch (err) {
         // 6
         if (!mounted) {
           return;
         }
-        debugPrint('Malformed Initial URI received');
+        //debugPrint('Malformed Initial URI received');
         setState(() => _err = err);
       }
     }
@@ -188,11 +188,11 @@ class _SplashPageState extends State<SplashPage> {
         if (!mounted) {
           return;
         }
-        debugPrint('Received URI: $uri');
+       // debugPrint('Received URI: $uri');
         setState(() {
           _currentURI = uri;
-          print("llllkkoii");
-          print(_currentURI);
+         // print("llllkkoii");
+          //print(_currentURI);
           _err = null;
         });
         // 3
@@ -200,7 +200,7 @@ class _SplashPageState extends State<SplashPage> {
         if (!mounted) {
           return;
         }
-        debugPrint('Error occurred: $err');
+      //  debugPrint('Error occurred: $err');
         setState(() {
           _currentURI = null;
           if (err is FormatException) {

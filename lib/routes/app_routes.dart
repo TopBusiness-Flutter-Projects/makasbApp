@@ -49,7 +49,7 @@ class AppRoutes {
   static late ProfileCubit profileCubit;
 
   static Route<dynamic>? getRoutes(RouteSettings settings) {
-    print('ROUTENAME${settings.name}');
+ //   print('ROUTENAME${settings.name}');
     switch (settings.name) {
       case AppConstant.pageSplashRoute:
         return MaterialPageRoute(

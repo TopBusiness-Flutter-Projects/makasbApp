@@ -88,11 +88,11 @@ class _MyAppState extends State<MyApp> {
         if (!mounted) {
           return;
         }
-        debugPrint('Received URI: $uri');
+        //debugPrint('Received URI: $uri');
         setState(() {
           _currentURI = uri;
-          print("llllkkoii");
-          print(_currentURI);
+          // print("llllkkoii");
+          // print(_currentURI);
           _navKey
               .currentState!.push(MaterialPageRoute(builder: (context) {
             return BlocProvider<UserSignUpCubit>(
@@ -110,7 +110,7 @@ class _MyAppState extends State<MyApp> {
         if (!mounted) {
           return;
         }
-        debugPrint('Error occurred: $err');
+      //  debugPrint('Error occurred: $err');
         setState(() {
           _currentURI = null;
           if (err is FormatException) {

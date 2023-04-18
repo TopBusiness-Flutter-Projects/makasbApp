@@ -71,13 +71,13 @@ class ServiceApi {
           'password_confirmation': model.password_confirmation,
         });
       }
-      print("dlldldl${fields.fields}");
+   //   print("dlldldl${fields.fields}");
       Response response = await dio.post('api/register', data: fields);
-      print("Flflflfl${response.toString()}");
+     // print("Flflflfl${response.toString()}");
       return UserModel.fromJson(response.data);
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e).toString();
-      print('Error=>${e}');
+   //   print('Error=>${e}');
 
       throw errorMessage;
     }
@@ -104,7 +104,7 @@ class ServiceApi {
       // print("dlldldldl${response.toString()}");
       return MySites.fromJson(response.data);
     } on DioError catch (e) {
-      print(e.toString());
+   //   print(e.toString());
       final errorMessage = DioExceptions.fromDioError(e).toString();
       throw errorMessage;
     }
@@ -127,10 +127,10 @@ class ServiceApi {
       if (!cancelToken.isCancelled) {
         cancelToken.cancel();
       }
-       print("dlldldldl${response.toString()}");
+   //    print("dlldldldl${response.toString()}");
       return MySites.fromJson(response.data);
     } on DioError catch (e) {
-      print(e.toString());
+    //  print(e.toString());
       final errorMessage = DioExceptions.fromDioError(e).toString();
       throw errorMessage;
     }
@@ -157,7 +157,7 @@ class ServiceApi {
       // print("dlldldldl${response.toString()}");
       return PointsDataModel.fromJson(response.data);
     } on DioError catch (e) {
-      print(e.toString());
+    //  print(e.toString());
       final errorMessage = DioExceptions.fromDioError(e).toString();
       throw errorMessage;
     }
@@ -183,7 +183,7 @@ class ServiceApi {
       // print("dlldldldl${response.toString()}");
       return PointsDataModel.fromJson(response.data);
     } on DioError catch (e) {
-      print(e.toString());
+    //  print(e.toString());
       final errorMessage = DioExceptions.fromDioError(e).toString();
       throw errorMessage;
     }
@@ -195,7 +195,7 @@ class ServiceApi {
       Response response = await dio.get('api/countries');
       return CountryDataModel.fromJson(response.data);
     } on DioError catch (e) {
-      print("dldlldl${e}");
+     // print("dldlldl${e}");
       final errorMessage = DioExceptions.fromDioError(e).toString();
       throw errorMessage;
     }
@@ -210,14 +210,14 @@ class ServiceApi {
       Response response = await dio.get('api/postTypes');
       return TypeDataModel.fromJson(response.data);
     } on DioError catch (e) {
-      print("dldlldl${e}");
+      //print("dldlldl${e}");
       final errorMessage = DioExceptions.fromDioError(e).toString();
       throw errorMessage;
     }
   }
   Future<SliderDataModel> getSliders() async {
     try {
-      print('slider');
+      //print('slider');
       Response response = await dio.get('api/sliders');
       return SliderDataModel.fromJson(response.data);
     } on DioError catch (e) {
@@ -235,13 +235,13 @@ class ServiceApi {
       dio.options = options;
       fields = FormData.fromMap(AddSideModel.toJson(model));
 
-      print("dlldldl${fields.fields}");
+      //print("dlldldl${fields.fields}");
       Response response = await dio.post('api/addPost', data: fields);
-      print("Flflflfl${response.toString()}");
+      //print("Flflflfl${response.toString()}");
       return StatusResponse.fromJson(response.data);
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e).toString();
-      print('Error=>${e}');
+      //print('Error=>${e}');
 
       throw errorMessage;
     }

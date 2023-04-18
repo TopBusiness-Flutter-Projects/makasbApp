@@ -70,8 +70,8 @@ class UserSignUpCubit extends Cubit<UserSignUpState> {
     } else {
       isDataValid = false;
     }
-print("ddlldl");
-print(isDataValid);
+//print("ddlldl");
+//print(isDataValid);
     emit(UserDataValidation(isDataValid));
   }
 
@@ -96,13 +96,13 @@ print(isDataValid);
   }
   updateSelectedCity(CountryModel countryModel) {
 
-print("ssss");
-print(countryModel.id);
+//print("ssss");
+//print(countryModel.id);
 
 this.countryModel=countryModel;
 model.id=this.countryModel.id;
-print("D;d;d;dl");
-print(model.id);
+//print("D;d;d;dl");
+//print(model.id);
 
       // model.cityId = selectedCountryModel.id;
       checkData();
@@ -129,7 +129,7 @@ print(model.id);
   // }
   hide() {
     isHidden=!isHidden;
-    print("seess${isHidden}");
+   // print("seess${isHidden}");
     emit(PasswordHidden(isHidden));
   }
 
