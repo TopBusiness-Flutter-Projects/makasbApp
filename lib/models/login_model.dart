@@ -7,7 +7,7 @@ class LoginModel{
 
 
   bool isDataValid(){
-    if(EmailValidator.validate(email)&&!password.isEmpty&&password.length>=6 ){
+    if(EmailValidator.validate(email)&&password.isNotEmpty&&password.length>=6 ){
 
       return true;
     }
