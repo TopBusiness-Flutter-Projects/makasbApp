@@ -3,8 +3,7 @@ import 'dart:ui';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_html/flutter_html.dart';
-import 'package:html/dom.dart' as dom;
+
 import 'package:makasb/colors/colors.dart';
 import 'package:makasb/constants/app_constant.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';

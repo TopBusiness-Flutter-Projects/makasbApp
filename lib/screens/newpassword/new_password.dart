@@ -111,7 +111,7 @@ Widget body(BuildContext context, NewPasswordModel newPasswordModel) {
                         hintText: 'password'.tr(),
                         hintStyle: const TextStyle(
                             color: AppColors.grey1, fontSize: 14.0),
-                        suffixIcon: GestureDetector(
+                        suffixIcon: InkWell(
                           onTap: () {
                             cubit.hide();
                           },
@@ -166,7 +166,7 @@ Widget body(BuildContext context, NewPasswordModel newPasswordModel) {
                         hintText: 'confirmpassword'.tr(),
                         hintStyle: const TextStyle(
                             color: AppColors.grey1, fontSize: 14.0),
-                        suffixIcon: GestureDetector(
+                        suffixIcon: InkWell(
                           onTap: () {
                             cubit.hide();
                           },

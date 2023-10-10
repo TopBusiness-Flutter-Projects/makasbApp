@@ -510,23 +510,17 @@ class _mainWidgetState extends State<mainWidget>
 
   Widget cardsocialitem(String name) {
     return Expanded(
-        child: Card(
-            elevation: 10,
-            color: AppColors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15.0),
-            ),
-            child: SizedBox(
-                height: 70,
-                child: Padding(
-                    padding: const EdgeInsets.all(4),
-                    child: Center(
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0),
-                            child: Image.asset(
-                                height: 50,
-                                fit: BoxFit.cover,
-                                '${AppConstant.localImagePath}$name')))))));
+        child: SizedBox(
+            height: 70,
+            child: Padding(
+                padding: const EdgeInsets.all(4),
+                child: Center(
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: Image.asset(
+                            height: 50,
+                         //   fit: BoxFit.cover,
+                            '${AppConstant.localImagePath}$name'))))));
   }
 
   void showFilterSheet() {

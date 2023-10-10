@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/gestures.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -187,7 +186,7 @@ class _LoginPageState extends State<LoginPage> {
 
                             hintStyle: const TextStyle(
                                 color: AppColors.grey1, fontSize: 14.0),
-                            suffixIcon: GestureDetector(
+                            suffixIcon: InkWell(
                               onTap: () {
                                 cubit.hide();
                               },
@@ -251,29 +250,31 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 SizedBox(height: 100),
-                RichText(
-                    text: TextSpan(
-                      style: TextStyle(color: AppColors.black),
-                      /*defining default style is optional */
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context)
+                        .pushNamed(AppConstant.pageSignupRoute);
+                  },
+                  child: RichText(
+                      text: TextSpan(
+                        style: TextStyle(color: AppColors.black),
+                        /*defining default style is optional */
 
-                      children: <TextSpan>[
-                        TextSpan(
-                            text: 'dont_have_account?'.tr(),
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16)),
-                        TextSpan(
-                            text: 'login'.tr(),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                Navigator.of(context)
-                                    .pushNamed(AppConstant.pageSignupRoute);
-                              },
-                            style: TextStyle(
-                                color: AppColors.colorPrimary,
-                                decoration: TextDecoration.underline,
-                                fontSize: 16)),
-                      ],
-                    ))
+                        children: <TextSpan>[
+                          TextSpan(
+                              text: 'dont_have_account?'.tr(),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 16)),
+                          TextSpan(
+                              text: 'login'.tr(),
+
+                              style: TextStyle(
+                                  color: AppColors.colorPrimary,
+                                  decoration: TextDecoration.underline,
+                                  fontSize: 16)),
+                        ],
+                      )),
+                )
               ],
             ),
           );
