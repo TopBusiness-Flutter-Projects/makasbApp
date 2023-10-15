@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dropdown_alert/alert_controller.dart';
@@ -313,7 +312,7 @@ class _signuppageState extends State<signuppage>
                           hintText: 'password'.tr(),
                           hintStyle: const TextStyle(
                               color: AppColors.grey1, fontSize: 14.0),
-                          suffixIcon: GestureDetector(
+                          suffixIcon: InkWell(
                             onTap: () {
                              cubit.hide();
                             },
@@ -368,7 +367,7 @@ class _signuppageState extends State<signuppage>
                           hintText: 'confirmpassword'.tr(),
                           hintStyle: const TextStyle(
                               color: AppColors.grey1, fontSize: 14.0),
-                          suffixIcon: GestureDetector(
+                          suffixIcon: InkWell(
                             onTap: () {
                              cubit.hide();
                             },
@@ -383,28 +382,31 @@ class _signuppageState extends State<signuppage>
               SizedBox(height: 20,),
               buildButtonStart(),
               const SizedBox(height: 50),
-              RichText(
-                  text: TextSpan(
-                style: const TextStyle(color: AppColors.black),
-                /*defining default style is optional */
+              InkWell(
+                onTap: () {
+                  Navigator.pop(context);
 
-                children: <TextSpan>[
-                  TextSpan(
-                      text: 'dont_have_account?'.tr(),
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 16)),
-                  TextSpan(
-                      text: 'login'.tr(),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () {
-                          Navigator.pop(context);
-                        },
-                      style: const TextStyle(
-                          color: AppColors.colorPrimary,
-                          decoration: TextDecoration.underline,
-                          fontSize: 16)),
-                ],
-              ))
+                },
+                child: RichText(
+                    text: TextSpan(
+                  style: const TextStyle(color: AppColors.black),
+                  /*defining default style is optional */
+
+                  children: <TextSpan>[
+                    TextSpan(
+                        text: 'dont_have_account?'.tr(),
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16)),
+                    TextSpan(
+                        text: 'login'.tr(),
+
+                        style: const TextStyle(
+                            color: AppColors.colorPrimary,
+                            decoration: TextDecoration.underline,
+                            fontSize: 16)),
+                  ],
+                )),
+              )
             ],
           ),
         );})

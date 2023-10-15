@@ -7,8 +7,8 @@ import 'package:easy_localization/easy_localization.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -100,16 +100,13 @@ class _AddScreenWidgetState extends State<AddScreenWidget> {
                                                         color: AppColors.grey2,
                                                       )),
                                     ),
-                                    Html(
-                                        data: lang == 'ar'
-                                            ? sliderModel[index].descAr
-                                            : sliderModel[index].descEn,
-                                        style: {
-                                          "body": Style(
-                                              fontSize: FontSize(14.0),
-                                              fontWeight: FontWeight.bold,
-                                              color: AppColors.white)
-                                        },
+                                    HtmlWidget(
+
+                                       lang == 'ar'
+                                            ? sliderModel[index].descAr!
+                                            : sliderModel[index].descEn!,
+                                      textStyle: TextStyle(fontWeight: FontWeight.bold,
+                                          color: AppColors.white)
                                       ),
 
                                     SizedBox(

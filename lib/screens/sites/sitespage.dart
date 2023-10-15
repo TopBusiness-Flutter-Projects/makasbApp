@@ -57,7 +57,11 @@ class _SitesWidgetState extends State<SitesWidget> {
         leading: AppWidget.buildBackArrow(context: context),
       ),
       backgroundColor: AppColors.grey10,
-      body: Column(children: [
+      body: ListView
+
+        (
+          shrinkWrap: true,
+          children: [
         const SizedBox(height: 10),
         Row(
           children: [
@@ -136,6 +140,8 @@ class _SitesWidgetState extends State<SitesWidget> {
     return BlocListener<SitesPageCubit, SitesPageState>(
         listener: (context, state) {
           if (state is OnOrderSuccess) {
+            print("dlldl");
+            print(cubit.site!.share);
             //state.model.token=cubit.userModel!.data.token;
             Navigator.pushNamed(context, AppConstant.pagePostRoute,
                     arguments: cubit.site!.share)

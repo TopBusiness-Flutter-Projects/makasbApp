@@ -28,27 +28,29 @@ class _PostWebPageState extends State<PostWebPage> {
 
   late CountdownTimerController controller;
   int endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 30;
-
+  WebViewController? webViewController;
   _PostWebPageState({required this.url});
 
   @override
   void initState() {
     super.initState();
+    print("d;d;d;;");
+    print(url);
     controller = CountdownTimerController(endTime: endTime, onEnd: route);
+webViewController=WebViewController(onPermissionRequest: (request) {
 
+},);
+webViewController!.loadRequest(Uri.parse(url));
     // Enable virtual display.
-    if (Platform.isAndroid) WebView.platform = AndroidWebView();
+  //  if (Platform.isAndroid) WebView.platform = AndroidWebView();
   }
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        WebView(
-          initialUrl: url,
-          onPageStarted: (url) {},
-          javascriptMode: JavascriptMode.unrestricted,
-          onPageFinished: (String url) async {},
+        WebViewWidget(controller: webViewController!,
+
         ),
         Center(
           child: CountdownTimer(

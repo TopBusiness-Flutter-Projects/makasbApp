@@ -25,65 +25,58 @@ class _paymetPageState extends State<paymetPage> {
 
   _paymetPageState({required this.paymentDataModel});
 
+  WebViewController? webViewController;
+
+
   @override
   void initState() {
     super.initState();
+    webViewController=WebViewController(onPermissionRequest: (request) {
+
+    },);
+    webViewController!.loadRequest(Uri.parse(paymentDataModel.data));
+    webViewController!..setNavigationDelegate(
+    NavigationDelegate(onPageStarted: (url) {
+
+    },
+
+    onPageFinished: (String url) {
+    if(url.contains("status=1")){
+    Fluttertoast.showToast(
+    msg:'sucess pay'.tr(), // message
+    toastLength: Toast.LENGTH_SHORT, // length
+    gravity: ToastGravity.BOTTOM, // location
+    timeInSecForIosWeb: 1 // duration
+    );
+    Navigator.pop(context);
+    }
+
+    else if(url.contains("status=2")){
+      webViewController!.loadRequest(Uri.parse(paymentDataModel.data));
+    }
+    else if(url.contains("status=0")){
+    Fluttertoast.showToast(
+    msg:'faild pay'.tr(), // message
+    toastLength: Toast.LENGTH_SHORT, // length
+    gravity: ToastGravity.BOTTOM, // location
+    timeInSecForIosWeb: 1 // duration
+    );
+    Navigator.pop(context);
+    }
+
+    },));
     // Enable virtual display.
-    if (Platform.isAndroid) WebView.platform = AndroidWebView();
+    //  if (Platform.isAndroid) WebView.platform = AndroidWebView();
   }
 
   @override
   Widget build(BuildContext context) {
-    late WebViewController _webController;
+    return Stack(
+      children: [
+      WebViewWidget(controller: webViewController!,
 
-    print("sssss${paymentDataModel.token}");
-    Map<String, String> headers = {"Authorization": "Bearer ${paymentDataModel.token}"};
 
-    return WebView(
-      initialUrl: paymentDataModel.data,
-      onPageStarted: (url) {
-
-      },
-      onWebViewCreated: (WebViewController webViewController) {
-        webViewController.loadUrl(
-
-          paymentDataModel.data,
-          headers: headers,
-        );
-        _webController=webViewController;
-
-        // _controller.complete(webViewController );
-      },
-      javascriptMode: JavascriptMode.unrestricted,
-      onPageFinished: (String url) {
-       if(url.contains("status=1")){
-         Fluttertoast.showToast(
-             msg:'sucess pay'.tr(), // message
-             toastLength: Toast.LENGTH_SHORT, // length
-             gravity: ToastGravity.BOTTOM, // location
-             timeInSecForIosWeb: 1 // duration
-         );
-         Navigator.pop(context);
-       }
-
-       else if(url.contains("status=2")){
-    _webController.loadUrl(
-
-    paymentDataModel.data,
-    headers: headers,
+    )]
     );
-       }
-       else if(url.contains("status=0")){
-         Fluttertoast.showToast(
-             msg:'faild pay'.tr(), // message
-             toastLength: Toast.LENGTH_SHORT, // length
-             gravity: ToastGravity.BOTTOM, // location
-             timeInSecForIosWeb: 1 // duration
-         );
-         Navigator.pop(context);
-       }
 
-      },
-    );
-  }
-}
+}}
